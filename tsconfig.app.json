@@ -29,7 +29,8 @@
       "@hooks/*": ["hooks/*"],
       "@pages/*": ["pages/*"],
       "@lib/*": ["lib/*"],
-      "@models/*": ["types/*"]
+      "@models/*": ["types/*"],
+      "@providers/*": ["providers/*"],
     }
   },
   "include": ["src"]
