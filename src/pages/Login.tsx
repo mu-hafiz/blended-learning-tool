@@ -1,24 +1,25 @@
 import { useState } from "react";
 import { useAuth } from "@providers/AuthProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "@components/Button";
 import TextInput from "@components/TextInput";
+import { Link } from "react-router-dom";
 
-const SignUp = () => {
+const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { login } = useAuth();
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const result = await signUp({ email, password });
+      const result = await login({ email, password });
       if (result.success) {
         navigate('/dashboard');
       } else {
@@ -33,8 +34,8 @@ const SignUp = () => {
 
   return (
     <div>
-      <form className="max-w-md m-auto pt-24" onSubmit={handleSignUp}>
-        <h2 className="text-2xl font-bold pb-4">Sign Up</h2>
+      <form className="max-w-md m-auto pt-24" onSubmit={handleLogin}>
+        <h2 className="text-2xl font-bold pb-4">Log In</h2>
         <div className="flex flex-col gap-2">
           <TextInput
             type="email"
@@ -49,14 +50,14 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <h3 className="my-3 text-left">
-            Already have an account? <Link to="/signin">Login!</Link>
+            Don't have an account? <Link to="/signup">Sign up!</Link>
           </h3>
           <Button
             type="submit"
             loading={loading}
-            loadingMessage="Creating account..."
+            loadingMessage="Signing in..."
           >
-            Create Account
+            Log In
           </Button>
         </div>
       </form>
@@ -64,4 +65,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp;
+export default Login;
