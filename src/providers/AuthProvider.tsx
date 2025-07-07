@@ -8,9 +8,9 @@ type SignUpInfo = {
 };
 type AuthContextType = {
   session: Session | null | undefined;
-  signUp: ({ email, password }: SignUpInfo) => Promise<{ success: boolean; data?: any; error?: any }>;
-  login: (info: SignUpInfo) => Promise<{ success: boolean; data?: any; error?: any }>;
-  signOut: () => Promise<void>;
+  signUp: ({ email, password }: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
+  login: (info: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
+  signOut: () => Promise<{ success: boolean; error?: any }>;
 }
 
 
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signUp = async ({ email, password }: SignUpInfo) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
@@ -44,11 +44,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return { success: false, error };
     }
 
-    return { success: true, data };
+    return { success: true };
   }
 
   const login = async ({ email, password }: SignUpInfo) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
@@ -58,14 +58,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return { success: false, error };
     }
 
-    return { success: true, data };
+    return { success: true };
   }
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
+
     if (error) {
       console.error("Error signing out: ", error);
+      return { success: false, error };
     }
+
+    return { success: true };
   }
 
   return (

@@ -1,5 +1,49 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-placeholder: var(--placeholder);
+  --color-primary-text: var(--primary-text);
+  --color-primary-button: var(--primary-button);
+  --color-primary-button: var(--primary-button);
+  --color-primary-button-hover: var(--primary-button-hover);
+  --color-primary-button-text: var(--primary-button-text);
+  --color-secondary-button: var(--secondary-button);
+  --color-secondary-button-hover: var(--secondary-button-hover);
+  --color-secondary-button-text: var(--secondary-button-text);
+  --color-input: var(--input);
+  --color-placeholder: var(--placeholder);
+}
+
+[data-theme='light-brand'] {
+  --base: #ffdd9d;
+  --surface: #ffdd9d;
+  --primary-text: #000000;
+  --primary-button: #794501;
+  --primary-button-hover: #573201;
+  --primary-button-text: #ffffff;
+  --secondary-button: #c0955d;
+  --secondary-button-hover: #917148;
+  --secondary-button-text: #000000;
+  --input: #99835b;
+  --placeholder: #4c5053;
+}
+
+[data-theme='dark-brand'] {
+  --base: #41392b;
+  --surface: #ffdd9d;
+  --primary-text: #ffffff;
+  --primary-button: #ffffff;
+  --primary-button-hover: #b3b3b3;
+  --primary-button-text: #000000;
+  --secondary-button: #363636;
+  --secondary-button-hover: #5e5e5e;
+  --secondary-button-text: #ffffff;
+  --input: #524e49;
+  --placeholder: #99a1a7;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -7,12 +51,16 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--base);
+  color: var(--primary-text);
 }
 
 a {

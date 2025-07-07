@@ -2,6 +2,7 @@ import Button from "@components/Button";
 import { useAuth } from "@providers/AuthProvider";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const { signOut } = useAuth();
@@ -11,8 +12,12 @@ const Dashboard = () => {
 
   const handleSignOut = async () => {
     setLoading(true);
+    const toastId = toast.loading("Logging out..."); 
     navigate('/');
     await signOut();
+    toast.info("You have been logged out.", {
+      id: toastId
+    });
     setLoading(false);
   }
 

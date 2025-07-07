@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "@components/Button";
 import TextInput from "@components/TextInput";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const Login = () => {
 
@@ -17,16 +18,29 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    const toastId = toast.loading("Logging in...");
 
     try {
-      const result = await login({ email, password });
-      if (result.success) {
+      const { success, error } = await login({ email, password });
+      if (success) {
+        toast.success("Log in successful!", {
+          id: toastId
+        });
         navigate('/dashboard');
       } else {
-        console.error('An error occured');
+        const message = error.code === "invalid_credentials"
+          ? "The provided login details are incorrect"
+          : "An error occured"
+        toast.error(message, {
+          id: toastId
+        });
+        console.error('An error occured', error);
       }
     } catch (err) {
       console.error('An error occured: ', err);
+      toast.error("An error occured", {
+        id: toastId
+      });
     } finally {
       setLoading(false);
     }

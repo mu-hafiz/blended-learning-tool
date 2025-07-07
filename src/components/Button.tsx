@@ -12,8 +12,8 @@ type ButtonProps = {
 };
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-neutral-300 hover:bg-neutral-400 text-black',
-  secondary: 'bg-black hover:border-neutral-300 text-white',
+  primary: 'bg-primary-button hover:bg-primary-button-hover text-primary-button-text',
+  secondary: 'bg-secondary-button hover:bg-secondary-button-hover text-secondary-button-text',
   danger: 'bg-red-900 hover:bg-red-700 text-white',
 };
 
