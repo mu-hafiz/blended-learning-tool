@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
 
-import type { Session } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 type SignUpInfo = {
   email: string,
   password: string,
 };
 type AuthContextType = {
-  session: Session | null | undefined;
+  user: User | null | undefined;
   signUp: ({ email, password }: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
   login: (info: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
   signOut: () => Promise<{ success: boolean; error?: any }>;
@@ -17,15 +17,19 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<Session | null | undefined>(undefined);
+  // We use 'undefined' as the 'loading' state
+  const [user, setUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+      // When session is retrieved, if user is not logged in...
+      // ...it will be undefined, but since we use undefined as the 'loading state'...
+      // ...we set the user to null instead
+      setUser(session?.user === undefined ? null : session.user);
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+      setUser(session?.user === undefined ? null : session.user);
     });
 
     return () => {
@@ -73,7 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ session, signUp, login, signOut }}>
+    <AuthContext.Provider value={{ user, signUp, login, signOut }}>
       {children}
     </AuthContext.Provider>
   );

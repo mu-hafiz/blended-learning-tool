@@ -6,13 +6,16 @@ import { router } from './router';
 import { AuthProvider } from '@providers/AuthProvider';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@providers/ThemeProvider';
+import { NotifProvider } from '@providers/NotifProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <ThemeProvider>
-        <RouterProvider router={router} />
-        <Toaster richColors />
+        <NotifProvider>
+          <RouterProvider router={router} />
+          <Toaster richColors />
+        </NotifProvider>
       </ThemeProvider>
     </AuthProvider>
   </StrictMode>,

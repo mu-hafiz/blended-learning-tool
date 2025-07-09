@@ -7,6 +7,11 @@ import { toast } from "sonner";
 import { TiTickOutline } from "react-icons/ti";
 import { TiTimesOutline } from "react-icons/ti";
 
+type PasswordValidatorProps = {
+  boolValue: boolean;
+  message: string;
+};
+
 const SignUp = () => {
 
   const [email, setEmail] = useState("");
@@ -20,6 +25,16 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const { signUp } = useAuth();
+
+  const passwordChecks = [
+    { check: lengthCheck, message: 'Must be 8 or more characters' },
+    { check: lowerCaseCheck, message: 'Must contain a lower case letter' },
+    { check: upperCaseCheck, message: 'Must contain an upper case letter' },
+    { check: numberCheck, message: 'Must contain a number' },
+    { check: symbolCheck, message: 'Must contain a symbol' },
+  ];
+
+  const allChecksPassed = passwordChecks.every((item) => item.check);
 
   const handlePasswordChange = (password: string) => {
     setPassword(password);
@@ -66,11 +81,6 @@ const SignUp = () => {
     }
   }
 
-  type PasswordValidatorProps = {
-    boolValue: boolean;
-    message: string;
-  };
-
   const PasswordValidator = ({boolValue, message}: PasswordValidatorProps) => (
     <div className="flex flex-row items-center">
       {boolValue
@@ -98,26 +108,9 @@ const SignUp = () => {
             onChange={(e) => handlePasswordChange(e.target.value)}
           />
           <div className="text-left">
-            <PasswordValidator
-              boolValue={lengthCheck}
-              message="Must be 8 or more characters"
-            />
-            <PasswordValidator
-              boolValue={lowerCaseCheck}
-              message="Must contain a lower case letter"
-            />
-            <PasswordValidator
-              boolValue={upperCaseCheck}
-              message="Must contain an upper case letter"
-            />
-            <PasswordValidator
-              boolValue={numberCheck}
-              message="Must contain a number"
-            />
-            <PasswordValidator
-              boolValue={symbolCheck}
-              message="Must contain a symbol"
-            />
+            {passwordChecks.map(({ check, message }, idx) => (
+              <PasswordValidator key={idx} boolValue={check} message={message} />
+            ))}
             <h3 className="my-3">
               Already have an account? <Link to="/login">Login!</Link>
             </h3>
@@ -126,10 +119,7 @@ const SignUp = () => {
             type="submit"
             loading={loading}
             loadingMessage="Creating account..."
-            disabled={
-              !lengthCheck || !lowerCaseCheck || !upperCaseCheck ||
-              !numberCheck || !symbolCheck
-            }
+            disabled={!allChecksPassed}
           >
             Create Account
           </Button>
