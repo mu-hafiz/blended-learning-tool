@@ -2,7 +2,9 @@
 
 @theme inline {
   --color-base: var(--base);
-  --color-surface: var(--surface);
+  --color-surface-primary: var(--surface-primary);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-tertiary: var(--surface-tertiary);
   --color-placeholder: var(--placeholder);
   --color-primary-text: var(--primary-text);
   --color-primary-button: var(--primary-button);
@@ -18,7 +20,9 @@
 
 [data-theme='light-brand'] {
   --base: #ffdd9d;
-  --surface: #ffdd9d;
+  --surface-primary: #ffdd9d;
+  --surface-secondary: #ffdd9d;
+  --surface-tertiary: #ffdd9d;
   --primary-text: #000000;
   --primary-button: #794501;
   --primary-button-hover: #573201;
@@ -32,7 +36,9 @@
 
 [data-theme='dark-brand'] {
   --base: #41392b;
-  --surface: #ffdd9d;
+  --surface-primary: #524837;
+  --surface-secondary: #796542;
+  --surface-tertiary: #8f7852;
   --primary-text: #ffffff;
   --primary-button: #ffffff;
   --primary-button-hover: #b3b3b3;
@@ -42,6 +48,10 @@
   --secondary-button-text: #ffffff;
   --input: #524e49;
   --placeholder: #99a1a7;
+}
+
+@utility raise {
+  @apply transition duration-300 hover:shadow-2xl hover:-translate-y-0.5;
 }
 
 :root {
@@ -63,16 +73,17 @@ body {
   color: var(--primary-text);
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
   color: #535bf2;
-}
+} */
 
 h1 {
+  font-weight: 100;
   font-size: 3.2em;
   line-height: 1.1;
 }

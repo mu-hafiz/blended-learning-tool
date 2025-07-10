@@ -42,29 +42,32 @@ export type Database = {
       notifications: {
         Row: {
           course_id: string | null
+          created_at: string
           description: string
           id: string
           read: boolean
           title: string
-          type: string
+          type: Database["public"]["Enums"]["notification_type"]
           user_id: string
         }
         Insert: {
           course_id?: string | null
+          created_at?: string
           description: string
           id?: string
           read?: boolean
           title: string
-          type: string
+          type: Database["public"]["Enums"]["notification_type"]
           user_id?: string
         }
         Update: {
           course_id?: string | null
+          created_at?: string
           description?: string
           id?: string
           read?: boolean
           title?: string
-          type?: string
+          type?: Database["public"]["Enums"]["notification_type"]
           user_id?: string
         }
         Relationships: []
@@ -73,28 +76,31 @@ export type Database = {
         Row: {
           created_at: string
           first_name: string | null
-          id: number
           last_name: string | null
           middle_name: string | null
-          theme: string | null
+          role: Database["public"]["Enums"]["user_type"]
+          theme: Database["public"]["Enums"]["themes"]
+          user_id: string
           username: string | null
         }
         Insert: {
           created_at?: string
           first_name?: string | null
-          id?: number
           last_name?: string | null
           middle_name?: string | null
-          theme?: string | null
+          role: Database["public"]["Enums"]["user_type"]
+          theme?: Database["public"]["Enums"]["themes"]
+          user_id?: string
           username?: string | null
         }
         Update: {
           created_at?: string
           first_name?: string | null
-          id?: number
           last_name?: string | null
           middle_name?: string | null
-          theme?: string | null
+          role?: Database["public"]["Enums"]["user_type"]
+          theme?: Database["public"]["Enums"]["themes"]
+          user_id?: string
           username?: string | null
         }
         Relationships: []
@@ -107,7 +113,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      notification_type:
+        | "friend_request_received"
+        | "friend_request_accepted"
+        | "like_received"
+      themes: "light-brand" | "dark-brand"
+      user_type: "student" | "instructor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -237,6 +248,14 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      notification_type: [
+        "friend_request_received",
+        "friend_request_accepted",
+        "like_received",
+      ],
+      themes: ["light-brand", "dark-brand"],
+      user_type: ["student", "instructor"],
+    },
   },
 } as const

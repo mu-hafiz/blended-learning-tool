@@ -8,6 +8,13 @@ import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 type NotifContextType = {
   notifications: Notification[];
   unread: boolean;
+  updateRead: ({ notifId, read }: UpdateReadArgs) => void;
+  markAllRead: () => void;
+}
+
+type UpdateReadArgs = {
+  notifId: string;
+  read: boolean;
 }
 
 const NotifContext = createContext<NotifContextType | undefined>(undefined);
@@ -55,28 +62,62 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
   const handleNotifChange = (payload: RealtimePostgresChangesPayload<{
     [key: string]: any;
   }>) => {
-    switch (payload.eventType) {
-      case 'INSERT': {
-        setNotifications((prev) => [payload.new as Notification, ...prev]);
-        toast.info("You have a new notification!");
-        break;
+    let newList = [];
+
+    setNotifications((prev) => {
+      switch (payload.eventType) {
+        case 'INSERT': {
+          newList = [payload.new as Notification, ...prev];
+          break;
+        }
+        case 'UPDATE': {
+          newList = [payload.new as Notification, ...prev.filter(n => n.id !== payload.new.id)];
+          break;
+        }
+        case 'DELETE': {
+          newList = prev.filter(n => n.id !== payload.old.id);
+          break;
+        }
+        default: {
+          newList = prev
+        }
       }
-      case 'UPDATE': {
-        setNotifications((prev) => {
-          const notifsWithoutOld = prev.filter((notif) => notif.id !== payload.new.id);
-          return [payload.new as Notification, ...notifsWithoutOld]
-        });
-        break;
-      }
-      case 'DELETE': {
-        setNotifications((prev) => prev.filter((notif) => notif.id !== payload.old.id));
-        break;
-      }
+
+      newList.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      return newList;
+    })
+
+    if (payload.eventType === "INSERT") {
+      toast.info("You have a new notification!");
+    };
+  }
+
+  const updateRead = async ({ notifId, read }: UpdateReadArgs) => {
+    const { error } = await supabase.from('notifications')
+      .update({ read })
+      .eq('id', notifId)
+    
+    if (error) {
+      console.log("Error marking notification as read: ", error);
+      throw new Error("Error marking notification as read: ", error);
     }
   }
 
+  const markAllRead = async () => {
+    const { error } = await supabase.from('notifications')
+      .update({ read: true })
+      .eq('read', false);
+    
+    if (error) {
+      console.log("Error marking all notifications as read: ", error);
+      throw new Error("Error marking all notifications as read: ", error);
+    }
+
+    setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
+  }
+
   return (
-    <NotifContext.Provider value={{ notifications, unread }}>
+    <NotifContext.Provider value={{ notifications, unread, updateRead, markAllRead }}>
       {children}
     </NotifContext.Provider>
   );
