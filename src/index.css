@@ -1,53 +1,82 @@
 @import "tailwindcss";
 
 @theme inline {
+  /* SURFACES */
   --color-base: var(--base);
   --color-surface-primary: var(--surface-primary);
+  --color-surface-primary-hover: var(--surface-primary-hover);
   --color-surface-secondary: var(--surface-secondary);
+  --color-surface-secondary-hover: var(--surface-secondary-hover);
   --color-surface-tertiary: var(--surface-tertiary);
-  --color-placeholder: var(--placeholder);
+  --color-surface-tertiary-hover: var(--surface-tertiary-hover);
+
+  /* TEXT */
   --color-primary-text: var(--primary-text);
+  --color-secondary-text: var(--secondary-text);
+
+  /* BUTTONS */
   --color-primary-button: var(--primary-button);
   --color-primary-button-hover: var(--primary-button-hover);
   --color-primary-button-text: var(--primary-button-text);
-  --color-secondary-text: var(--secondary-text);
   --color-secondary-button: var(--secondary-button);
   --color-secondary-button-hover: var(--secondary-button-hover);
   --color-secondary-button-text: var(--secondary-button-text);
+
+  /* INPUTS */
   --color-input: var(--input);
   --color-placeholder: var(--placeholder);
 }
 
 [data-theme='light-brand'] {
+  /* SURFACES */
   --base: #ffdd9d;
   --surface-primary: #bea575;
+  --surface-primary-hover: #bea575;
   --surface-secondary: #a18c65;
+  --surface-secondary-hover: #8d7b5a;
   --surface-tertiary: #8a7856;
+  --surface-tertiary-hover: #8a7856;
+
+  /* TEXT */
   --primary-text: #3d352b;
+  --secondary-text: #5e5549;
+
+  /* BUTTONS */
   --primary-button: #794501;
   --primary-button-hover: #573201;
   --primary-button-text: #ffffff;
-  --secondary-text: #5e5549;
   --secondary-button: #c0955d;
   --secondary-button-hover: #917148;
   --secondary-button-text: #000000;
+
+  /* INPUTS */
   --input: #99835b;
   --placeholder: #4c5053;
 }
 
 [data-theme='dark-brand'] {
+  /* SURFACES */
   --base: #41392b;
   --surface-primary: #524837;
+  --surface-primary-hover: #4e4535;
   --surface-secondary: #796542;
+  --surface-secondary-hover: #6e5c3c;
   --surface-tertiary: #8f7852;
+  --surface-tertiary-hover: #86714e;
+
+  /* TEXT */
   --primary-text: #fff6e8;
+  --secondary-text: #c0b6a5;
+
+  /* BUTTONS */
   --primary-button: #ffffff;
   --primary-button-hover: #b3b3b3;
   --primary-button-text: #000000;
-  --secondary-text: #c0b6a5;
   --secondary-button: #363636;
   --secondary-button-hover: #5e5e5e;
   --secondary-button-text: #ffffff;
+
+  /* INPUTS */
   --input: #524e49;
   --placeholder: #99a1a7;
 }
@@ -68,6 +97,9 @@
   }
   h3 {
     @apply font-medium
+  }
+  a {
+    @apply text-blue-500 hover:text-blue-700 transition duration-200
   }
 }
 
