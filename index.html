@@ -9,5 +9,9 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      const theme = localStorage.getItem('theme') || 'light-brand';
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
   </body>
 </html>
