@@ -8,9 +8,9 @@
   --color-placeholder: var(--placeholder);
   --color-primary-text: var(--primary-text);
   --color-primary-button: var(--primary-button);
-  --color-primary-button: var(--primary-button);
   --color-primary-button-hover: var(--primary-button-hover);
   --color-primary-button-text: var(--primary-button-text);
+  --color-secondary-text: var(--secondary-text);
   --color-secondary-button: var(--secondary-button);
   --color-secondary-button-hover: var(--secondary-button-hover);
   --color-secondary-button-text: var(--secondary-button-text);
@@ -23,10 +23,11 @@
   --surface-primary: #bea575;
   --surface-secondary: #a18c65;
   --surface-tertiary: #8a7856;
-  --primary-text: #000000;
+  --primary-text: #3d352b;
   --primary-button: #794501;
   --primary-button-hover: #573201;
   --primary-button-text: #ffffff;
+  --secondary-text: #5e5549;
   --secondary-button: #c0955d;
   --secondary-button-hover: #917148;
   --secondary-button-text: #000000;
@@ -39,10 +40,11 @@
   --surface-primary: #524837;
   --surface-secondary: #796542;
   --surface-tertiary: #8f7852;
-  --primary-text: #ffffff;
+  --primary-text: #fff6e8;
   --primary-button: #ffffff;
   --primary-button-hover: #b3b3b3;
   --primary-button-text: #000000;
+  --secondary-text: #c0b6a5;
   --secondary-button: #363636;
   --secondary-button-hover: #5e5e5e;
   --secondary-button-text: #ffffff;
@@ -63,6 +65,9 @@
   }
   h2 {
     @apply text-2xl font-medium
+  }
+  h3 {
+    @apply font-medium
   }
 }
 

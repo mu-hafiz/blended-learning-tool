@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "@components/Button";
-import TextInput from "@components/TextInput";
+import { Button, TextInput } from "@components";
 import { toast } from "sonner";
 import { TiTickOutline } from "react-icons/ti";
 import { TiTimesOutline } from "react-icons/ti";
@@ -93,7 +92,7 @@ const SignUp = () => {
   return (
     <div>
       <form className="max-w-md m-auto pt-24" onSubmit={handleSignUp}>
-        <h2 className="text-2xl font-bold pb-4">Sign Up</h2>
+        <h2 className="pb-4">Sign Up</h2>
         <div className="flex flex-col gap-2">
           <TextInput
             type="email"

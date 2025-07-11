@@ -2,7 +2,7 @@ import { useNotif } from "@providers/NotifProvider";
 import type { Notification } from "@models/tables";
 import type { JSX } from "react";
 import { FaUserPlus, FaUserCheck, FaHeart } from "react-icons/fa";
-import Button from "@components/Button";
+import { Button } from "@components";
 
 const notifIcons: Record<string, JSX.Element> = {
   friend_request_received: <FaUserPlus size={40}/>,

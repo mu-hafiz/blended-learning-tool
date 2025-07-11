@@ -74,6 +74,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          about_me: string | null
           created_at: string
           first_name: string | null
           last_name: string | null
@@ -84,6 +85,7 @@ export type Database = {
           username: string | null
         }
         Insert: {
+          about_me?: string | null
           created_at?: string
           first_name?: string | null
           last_name?: string | null
@@ -94,6 +96,7 @@ export type Database = {
           username?: string | null
         }
         Update: {
+          about_me?: string | null
           created_at?: string
           first_name?: string | null
           last_name?: string | null

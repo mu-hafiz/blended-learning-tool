@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import Button from "@components/Button";
-import TextInput from "@components/TextInput";
+import { Button, TextInput } from "@components";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -49,7 +48,7 @@ const Login = () => {
   return (
     <div>
       <form className="max-w-md m-auto pt-24" onSubmit={handleLogin}>
-        <h2 className="text-2xl font-bold pb-4">Log In</h2>
+        <h2 className="pb-4">Log In</h2>
         <div className="flex flex-col gap-2">
           <TextInput
             type="email"

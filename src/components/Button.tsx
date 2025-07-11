@@ -12,9 +12,9 @@ type ButtonProps = {
 };
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-primary-button hover:bg-primary-button-hover text-primary-button-text',
-  secondary: 'bg-secondary-button hover:bg-secondary-button-hover text-secondary-button-text',
-  danger: 'bg-red-900 hover:bg-red-700 text-white',
+  primary: 'bg-primary-button not-disabled:hover:bg-primary-button-hover text-primary-button-text',
+  secondary: 'bg-secondary-button not-disabled:hover:bg-secondary-button-hover text-secondary-button-text',
+  danger: 'bg-red-900 not-disabled:hover:bg-red-700 text-white',
 };
 
 const Button = ({
@@ -32,7 +32,8 @@ const Button = ({
     disabled={loading || disabled}
     className={`
       px-5 py-2.5 font-medium border border-transparent
-      rounded-lg disabled:opacity-50 transition duration-250 cursor-pointer
+      rounded-lg transition duration-250 cursor-pointer
+      disabled:opacity-50 disabled:cursor-default
       ${variantStyles[variant]} ${className}
     `}
     onClick={onClick}

@@ -1,11 +1,10 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "./App";
 import SignUp from "@pages/SignUp";
-import ProtectedRoutes from "@components/ProtectedRoutes";
+import { ProtectedRoutes, AnonymousRoutes } from "@components";
 import Dashboard from "@pages/Dashboard";
 import Login from "@pages/Login";
 import NotFound from "@pages/NotFound";
-import AnonymousRoutes from "@components/AnonymousRoutes";
 import Notifications from "@pages/Notifications";
 import Account from "@pages/account/Account";
 import AccountProfile from "@pages/account/AccountProfile";

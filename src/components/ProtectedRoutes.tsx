@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@providers/AuthProvider";
-import Navbar from "@components/Navbar";
+import { Navbar } from "@components";
 
 const ProtectedRoutes = () => {
   const { user } = useAuth();
