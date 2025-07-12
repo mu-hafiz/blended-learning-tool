@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
       <ThemeProvider>
         <NotifProvider>
           <RouterProvider router={router} />
-          <Toaster richColors />
+          <Toaster richColors position='top-center' />
         </NotifProvider>
       </ThemeProvider>
     </AuthProvider>

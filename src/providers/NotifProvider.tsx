@@ -95,11 +95,11 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
   const updateRead = async ({ notifId, read }: UpdateReadArgs) => {
     const { error } = await supabase.from('notifications')
       .update({ read })
-      .eq('id', notifId)
+      .eq('id', notifId);
     
     if (error) {
       console.log("Error marking notification as read: ", error);
-      throw new Error("Error marking notification as read: ", error);
+      toast.error("There was an error, please try again later.");
     }
   }
 
@@ -110,7 +110,7 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     
     if (error) {
       console.log("Error marking all notifications as read: ", error);
-      throw new Error("Error marking all notifications as read: ", error);
+      toast.error("There was an error, please try again later.");
     }
 
     setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));

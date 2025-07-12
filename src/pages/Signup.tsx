@@ -1,48 +1,20 @@
 import { useState } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, TextInput } from "@components";
+import { Button, TextInput, PasswordValidator } from "@components";
 import { toast } from "sonner";
-import { TiTickOutline } from "react-icons/ti";
-import { TiTimesOutline } from "react-icons/ti";
-
-type PasswordValidatorProps = {
-  boolValue: boolean;
-  message: string;
-};
+import { validatePassword } from "@utils/validatePassword";
 
 const SignUp = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [lengthCheck, setLengthCheck] = useState(false);
-  const [lowerCaseCheck, setLowerCaseCheck] = useState(false);
-  const [upperCaseCheck, setUpperCaseCheck] = useState(false);
-  const [numberCheck, setNumberCheck] = useState(false);
-  const [symbolCheck, setSymbolCheck] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { signUp } = useAuth();
 
-  const passwordChecks = [
-    { check: lengthCheck, message: 'Must be 8 or more characters' },
-    { check: lowerCaseCheck, message: 'Must contain a lower case letter' },
-    { check: upperCaseCheck, message: 'Must contain an upper case letter' },
-    { check: numberCheck, message: 'Must contain a number' },
-    { check: symbolCheck, message: 'Must contain a symbol' },
-  ];
-
-  const allChecksPassed = passwordChecks.every((item) => item.check);
-
-  const handlePasswordChange = (password: string) => {
-    setPassword(password);
-    setLengthCheck(password.length >= 8);
-    setLowerCaseCheck(/[a-z]/.test(password));
-    setUpperCaseCheck(/[A-Z]/.test(password));
-    setNumberCheck(/[0-9]/.test(password));
-    setSymbolCheck(/[^A-Za-z0-9]/.test(password));
-  };
+  const { passwordChecks, allChecksPassed } = validatePassword(password);
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,7 +29,6 @@ const SignUp = () => {
         });
         navigate('/dashboard');
       } else {
-        console.log(error.code);
         if (error.code === "user_already_exists") {
           toast.error("An account with that email already exists", {
             id: toastId,
@@ -80,15 +51,6 @@ const SignUp = () => {
     }
   }
 
-  const PasswordValidator = ({boolValue, message}: PasswordValidatorProps) => (
-    <div className="flex flex-row items-center">
-      {boolValue
-        ? <TiTickOutline fontSize={32} color="green" />
-        : <TiTimesOutline fontSize={32} color="red" />}
-      <p>{message}</p>
-    </div>
-  );
-
   return (
     <div>
       <form className="max-w-md m-auto pt-24" onSubmit={handleSignUp}>
@@ -104,7 +66,7 @@ const SignUp = () => {
             type="password"
             placeholder="**********"
             title="Password"
-            onChange={(e) => handlePasswordChange(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <div className="text-left">
             {passwordChecks.map(({ check, message }, idx) => (

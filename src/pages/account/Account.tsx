@@ -9,7 +9,9 @@ const Account = () => {
       <nav className="flex gap-2">
         {routeNames.map((route) => (
           <NavLink key={route} to={route} className={({ isActive }) => (
-            isActive ? "bg-surface-primary rounded-t-lg p-3 font-bold cursor-default capitalize" : "bg-surface-secondary rounded-t-lg p-3 capitalize"
+            isActive
+            ? "bg-surface-primary rounded-t-lg p-3 font-bold cursor-default capitalize text-inherit"
+            : "bg-surface-secondary rounded-t-lg p-3 capitalize text-inherit hover:bg-surface-secondary-hover"
           )}>
             {route}
           </NavLink>

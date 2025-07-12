@@ -13,6 +13,8 @@
   /* TEXT */
   --color-primary-text: var(--primary-text);
   --color-secondary-text: var(--secondary-text);
+  --color-success-text: var(--success-text);
+  --color-error-text: var(--error-text);
 
   /* BUTTONS */
   --color-primary-button: var(--primary-button);
@@ -25,6 +27,10 @@
   /* INPUTS */
   --color-input: var(--input);
   --color-placeholder: var(--placeholder);
+
+  /* MISC */
+  --color-success: var(--success);
+  --color-error: var(--error);
 }
 
 [data-theme='light-brand'] {
@@ -40,6 +46,8 @@
   /* TEXT */
   --primary-text: #3d352b;
   --secondary-text: #5e5549;
+  --success-text: #14ad00;
+  --error-text: #a50000;
 
   /* BUTTONS */
   --primary-button: #794501;
@@ -52,6 +60,10 @@
   /* INPUTS */
   --input: #99835b;
   --placeholder: #4c5053;
+
+  /* MISC */
+  --success: #14ad00;
+  --error: #a50000;
 }
 
 [data-theme='dark-brand'] {
@@ -67,6 +79,8 @@
   /* TEXT */
   --primary-text: #fff6e8;
   --secondary-text: #c0b6a5;
+  --success-text: #14ad00;
+  --error-text: #a50000;
 
   /* BUTTONS */
   --primary-button: #ffffff;
@@ -79,6 +93,10 @@
   /* INPUTS */
   --input: #524e49;
   --placeholder: #99a1a7;
+
+  /* MISC */
+  --success: #14ad00;
+  --error: #cc0000;
 }
 
 @utility raise {
@@ -114,4 +132,21 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* HIDE EYE ICON FOR PASSWORD INPUTS */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}
+/* Hide Chrome/Edge's built-in eye icon */
+input[type="password"]::-webkit-text-security {
+  -webkit-text-security: disc;
+}
+/* This hides the built-in toggle on WebKit */
+input[type="password"]::-webkit-password-toggle-button {
+  display: none !important;
 }

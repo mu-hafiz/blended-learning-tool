@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
+import { toast } from "sonner";
 
 type ThemeContextType = {
   setTheme: (theme: Themes) => void;
@@ -19,6 +20,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       if (!user) return;
       const { data, error } = await supabase.from('profiles')
         .select()
+        .eq('user_id', user.id)
         .single();
       
       if (error) {
@@ -46,12 +48,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     if (user) {
       const { error } = await supabase.from('profiles')
         .update({ theme })
-        .eq('user_id', user.id)
-        .select();
+        .eq('user_id', user.id);
 
       if (error) {
         console.error("Error setting theme: ", error);
-        throw new Error("Error setting theme: ", error);
+        toast.error("Could not set your theme, please try again later.");
       }
     }
 
