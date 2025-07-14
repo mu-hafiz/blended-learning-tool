@@ -8,7 +8,10 @@ type ThemeContextType = {
   setTheme: (theme: Themes) => void;
 }
 
-type Themes = "light-brand" | "dark-brand"
+export const lightThemes = ["light-brand"] as const;
+export const darkThemes = ["dark-brand"] as const;
+const allThemes = [...lightThemes, ...darkThemes] as const;
+export type Themes = typeof allThemes[number];
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
