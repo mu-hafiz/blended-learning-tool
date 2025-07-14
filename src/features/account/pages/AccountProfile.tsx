@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { useDebounce } from "@hooks/useDebounce";
 import { useForm } from "react-hook-form";
-import { profileSchema, type ProfileValues } from "@models/formSchemas";
+import { profileSchema, type ProfileValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const AccountProfile = () => {
@@ -26,7 +26,7 @@ const AccountProfile = () => {
     const checkUsername = async () => {
       await new Promise(resolve => setTimeout(resolve, 10));
       if (!cancelled) {
-        const { count } = await supabase.from('profiles')
+        const { count } = await supabase.from('usernames')
           .select('username', { count: 'exact', head: true })
           .eq('username', debouncedUsername.value);
 

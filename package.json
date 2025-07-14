@@ -13,13 +13,14 @@
     "@hookform/resolvers": "^5.1.1",
     "@supabase/supabase-js": "^2.50.3",
     "@tailwindcss/vite": "^4.1.11",
+    "input-otp": "^1.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.60.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.3",
+    "resend": "^4.6.0",
     "sonner": "^2.0.6",
-    "supabase": "^2.30.4",
     "tailwindcss": "^4.1.11",
     "zod": "^4.0.5"
   },
@@ -32,6 +33,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
+    "supabase": "^2.30.4",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
     "vite": "^7.0.0"

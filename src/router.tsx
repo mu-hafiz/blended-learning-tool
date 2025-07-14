@@ -1,20 +1,20 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import App from "./App";
-import SignUp from "@pages/SignUp";
+import Homepage from "@pages/Homepage";
+import SignUp from "@features/signUp/pages/SignUp";
 import { ProtectedRoutes, AnonymousRoutes } from "@components";
 import Dashboard from "@pages/Dashboard";
-import Login from "@pages/Login";
+import Login from "@features/login/pages/Login";
 import NotFound from "@pages/NotFound";
-import Notifications from "@pages/Notifications";
-import Account from "@pages/account/Account";
-import AccountProfile from "@pages/account/AccountProfile";
-import AccountSecurity from "@pages/account/AccountSecurity";
-import AccountPrivacy from "@pages/account/AccountPrivacy";
-import AccountPreferences from "@pages/account/AccountPreferences";
+import Notifications from "@features/notifications/pages/Notifications";
+import Account from "@features/account/pages/Account";
+import AccountProfile from "@features/account/pages/AccountProfile";
+import AccountSecurity from "@features/account/pages/AccountSecurity";
+import AccountPrivacy from "@features/account/pages/AccountPrivacy";
+import AccountPreferences from "@features/account/pages/AccountPreferences";
 import Friends from "@pages/Friends";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <App />, errorElement: <NotFound /> },
+  { path: "/", element: <Homepage />, errorElement: <NotFound /> },
   { element: <AnonymousRoutes />, children: [
     { path: "/signup", element: <SignUp /> },
     { path: "/login", element: <Login /> },

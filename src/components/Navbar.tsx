@@ -53,7 +53,7 @@ const Navbar = () => {
   ]
 
   return (
-    <nav className="bg-surface-primary w-full h-16 flex justify-between fixed top-0 left-0 px-6 z-50">
+    <nav className="bg-surface-primary w-full h-16 flex justify-between sticky top-0 px-6 z-50">
       <div className="flex items-center">
         <AiFillHome cursor="pointer" size={40} onClick={() => handleNavigation("/dashboard")} />
       </div>
@@ -66,21 +66,26 @@ const Navbar = () => {
           {unread && <div className="absolute bottom-0 right-0 w-4 h-4 bg-red-500 rounded-full animate-pulse" />}
         </div>
         <div className="relative" ref={popupRef}>
-          <FaUser cursor="pointer" size={36} onClick={() => setShowPopup(true)}/>
+          <FaUser cursor="pointer" size={36} onClick={() => setShowPopup(true)} />
           {showPopup && (
             <div className="absolute right-0 w-40 mt-1 px-3 py-3 bg-surface-secondary rounded-xl shadow-xl flex flex-col gap-2 text-left">
               {popupItems.map(({ title, onClick }) => (
-                <PopupItem key={title} title={title} onClick={() => {
-                  onClick();
-                  setShowPopup(false);
-                }} />
+                <PopupItem
+                  key={title}
+                  title={title}
+                  onClick={() => {
+                    onClick();
+                    setShowPopup(false);
+                  }}
+                />
               ))}
             </div>
           )}
         </div>
       </div>
     </nav>
-  )
+  );
+  
 }
 
 export default Navbar;

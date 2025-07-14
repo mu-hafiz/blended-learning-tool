@@ -1,22 +1,5 @@
 import { z } from "zod";
 
-export const loginSchema = z.object({
-  email: z.string()
-    .min(1, "Please enter an email")
-    .regex(/^[^\s@]+@(student\.)?manchester\.ac\.uk$/, { message: "Please enter a valid University of Manchester email" }),
-  password: z.string()
-    .min(1, "Please enter a password"),
-});
-
-export const signUpSchema = z.object({
-  email: z.string()
-    .min(1, "Please enter an email")
-    .regex(/^[^\s@]+@(student\.)?manchester\.ac\.uk$/, { message: "Please enter a valid University of Manchester email" }),
-  password: z.string()
-    .min(1, "Please enter a password")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/, "Your password must pass all requirements")
-});
-
 export const securitySchema = z.object({
   newPassword: z.string().min(1, "Please enter your new password")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/, "Your password must pass all requirements"),
@@ -40,7 +23,5 @@ export const profileSchema = z.object({
   aboutMe: z.string()
 });
 
-export type LoginValues = z.infer<typeof loginSchema>
-export type SignUpValues = z.infer<typeof signUpSchema>
 export type SecurityValues = z.infer<typeof securitySchema>
 export type ProfileValues = z.infer<typeof profileSchema>

@@ -12,7 +12,7 @@ const ProtectedRoutes = () => {
   return user ? (
     <>
       <Navbar/>
-      <div className="pt-16">
+      <div className="max-w-7xl mx-auto pt-6">
         <Outlet/>
       </div>
     </>

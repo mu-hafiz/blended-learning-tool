@@ -72,6 +72,24 @@ export type Database = {
         }
         Relationships: []
       }
+      otp: {
+        Row: {
+          code: string
+          delete_at: string
+          email: string
+        }
+        Insert: {
+          code: string
+          delete_at?: string
+          email: string
+        }
+        Update: {
+          code?: string
+          delete_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           about_me: string | null
@@ -106,6 +124,27 @@ export type Database = {
           middle_name?: string | null
           role?: Database["public"]["Enums"]["user_type"]
           theme?: Database["public"]["Enums"]["themes"]
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      usernames: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          user_id: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          user_id: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
           user_id?: string
           username?: string
         }

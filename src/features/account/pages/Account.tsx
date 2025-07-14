@@ -4,7 +4,7 @@ const routeNames = ["profile", "security", "privacy", "preferences"];
 
 const Account = () => {
   return (
-    <div className="flex flex-col" style={{ height: "calc(100vh - 130px)" }}>
+    <div className="flex flex-col h-[calc(100vh-130px)]">
       <h1 className="text-left mb-4">Account</h1>
       <nav className="flex gap-2">
         {routeNames.map((route) => (

@@ -26,12 +26,14 @@
     "baseUrl": "./src",
     "paths": {
       "@components": ["components/index"],
+      "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@pages/*": ["pages/*"],
       "@lib/*": ["lib/*"],
       "@models/*": ["types/*"],
       "@providers/*": ["providers/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@features/*": ["features/*"],
     }
   },
   "include": ["src"]

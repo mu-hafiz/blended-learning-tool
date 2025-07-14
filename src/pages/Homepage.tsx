@@ -1,8 +1,7 @@
-import './App.css';
 import Button from '@components/Button';
 import { useNavigate } from 'react-router-dom';
 
-function App() {
+function Homepage() {
   const navigate = useNavigate();
 
   return (
@@ -29,28 +28,4 @@ function App() {
   )
 }
 
-// function App() {
-//   const [profiles, setProfiles] = useState<Profile[]>([]);
-
-//   useEffect(() => {
-//     getUser();
-//   }, [])
-
-//   async function getUser() {
-//     const { data } = await supabase.from("profiles").select();
-//     if (!data) {
-//       throw new Error('Could not fetch profile');
-//     }
-//     setProfiles(data);
-//   }
-
-//   return (
-//     <ul>
-//       {profiles.map((profile) => (
-//         <li key={profile.first_name}>{profile.first_name}</li>
-//       ))}
-//     </ul>
-//   )
-// }
-
-export default App
+export default Homepage;
