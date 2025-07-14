@@ -4,6 +4,7 @@ import { useAuth } from "./AuthProvider";
 import { toast } from "sonner";
 
 type ThemeContextType = {
+  currentTheme: Themes | null
   setTheme: (theme: Themes) => void;
 }
 
@@ -60,7 +61,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <ThemeContext.Provider value={{ setTheme }}>
+    <ThemeContext.Provider value={{ currentTheme, setTheme }}>
       <div data-theme={currentTheme}>
         {children}
       </div>
