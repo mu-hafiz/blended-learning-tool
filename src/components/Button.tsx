@@ -1,3 +1,5 @@
+import React from "react";
+
 type ButtonVariant = "primary" | "secondary" | "danger";
 
 type ButtonProps = {
@@ -17,17 +19,18 @@ const variantStyles: Record<ButtonVariant, string> = {
   danger: 'bg-red-900 not-disabled:hover:bg-red-700 text-white',
 };
 
-const Button = ({
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   children,
-  type,
+  type = "button",
   loading,
   loadingMessage = "Loading...",
   disabled,
   onClick,
   variant = "primary",
-  className
-}: ButtonProps) => (
+  className,
+}, ref) => (
   <button
+    ref={ref}
     type={type}
     disabled={loading || disabled}
     className={`
@@ -40,6 +43,6 @@ const Button = ({
   >
     {loading ? loadingMessage : children}
   </button>
-);
+));
 
 export default Button;

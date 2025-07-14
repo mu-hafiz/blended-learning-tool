@@ -1,22 +1,26 @@
-import { useState } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { Button, TextInput } from "@components";
+import { Button, RHFTextInput } from "@components";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { loginSchema, type LoginValues } from "@models/formSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Login = () => {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  const { control, handleSubmit, formState: { isSubmitting } } = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleLogin = async (data: LoginValues) => {
+    const { email, password } = data;
     const toastId = toast.loading("Logging in...");
 
     try {
@@ -40,34 +44,34 @@ const Login = () => {
       toast.error("An error occured", {
         id: toastId
       });
-    } finally {
-      setLoading(false);
     }
   }
 
   return (
     <div>
-      <form className="max-w-md m-auto pt-24" onSubmit={handleLogin}>
+      <form className="max-w-md m-auto pt-24" onSubmit={handleSubmit(handleLogin)}>
         <h2 className="pb-4">Log In</h2>
         <div className="flex flex-col gap-2">
-          <TextInput
+          <RHFTextInput
+            name="email"
+            control={control}
             type="email"
             placeholder="example@student.manchester.ac.uk"
-            title="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            title="University Email"
           />
-          <TextInput
+          <RHFTextInput
+            name="password"
+            control={control}
             type="password"
             placeholder="**********"
             title="Password"
-            onChange={(e) => setPassword(e.target.value)}
           />
           <h3 className="my-3 text-left">
             Don't have an account? <Link to="/signup">Sign up!</Link>
           </h3>
           <Button
             type="submit"
-            loading={loading}
+            loading={isSubmitting}
             loadingMessage="Signing in..."
           >
             Log In

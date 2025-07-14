@@ -58,7 +58,7 @@ export type Database = {
           read?: boolean
           title: string
           type: Database["public"]["Enums"]["notification_type"]
-          user_id?: string
+          user_id: string
         }
         Update: {
           course_id?: string | null
@@ -76,35 +76,38 @@ export type Database = {
         Row: {
           about_me: string | null
           created_at: string
-          first_name: string | null
-          last_name: string | null
+          deleted: boolean
+          first_name: string
+          last_name: string
           middle_name: string | null
           role: Database["public"]["Enums"]["user_type"]
           theme: Database["public"]["Enums"]["themes"]
           user_id: string
-          username: string | null
+          username: string
         }
         Insert: {
           about_me?: string | null
           created_at?: string
-          first_name?: string | null
-          last_name?: string | null
-          middle_name?: string | null
-          role: Database["public"]["Enums"]["user_type"]
-          theme?: Database["public"]["Enums"]["themes"]
-          user_id?: string
-          username?: string | null
-        }
-        Update: {
-          about_me?: string | null
-          created_at?: string
-          first_name?: string | null
-          last_name?: string | null
+          deleted?: boolean
+          first_name?: string
+          last_name?: string
           middle_name?: string | null
           role?: Database["public"]["Enums"]["user_type"]
           theme?: Database["public"]["Enums"]["themes"]
           user_id?: string
-          username?: string | null
+          username?: string
+        }
+        Update: {
+          about_me?: string | null
+          created_at?: string
+          deleted?: boolean
+          first_name?: string
+          last_name?: string
+          middle_name?: string | null
+          role?: Database["public"]["Enums"]["user_type"]
+          theme?: Database["public"]["Enums"]["themes"]
+          user_id?: string
+          username?: string
         }
         Relationships: []
       }

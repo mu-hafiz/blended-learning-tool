@@ -1,49 +1,47 @@
-import { Button, TextInput } from "@components";
+import { Button, RHFTextInput } from "@components";
 import { useAuth } from "@providers/AuthProvider";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
-import type { Profile } from "@models/tables";
 import { toast } from "sonner";
 import { TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { useDebounce } from "@hooks/useDebounce";
+import { useForm } from "react-hook-form";
+import { profileSchema, type ProfileValues } from "@models/formSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const AccountProfile = () => {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const debouncedProfile = useDebounce(profile);
-  const [originalProfile, setOriginalProfile] = useState<Profile | null>(null);
-  const [profileUpdating, setProfileUpdating] = useState(false);
   const [validUsername, setValidUsername] = useState<boolean | undefined>(undefined);
 
-  const usernameChanged = profile?.username !== originalProfile?.username;
-  const hasChanges = useMemo(() => {
-    return !(JSON.stringify(profile) === JSON.stringify(originalProfile))
-  }, [profile, originalProfile]);
+  const { control, handleSubmit, watch, formState: { isSubmitting, isDirty, dirtyFields }, reset, getValues } = useForm<ProfileValues>({
+    resolver: zodResolver(profileSchema)
+  });
+
+  const username = watch("username");
+  const debouncedUsername = useDebounce(username);
 
   useEffect(() => {
     let cancelled = false;
-    const checkUsername = async () => {
-      if (debouncedProfile?.username === originalProfile?.username) {
-        setValidUsername(undefined);
-        return;
-      }
-      const { count } = await supabase.from('profiles')
-        .select('username', { count: 'exact', head: true })
-        .eq('username', debouncedProfile?.username!);
-      
-      console.log("Count: ", count);
 
-      if (!cancelled) setValidUsername(count === 0);
+    const checkUsername = async () => {
+      await new Promise(resolve => setTimeout(resolve, 10));
+      if (!cancelled) {
+        const { count } = await supabase.from('profiles')
+          .select('username', { count: 'exact', head: true })
+          .eq('username', debouncedUsername.value);
+
+        setValidUsername(count === 0);
+      }
     };
-    if (debouncedProfile?.username) checkUsername();
+
+    if (debouncedUsername.ready && dirtyFields.username) checkUsername();
     return () => { cancelled = true; };
-  }, [debouncedProfile, originalProfile]);
+
+  }, [debouncedUsername]);
 
   useEffect(() => {
-    if (profile?.username !== originalProfile?.username) {
-      setValidUsername(undefined);
-    }
-  }, [profile]);
+    setValidUsername(undefined);
+  }, [username]);
 
   useEffect(() => {
     if (!user) return;
@@ -57,106 +55,108 @@ const AccountProfile = () => {
         console.error("Could not get user's profile information: ", error);
         throw new Error("Could not get user's profile information: ", error);
       };
-      setProfile(data);
-      setOriginalProfile(data);
+      reset({
+        username: data.username,
+        firstName: data.first_name,
+        middleName: data.middle_name ?? "",
+        lastName: data.last_name,
+        aboutMe: data.about_me ?? ""
+      });
     }
     
     fetchUserInfo();
   }, [user]);
 
-  const handleChange = (key: keyof Profile) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if (!profile) return;
-    setProfile({ ...profile, [key]: e.target.value });
-  }
-
-  const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!profile) return;
-    setProfileUpdating(true);
+  const handleProfileUpdate = async (data: ProfileValues) => {
+    if (validUsername === false) {
+      toast.error("That username is taken.");
+      return;
+    }
 
     const toastId = toast.loading("Updating profile...");
-
-    const { user_id, ...updatedFields } = profile;
     const { error } = await supabase.from('profiles')
-      .update(updatedFields)
-      .eq('user_id', user_id);
+      .update({
+        username: data.username,
+        first_name: data.firstName,
+        middle_name: data.middleName,
+        last_name: data.lastName,
+        about_me: data.aboutMe
+      })
+      .eq('user_id', user!.id);
 
     if (error) {
       console.error("Could not update user's profile information: ", error);
       toast.error("Could not update profile, please try again later.", {
         id: toastId
       });
+      return;
     }
 
+    reset(getValues());
     toast.success("Profile updated!", {
       id: toastId
-    })
-    setOriginalProfile(profile);
-    setProfileUpdating(false);
+    });
   }
 
   return (
-    <form className="m-2 mt-4" onSubmit={handleProfileUpdate}>
+    <form className="m-2 mt-4" onSubmit={handleSubmit(handleProfileUpdate)}>
       <h2>Basic Info</h2>
       <p className="text-secondary-text">This information will be displayed on your profile (depending on your privacy settings)</p>
       <hr className="border-surface-secondary my-3"/>
-      <TextInput
+      <RHFTextInput
+        name="username"
+        control={control}
         title="Username"
-        value={profile?.username ?? ""}
-        onChange={handleChange("username")}
+        description="This needs to be 6-30 characters long"
       />
       <div className="flex flex-row items-center">
-        {usernameChanged && validUsername === true && (
-          <div className="flex flex-row items-center mt-1">
-            <TiTickOutline size={40} className="text-success"/>
-            <p className="text-success">Hurray! That username is available!</p>
-          </div>
+        {dirtyFields.username && (
+          !debouncedUsername.ready || validUsername === undefined ? (
+            <p className="text-secondary-text mt-2">Checking if username is free...</p>
+          ) : validUsername ? (
+            <div className="flex flex-row items-center mt-1">
+              <TiTickOutline size={40} className="text-success"/>
+              <p className="text-success">Hurray! That username is available!</p>
+            </div>
+          ) : (
+            <div className="flex flex-row items-center mt-1">
+              <TiTimesOutline size={40} className="text-error"/>
+              <p className="text-error">Sorry, that username is taken.</p>
+            </div>
+          )
         )}
-        {usernameChanged && validUsername === false && (
-          <div className="flex flex-row items-center mt-1">
-            <TiTimesOutline size={40} className="text-error"/>
-            <p className="text-error">Sorry, that username is taken.</p>
-          </div>
-        )}
-        {usernameChanged && validUsername === undefined &&
-          <p className="text-secondary-text mt-2">Checking if username is free...</p>
-        }
-        {!usernameChanged &&
-          <p className="text-secondary-text mt-2">This needs to be unique!</p>
-        }
       </div>
       <div className="flex flex-row justify-between gap-6 my-3">
-        <TextInput
+        <RHFTextInput
+          name="firstName"
+          control={control}
           title="First Name"
-          value={profile?.first_name ?? ""}
-          onChange={handleChange("first_name")}
         />
-        <TextInput
+        <RHFTextInput
+          name="middleName"
+          control={control}
           title="Middle Name"
-          value={profile?.middle_name ?? ""}
-          onChange={handleChange("middle_name")}
+          required={false}
         />
-        <TextInput
+        <RHFTextInput
+          name="lastName"
+          control={control}
           title="Last Name"
-          value={profile?.last_name ?? ""}
-          onChange={handleChange("last_name")}
         />
       </div>
-      <TextInput
+      <RHFTextInput
+        name="aboutMe"
+        control={control}
         title="About Me"
-        value={profile?.about_me ?? ""}
-        onChange={handleChange("about_me")}
         required={false}
         multiline
       />
       <div className="flex flex-row justify-center mt-5">
         <Button
           type="submit"
-          loading={profileUpdating}
+          loading={isSubmitting}
           loadingMessage="Updating..."
-          disabled={!hasChanges || !validUsername}
+          disabled={!isDirty}
         >
           Update profile
         </Button>

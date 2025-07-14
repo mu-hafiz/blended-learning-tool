@@ -1,24 +1,29 @@
-import { useState } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, TextInput, PasswordValidator } from "@components";
+import { Button, PasswordValidator, RHFTextInput } from "@components";
 import { toast } from "sonner";
 import { validatePassword } from "@utils/validatePassword";
+import { signUpSchema, type SignUpValues } from "@models/formSchemas";
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const SignUp = () => {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
   const { signUp } = useAuth();
 
-  const { passwordChecks, allChecksPassed } = validatePassword(password);
+  const { control, handleSubmit, watch, formState: { isSubmitting } } = useForm<SignUpValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: "",
+      password: ""
+    }
+  });
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  const password = watch("password");
+  const passwordChecks = validatePassword(password);
+
+  const handleSignUp = async (data: SignUpValues) => {
+    const { email, password } = data;
     const toastId = toast.loading("Creating account...");
 
     try {
@@ -46,27 +51,30 @@ const SignUp = () => {
       }
     } catch (err) {
       console.error('An error occured: ', err);
-    } finally {
-      setLoading(false);
+      toast.error("An error occured", {
+        id: toastId
+      });
     }
   }
 
   return (
     <div>
-      <form className="max-w-md m-auto pt-24" onSubmit={handleSignUp}>
+      <form className="max-w-md m-auto pt-24" onSubmit={handleSubmit(handleSignUp)}>
         <h2 className="pb-4">Sign Up</h2>
         <div className="flex flex-col gap-2">
-          <TextInput
+          <RHFTextInput
+            name="email"
+            control={control}
             type="email"
             placeholder="example@student.manchester.ac.uk"
-            title="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            title="University Email"
           />
-          <TextInput
+          <RHFTextInput
+            name="password"
+            control={control}
             type="password"
             placeholder="**********"
             title="Password"
-            onChange={(e) => setPassword(e.target.value)}
           />
           <div className="text-left">
             {passwordChecks.map(({ check, message }, idx) => (
@@ -78,9 +86,8 @@ const SignUp = () => {
           </div>
           <Button
             type="submit"
-            loading={loading}
+            loading={isSubmitting}
             loadingMessage="Creating account..."
-            disabled={!allChecksPassed}
           >
             Create Account
           </Button>
