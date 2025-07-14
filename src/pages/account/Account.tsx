@@ -10,8 +10,8 @@ const Account = () => {
         {routeNames.map((route) => (
           <NavLink key={route} to={route} className={({ isActive }) => (
             isActive
-            ? "bg-surface-primary rounded-t-lg p-3 font-bold cursor-default capitalize text-inherit"
-            : "bg-linear-to-b from-surface-secondary from-70% to-surface-primary rounded-t-lg p-3 capitalize text-inherit hover:bg-surface-secondary-hover"
+            ? "bg-surface-primary rounded-t-lg p-3 font-bold cursor-default capitalize text-primary-text"
+            : "bg-linear-to-b from-surface-secondary from-70% to-surface-primary rounded-t-lg p-3 capitalize text-primary-text hover:bg-surface-secondary-hover"
           )}>
             {route}
           </NavLink>
