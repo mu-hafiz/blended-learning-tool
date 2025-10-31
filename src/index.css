@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* THEMES */
 @theme inline {
   /* SURFACES */
   --color-base: var(--base);
@@ -119,6 +120,12 @@
   a {
     @apply text-blue-500 hover:text-blue-700 transition duration-200
   }
+}
+
+/* Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-button) var(--surface-secondary);
 }
 
 :root {
