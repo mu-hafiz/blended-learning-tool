@@ -2,41 +2,76 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
 import { toast } from "sonner";
+import type { Theme } from "@models/tables";
 
 type ThemeContextType = {
-  currentTheme: Themes | null
-  setTheme: (theme: Themes) => void;
+  currentTheme: string | null
+  lightThemes: Theme[];
+  darkThemes: Theme[];
+  unlockedThemeIds: string[];
+  setTheme: (theme: Theme) => void;
 }
-
-export const lightThemes = ["light-brand"] as const;
-export const darkThemes = ["dark-brand"] as const;
-const allThemes = [...lightThemes, ...darkThemes] as const;
-export type Themes = typeof allThemes[number];
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
-  const [currentTheme, setCurrentTheme] = useState<Themes | null>(null);
+  const [currentTheme, setCurrentTheme] = useState<string | null>(null);
+  const [lightThemes, setLightThemes] = useState<Theme[]>([]);
+  const [darkThemes, setDarkThemes] = useState<Theme[]>([]);
+  const [unlockedThemeIds, setUnlockedThemeIds] = useState<string[]>([]);
 
   useEffect(() => {
-    const loadTheme = async () => {
+    const loadAllThemes = async () => {
+      const { data, error } = await supabase.from('themes').select();
+      if (error) {
+        console.log("Error getting all themes: ", error);
+        throw new Error("Error getting all themes: ", error);
+      }
+
+      const light = data.filter(theme => theme.type === 'light');
+      const dark = data.filter(theme => theme.type === 'dark');
+
+      setLightThemes(light);
+      setDarkThemes(dark);
+    }
+
+    loadAllThemes();
+  }, [])
+
+  useEffect(() => {
+    const loadUserTheme = async () => {
       if (!user) return;
-      const { data, error } = await supabase.from('profiles')
-        .select()
+      const { data, error } = await supabase.from('users')
+        .select('theme_id(data_theme)')
         .eq('user_id', user.id)
         .single();
       
       if (error) {
-        console.log("Error retrieving theme: ", error);
-        throw new Error("Error retrieving theme: ", error);
+        console.log("Error getting user's selected theme: ", error);
+        throw new Error("Error getting user's selected theme: ", error);
       }
 
-      const loadedTheme = (data?.theme || localStorage.getItem("theme") || "light-brand") as Themes;
+      const loadedTheme = data?.theme_id?.data_theme || localStorage.getItem("theme") || "light-brand";
       setCurrentTheme(loadedTheme);
     }
 
-    loadTheme();
+    const getUserUnlockedThemes = async () => {
+      if (!user) throw new Error("Tried to fetch unlocked themes without a user");
+      const { data, error } = await supabase.from('unlocked_themes')
+        .select('theme_id(*)')
+        .eq('user_id', user.id);
+      
+      if (error) {
+        console.log("Error getting user's unlocked themes: ", error);
+        throw new Error("Error getting user's unlocked themes: ", error);
+      }
+
+      setUnlockedThemeIds(data.map(item => item.theme_id.id));
+    }
+
+    loadUserTheme();
+    getUserUnlockedThemes();
   }, [user])
 
   useEffect(() => {
@@ -46,12 +81,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [currentTheme]);
 
-  const setTheme = async (theme: Themes) => {
-    setCurrentTheme(theme);
+  const setTheme = async (theme: Theme) => {
+    setCurrentTheme(theme.data_theme);
 
     if (user) {
-      const { error } = await supabase.from('profiles')
-        .update({ theme })
+      const { error } = await supabase.from('users')
+        .update({ theme_id: theme.id })
         .eq('user_id', user.id);
 
       if (error) {
@@ -60,11 +95,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    localStorage.setItem("theme", theme);
+    localStorage.setItem("theme", theme.data_theme);
   }
 
   return (
-    <ThemeContext.Provider value={{ currentTheme, setTheme }}>
+    <ThemeContext.Provider value={{ currentTheme, lightThemes, darkThemes, unlockedThemeIds, setTheme}}>
       <div data-theme={currentTheme}>
         {children}
       </div>

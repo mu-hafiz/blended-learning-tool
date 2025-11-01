@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -22,10 +22,10 @@ export type Database = {
     Functions: {
       graphql: {
         Args: {
+          extensions?: Json
           operationName?: string
           query?: string
           variables?: Json
-          extensions?: Json
         }
         Returns: Json
       }
@@ -90,44 +90,65 @@ export type Database = {
         }
         Relationships: []
       }
-      profiles: {
+      themes: {
         Row: {
-          about_me: string | null
           created_at: string
-          deleted: boolean
-          first_name: string
-          last_name: string
-          middle_name: string | null
-          role: Database["public"]["Enums"]["user_type"]
-          theme: Database["public"]["Enums"]["themes"]
-          user_id: string
-          username: string
+          data_theme: string
+          id: string
+          title: string
+          type: Database["public"]["Enums"]["theme_type"]
+          unlock_criteria: string | null
         }
         Insert: {
-          about_me?: string | null
           created_at?: string
-          deleted?: boolean
-          first_name?: string
-          last_name?: string
-          middle_name?: string | null
-          role?: Database["public"]["Enums"]["user_type"]
-          theme?: Database["public"]["Enums"]["themes"]
-          user_id?: string
-          username?: string
+          data_theme: string
+          id?: string
+          title: string
+          type?: Database["public"]["Enums"]["theme_type"]
+          unlock_criteria?: string | null
         }
         Update: {
-          about_me?: string | null
           created_at?: string
-          deleted?: boolean
-          first_name?: string
-          last_name?: string
-          middle_name?: string | null
-          role?: Database["public"]["Enums"]["user_type"]
-          theme?: Database["public"]["Enums"]["themes"]
-          user_id?: string
-          username?: string
+          data_theme?: string
+          id?: string
+          title?: string
+          type?: Database["public"]["Enums"]["theme_type"]
+          unlock_criteria?: string | null
         }
         Relationships: []
+      }
+      unlocked_themes: {
+        Row: {
+          created_at: string
+          theme_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          theme_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          theme_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unlocked_themes_theme_id_fkey"
+            columns: ["theme_id"]
+            isOneToOne: false
+            referencedRelation: "themes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "unlocked_themes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       usernames: {
         Row: {
@@ -150,6 +171,56 @@ export type Database = {
         }
         Relationships: []
       }
+      users: {
+        Row: {
+          about_me: string | null
+          created_at: string
+          deleted: boolean
+          first_name: string
+          last_name: string
+          middle_name: string | null
+          onboarding_step: Database["public"]["Enums"]["onboarding_type"]
+          role: Database["public"]["Enums"]["user_type"]
+          theme_id: string | null
+          user_id: string
+          username: string
+        }
+        Insert: {
+          about_me?: string | null
+          created_at?: string
+          deleted?: boolean
+          first_name?: string
+          last_name?: string
+          middle_name?: string | null
+          onboarding_step?: Database["public"]["Enums"]["onboarding_type"]
+          role?: Database["public"]["Enums"]["user_type"]
+          theme_id?: string | null
+          user_id?: string
+          username?: string
+        }
+        Update: {
+          about_me?: string | null
+          created_at?: string
+          deleted?: boolean
+          first_name?: string
+          last_name?: string
+          middle_name?: string | null
+          onboarding_step?: Database["public"]["Enums"]["onboarding_type"]
+          role?: Database["public"]["Enums"]["user_type"]
+          theme_id?: string | null
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_theme_id_fkey"
+            columns: ["theme_id"]
+            isOneToOne: false
+            referencedRelation: "themes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -162,7 +233,13 @@ export type Database = {
         | "friend_request_received"
         | "friend_request_accepted"
         | "like_received"
-      themes: "light-brand" | "dark-brand"
+      onboarding_type:
+        | "completed"
+        | "basic_info"
+        | "username"
+        | "privacy"
+        | "theme"
+      theme_type: "light" | "dark"
       user_type: "student" | "instructor"
     }
     CompositeTypes: {
@@ -299,7 +376,14 @@ export const Constants = {
         "friend_request_accepted",
         "like_received",
       ],
-      themes: ["light-brand", "dark-brand"],
+      onboarding_type: [
+        "completed",
+        "basic_info",
+        "username",
+        "privacy",
+        "theme",
+      ],
+      theme_type: ["light", "dark"],
       user_type: ["student", "instructor"],
     },
   },
