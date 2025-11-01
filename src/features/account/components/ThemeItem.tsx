@@ -25,7 +25,7 @@ const ThemeItem = ({ theme, locked = false }: { theme: Theme, locked?: boolean }
       )}
       <div
         data-theme={currentTheme}
-        className="absolute p-2 flex flex-col gap-1 text-center bottom-10/12 left-1/2 -translate-x-1/2 bg-surface-secondary rounded-lg opacity-0 group-hover:opacity-100 transition duration-500 z-10 pointer-events-none"
+        className="absolute p-2 flex flex-col gap-1 text-center bottom-10/12 min-w-full bg-surface-secondary rounded-lg opacity-0 group-hover:opacity-100 transition duration-500 z-10 pointer-events-none"
       >
         <h3 className="text-primary-text">
           {theme.title}
