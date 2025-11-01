@@ -7,14 +7,19 @@ import { AuthProvider } from '@providers/AuthProvider';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@providers/ThemeProvider';
 import { NotifProvider } from '@providers/NotifProvider';
+import { LoadingProvider } from '@providers/LoadingProvider';
+import { LoadingOverlay } from '@components/LoadingOverlay';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <ThemeProvider>
         <NotifProvider>
-          <RouterProvider router={router} />
-          <Toaster richColors position='top-center' />
+          <LoadingProvider>
+            <RouterProvider router={router} />
+            <LoadingOverlay />
+            <Toaster richColors position='top-center' />
+          </LoadingProvider>
         </NotifProvider>
       </ThemeProvider>
     </AuthProvider>

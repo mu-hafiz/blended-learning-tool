@@ -57,7 +57,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const getUserUnlockedThemes = async () => {
-      if (!user) throw new Error("Tried to fetch unlocked themes without a user");
+      if (!user) return;
       const { data, error } = await supabase.from('unlocked_themes')
         .select('theme_id(*)')
         .eq('user_id', user.id);

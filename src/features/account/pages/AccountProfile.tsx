@@ -47,7 +47,7 @@ const AccountProfile = () => {
     if (!user) return;
 
     const fetchUserInfo = async () => {
-      const { data, error } = await supabase.from('profiles')
+      const { data, error } = await supabase.from('users')
         .select('*')
         .eq('user_id', user.id)
         .single();
@@ -74,7 +74,7 @@ const AccountProfile = () => {
     }
 
     const toastId = toast.loading("Updating profile...");
-    const { error } = await supabase.from('profiles')
+    const { error } = await supabase.from('users')
       .update({
         username: data.username,
         first_name: data.firstName,

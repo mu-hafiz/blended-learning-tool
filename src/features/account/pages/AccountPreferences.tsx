@@ -10,16 +10,16 @@ const AccountPreferences = () => {
       <hr className="border-surface-secondary my-3"/>
       <h2 className="mb-3">Light Mode</h2>
       <div className="flex gap-3">
-        {lightThemes.map((theme) => {
-          const isLocked = unlockedThemeIds.includes(theme.id);
-          return <ThemeItem theme={theme} locked={isLocked}/>
+        {lightThemes.map((theme, idx) => {
+          const isLocked = !unlockedThemeIds.includes(theme.id);
+          return <ThemeItem key={idx} theme={theme} locked={isLocked}/>
         })}
       </div>
       <h2 className="mt-5 mb-3">Dark Mode</h2>
       <div className="flex gap-3">
-        {darkThemes.map((theme) => {
-          const isLocked = unlockedThemeIds.includes(theme.id);
-          return <ThemeItem theme={theme} locked={isLocked}/>
+        {darkThemes.map((theme, idx) => {
+          const isLocked = !unlockedThemeIds.includes(theme.id);
+          return <ThemeItem key={idx} theme={theme} locked={isLocked}/>
         })}
       </div>
     </form>
