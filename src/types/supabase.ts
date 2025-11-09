@@ -39,6 +39,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          title: string
+          type: Database["public"]["Enums"]["achievement_type"]
+          unlock_criteria: Json
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          image_url?: string | null
+          title: string
+          type: Database["public"]["Enums"]["achievement_type"]
+          unlock_criteria: Json
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["achievement_type"]
+          unlock_criteria?: Json
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           course_id: string | null
@@ -117,6 +147,39 @@ export type Database = {
         }
         Relationships: []
       }
+      unlocked_achievements: {
+        Row: {
+          achievement_id: string
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unlocked_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "unlocked_achievements_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       unlocked_themes: {
         Row: {
           created_at: string
@@ -145,6 +208,32 @@ export type Database = {
             foreignKeyName: "unlocked_themes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      user_statistics: {
+        Row: {
+          created_at: string
+          quizzes_completed: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          quizzes_completed?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          quizzes_completed?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_statistics_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["user_id"]
           },
@@ -226,13 +315,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_to_user_stat: {
+        Args: { p_amount: number; p_attr: string }
+        Returns: undefined
+      }
     }
     Enums: {
+      achievement_type: "quizzes_completed"
       notification_type:
         | "friend_request_received"
         | "friend_request_accepted"
         | "like_received"
+        | "achievement_unlocked"
       onboarding_type:
         | "completed"
         | "basic_info"
@@ -371,10 +465,12 @@ export const Constants = {
   },
   public: {
     Enums: {
+      achievement_type: ["quizzes_completed"],
       notification_type: [
         "friend_request_received",
         "friend_request_accepted",
         "like_received",
+        "achievement_unlocked",
       ],
       onboarding_type: [
         "completed",

@@ -48,7 +48,7 @@ const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
         return;
       }
     
-      const deleteResult = await supabase.from("profiles")
+      const deleteResult = await supabase.from("users")
         .update({ deleted: true })
         .eq('user_id', user!.id);
       if (deleteResult.error) {

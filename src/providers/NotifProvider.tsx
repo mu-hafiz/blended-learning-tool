@@ -66,21 +66,17 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
 
     setNotifications((prev) => {
       switch (payload.eventType) {
-        case 'INSERT': {
+        case 'INSERT':
           newList = [payload.new as Notification, ...prev];
           break;
-        }
-        case 'UPDATE': {
+        case 'UPDATE':
           newList = [payload.new as Notification, ...prev.filter(n => n.id !== payload.new.id)];
           break;
-        }
-        case 'DELETE': {
+        case 'DELETE':
           newList = prev.filter(n => n.id !== payload.old.id);
           break;
-        }
-        default: {
+        default:
           newList = prev
-        }
       }
 
       newList.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
@@ -88,7 +84,23 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     })
 
     if (payload.eventType === "INSERT") {
-      toast.info("You have a new notification!");
+      switch ((payload.new as Notification).type) {
+        case 'achievement_unlocked':
+          toast.info("You unlocked a new achievement!");
+          break;
+        case 'friend_request_accepted':
+          toast.info("You have a new friend!");
+          break;
+        case 'friend_request_received':
+          toast.info("You received a new friend request!");
+          break;
+        case 'like_received':
+          toast.info("You got a like!");
+          break;
+        default:
+          toast.info("You have a new notification!");
+          break;
+      }
     };
   }
 
