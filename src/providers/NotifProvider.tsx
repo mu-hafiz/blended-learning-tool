@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
 import type { Notification } from "@models/tables";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 
 type NotifContextType = {
@@ -86,19 +86,10 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     if (payload.eventType === "INSERT") {
       switch ((payload.new as Notification).type) {
         case 'achievement_unlocked':
-          toast.info("You unlocked a new achievement!");
-          break;
-        case 'friend_request_accepted':
-          toast.info("You have a new friend!");
-          break;
-        case 'friend_request_received':
-          toast.info("You received a new friend request!");
-          break;
-        case 'like_received':
-          toast.info("You got a like!");
+          toast.achievement(payload.new.title, payload.new.description);
           break;
         default:
-          toast.info("You have a new notification!");
+          toast.notification(payload.new.title, payload.new.description);
           break;
       }
     };

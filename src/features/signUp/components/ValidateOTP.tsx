@@ -1,5 +1,5 @@
 import { useAuth } from "@providers/AuthProvider";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@lib/supabaseClient";
 import { OTPInput, type SlotProps } from "input-otp";

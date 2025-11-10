@@ -11,6 +11,8 @@ import AccountProfile from "@features/account/pages/AccountProfile";
 import AccountSecurity from "@features/account/pages/AccountSecurity";
 import AccountPrivacy from "@features/account/pages/AccountPrivacy";
 import AccountPreferences from "@features/account/pages/AccountPreferences";
+import Progression from "@features/progression/pages/Progression";
+import Profile from "@features/profile/pages/Profile";
 import Friends from "@pages/Friends";
 
 export const router = createBrowserRouter([
@@ -21,14 +23,17 @@ export const router = createBrowserRouter([
   ]},
   { element: <ProtectedRoutes />, children: [
     { path: "/dashboard", element: <Dashboard /> },
-    { path: "/notifications", element: <Notifications />},
-    { path: "/friends", element: <Friends />},
+    { path: "/notifications", element: <Notifications /> },
+    { path: "/friends", element: <Friends /> },
     { path: "/account", element: <Account />, children: [
-      { index: true, element: <Navigate to="profile" replace />},
+      { index: true, element: <Navigate to="profile" replace /> },
       { path: "profile", element: <AccountProfile /> },
       { path: "security", element: <AccountSecurity /> },
-      { path: "privacy", element: <AccountPrivacy />},
-      { path: "preferences", element: <AccountPreferences />}
-    ]}
+      { path: "privacy", element: <AccountPrivacy /> },
+      { path: "preferences", element: <AccountPreferences /> }
+    ]},
+    { path: "/progression", element: <Progression /> },
+    { path: "/profile", element: <Profile /> },
+    { path: "/profile:username", element: <Profile /> } // IMPLEMENT PROPERLY
   ]}
 ]);

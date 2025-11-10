@@ -2,7 +2,7 @@ import { Button, PasswordValidator, RHFTextInput } from "@components";
 import { validatePassword } from "@utils/validatePassword";
 import { TiArrowLeftThick, TiArrowRightThick, TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { supabase } from "@lib/supabaseClient";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import { useForm } from "react-hook-form";
 import { securitySchema, type SecurityValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";

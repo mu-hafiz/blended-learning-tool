@@ -48,6 +48,7 @@ export type Database = {
           title: string
           type: Database["public"]["Enums"]["achievement_type"]
           unlock_criteria: Json
+          xp: number
         }
         Insert: {
           created_at?: string
@@ -57,6 +58,7 @@ export type Database = {
           title: string
           type: Database["public"]["Enums"]["achievement_type"]
           unlock_criteria: Json
+          xp?: number
         }
         Update: {
           created_at?: string
@@ -66,6 +68,7 @@ export type Database = {
           title?: string
           type?: Database["public"]["Enums"]["achievement_type"]
           unlock_criteria?: Json
+          xp?: number
         }
         Relationships: []
       }
@@ -216,17 +219,29 @@ export type Database = {
       user_statistics: {
         Row: {
           created_at: string
+          flashcards_completed: number
+          flashcards_created: number
           quizzes_completed: number
+          quizzes_created: number
+          quizzes_perfected: number
           user_id: string
         }
         Insert: {
           created_at?: string
+          flashcards_completed?: number
+          flashcards_created?: number
           quizzes_completed?: number
+          quizzes_created?: number
+          quizzes_perfected?: number
           user_id: string
         }
         Update: {
           created_at?: string
+          flashcards_completed?: number
+          flashcards_created?: number
           quizzes_completed?: number
+          quizzes_created?: number
+          quizzes_perfected?: number
           user_id?: string
         }
         Relationships: [
@@ -267,12 +282,14 @@ export type Database = {
           deleted: boolean
           first_name: string
           last_name: string
+          level: number
           middle_name: string | null
           onboarding_step: Database["public"]["Enums"]["onboarding_type"]
           role: Database["public"]["Enums"]["user_type"]
           theme_id: string | null
           user_id: string
           username: string
+          xp: number
         }
         Insert: {
           about_me?: string | null
@@ -280,12 +297,14 @@ export type Database = {
           deleted?: boolean
           first_name?: string
           last_name?: string
+          level?: number
           middle_name?: string | null
           onboarding_step?: Database["public"]["Enums"]["onboarding_type"]
           role?: Database["public"]["Enums"]["user_type"]
           theme_id?: string | null
           user_id?: string
           username?: string
+          xp?: number
         }
         Update: {
           about_me?: string | null
@@ -293,12 +312,14 @@ export type Database = {
           deleted?: boolean
           first_name?: string
           last_name?: string
+          level?: number
           middle_name?: string | null
           onboarding_step?: Database["public"]["Enums"]["onboarding_type"]
           role?: Database["public"]["Enums"]["user_type"]
           theme_id?: string | null
           user_id?: string
           username?: string
+          xp?: number
         }
         Relationships: [
           {
@@ -319,14 +340,24 @@ export type Database = {
         Args: { p_amount: number; p_attr: string }
         Returns: undefined
       }
+      add_to_user_xp: {
+        Args: { p_amount: number; p_user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      achievement_type: "quizzes_completed"
+      achievement_type:
+        | "quizzes_completed"
+        | "quizzes_perfected"
+        | "quizzes_created"
+        | "flashcards_completed"
+        | "flashcards_created"
       notification_type:
         | "friend_request_received"
         | "friend_request_accepted"
         | "like_received"
         | "achievement_unlocked"
+        | "level_up"
       onboarding_type:
         | "completed"
         | "basic_info"
@@ -465,12 +496,19 @@ export const Constants = {
   },
   public: {
     Enums: {
-      achievement_type: ["quizzes_completed"],
+      achievement_type: [
+        "quizzes_completed",
+        "quizzes_perfected",
+        "quizzes_created",
+        "flashcards_completed",
+        "flashcards_created",
+      ],
       notification_type: [
         "friend_request_received",
         "friend_request_accepted",
         "like_received",
         "achievement_unlocked",
+        "level_up",
       ],
       onboarding_type: [
         "completed",

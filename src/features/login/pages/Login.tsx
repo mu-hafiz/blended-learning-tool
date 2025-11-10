@@ -2,7 +2,7 @@ import { useAuth } from "@providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { Button, RHFTextInput } from "@components";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";

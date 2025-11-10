@@ -2,7 +2,7 @@ import { Button, RHFTextInput } from "@components";
 import { useAuth } from "@providers/AuthProvider";
 import { useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import { TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { useDebounce } from "@hooks/useDebounce";
 import { useForm } from "react-hook-form";

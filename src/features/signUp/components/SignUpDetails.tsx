@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button, PasswordValidator, RHFTextInput } from "@components";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import { validatePassword } from "@utils/validatePassword";
 import { signUpSchema, type SignUpValues } from "../types/formSchemas";
 import { useForm } from "react-hook-form"

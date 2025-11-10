@@ -2,17 +2,15 @@ import { supabase } from "./supabaseClient";
 import type { NotificationType } from "@models/enums";
 
 type Notification = {
-  userId: string,
+  user_id: string,
   title: string,
   description: string,
   type: NotificationType
 }
 
-export const createNotification = async ({userId, title, description, type}: Notification) => {
+export const createNotifications = async (notifications: Notification[]) => {
   const { error: notifError } = await supabase.from('notifications')
-    .insert([
-      { user_id: userId, title, description, type },
-    ])
+    .insert(notifications)
     .select();
   
   if (notifError) throw new Error(notifError.message || JSON.stringify(notifError));

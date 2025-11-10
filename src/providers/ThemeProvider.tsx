@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 import type { Theme } from "@models/tables";
 
 type ThemeContextType = {

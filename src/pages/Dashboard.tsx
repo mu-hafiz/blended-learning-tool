@@ -1,7 +1,7 @@
 import { Button } from "@components";
 import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "@providers/AuthProvider";
-import { toast } from "sonner";
+import { toast } from "@lib/toast";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -56,6 +56,16 @@ const Dashboard = () => {
         onClick={() => increaseFlashcardCount()}
       >
         Increase Flashcard Count
+      </Button>
+      <Button
+        onClick={() => toast.achievement('Quiz Novice', 'Test')}
+      >
+        Test Achievement Notif
+      </Button>
+      <Button
+        onClick={() => toast.notification('Quiz Novice', 'Test')}
+      >
+        Test Regular Notif
       </Button>
     </div>
   )

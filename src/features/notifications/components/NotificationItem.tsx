@@ -1,6 +1,7 @@
 import type { Notification } from "@models/tables";
 import type { JSX } from "react";
 import { FaUserPlus, FaUserCheck, FaHeart, FaUnlock } from "react-icons/fa";
+import { HiArrowTrendingUp } from "react-icons/hi2";
 import { useNotif } from "@providers/NotifProvider";
 import { Button } from "@components";
 
@@ -8,7 +9,8 @@ const notifIcons: Record<string, JSX.Element> = {
   achievement_unlocked: <FaUnlock size={40}/>,
   friend_request_received: <FaUserPlus size={40}/>,
   friend_request_accepted: <FaUserCheck size={40}/>,
-  like_received: <FaHeart size={40}/>
+  like_received: <FaHeart size={40}/>,
+  level_up: <HiArrowTrendingUp size={40}/>
 }
 
 const NotificationItem = ({ notif }: { notif: Notification }) => {

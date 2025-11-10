@@ -2,7 +2,6 @@ import { corsHeaders, jsonResponse } from "../_shared/cors.ts";
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import type { AchievementType } from "../../../src/types/enums.ts";
 import { checkFlashcardCompletions, checkFlashcardCreations, checkQuizCompletions, checkQuizCreations } from "./achievementChecks.ts";
-import { createNotification } from "../../../src/lib/notification.ts";
 
 interface AchievementCheck {
   type: AchievementType,
@@ -21,6 +20,12 @@ Deno.serve(async (req) => {
   }
   try {
     const { user_id, type } = await req.json() as AchievementCheck;
+    const toBeUnlocked: {
+      achievement_id: string,
+      title: string,
+      description: string,
+      xp: number
+    }[] = []
 
     const userAchievements = await supabaseAdmin.from('unlocked_achievements')
       .select('achievement_id')
@@ -63,22 +68,39 @@ Deno.serve(async (req) => {
       console.log(`Achievement: ${achievement.title}, Unlocked: ${unlocked}`)
 
       if (unlocked) {
-        const { error: achievementError } = await supabaseAdmin.from('unlocked_achievements')
-          .insert([
-            { user_id, achievement_id: achievement.id },
-          ])
-          .select()
-        
-        if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
-
-        createNotification({
-          userId: user_id,
-          title: 'Achievement Unlocked',
-          description: `You unlocked the '${achievement.title}' achievement!`,
-          type: 'achievement_unlocked'
-        });
+        toBeUnlocked.push({
+          achievement_id: achievement.id,
+          title: `'${achievement.title}' achievement unlocked!`,
+          description: `You gained ${achievement.xp}XP`,
+          xp: achievement.xp
+        })
       }
     }
+
+    const { error: achievementError } = await supabaseAdmin.from('unlocked_achievements')
+      .insert(toBeUnlocked.map(a => ({user_id, achievement_id: a.achievement_id})))
+      .select()
+    
+    if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
+
+    const { error: notifError } = await supabaseAdmin.from('notifications')
+      .insert(
+        toBeUnlocked.map(a => ({
+          user_id,
+          title: a.title,
+          description: a.description,
+          type: 'achievement_unlocked'
+        })))
+      .select();
+    
+    if (notifError) throw new Error(notifError.message || JSON.stringify(notifError));
+
+    await supabaseAdmin.rpc('add_to_user_xp', {
+      p_user_id: user_id,
+      p_amount: toBeUnlocked.reduce((acc, current) => {
+        return acc + current.xp;
+      }, 0)
+    });
 
     return jsonResponse({ success: true }, 200);
 

@@ -109,7 +109,7 @@
     @apply bg-base text-primary-text transition-colors duration-700
   }
   h1 {
-    @apply font-thin text-5xl leading-13
+    @apply font-normal text-5xl leading-13
   }
   h2 {
     @apply text-2xl font-medium
