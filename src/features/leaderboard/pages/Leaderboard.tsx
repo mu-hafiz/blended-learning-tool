@@ -1,11 +1,11 @@
 import { PageContainer } from "@components";
 
-const Profile = () => {
+const Leaderboard = () => {
   return (
-    <PageContainer title="Profile">
+    <PageContainer title="Leaderboard">
       <div></div>
     </PageContainer>
   )
 };
 
-export default Profile;
+export default Leaderboard;

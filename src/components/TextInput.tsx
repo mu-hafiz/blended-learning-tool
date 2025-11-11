@@ -31,7 +31,7 @@ const TextInput = ({
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-row">
+      <div className="flex flex-row items-center">
         <h3 className="text-left">{title}</h3>
         {!required && <p className="text-secondary-text ml-1">(optional)</p>}
       </div>
@@ -41,7 +41,7 @@ const TextInput = ({
           <input
             type={inputType}
             placeholder={placeholder}
-            className={`w-full p-3 h-12 bg-input text-primary-text rounded-xl placeholder:text-placeholder ${className}`}
+            className={`w-full p-2 h-10 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder ${className}`}
             onChange={onChange}
             required={required && !rhfMode}
             value={value ?? ""}
@@ -59,7 +59,7 @@ const TextInput = ({
       ) : (
         <textarea
           placeholder={placeholder}
-          className={`mt-1.5 p-3 bg-input text-primary-text rounded-xl placeholder:text-placeholder ${className}`}
+          className={`mt-1.5 p-3 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder ${className}`}
           onChange={onChange}
           required={required && !rhfMode}
           value={value ?? ""}

@@ -12,8 +12,12 @@ import AccountSecurity from "@features/account/pages/AccountSecurity";
 import AccountPrivacy from "@features/account/pages/AccountPrivacy";
 import AccountPreferences from "@features/account/pages/AccountPreferences";
 import Progression from "@features/progression/pages/Progression";
+import ProgressionLevel from "@features/progression/pages/ProgressionLevel";
+import ProgressionAchievements from "@features/progression/pages/ProgressionAchievements";
+import ProgressionStatistics from "@features/progression/pages/ProgressionStatistics";
 import Profile from "@features/profile/pages/Profile";
 import Friends from "@pages/Friends";
+import Leaderboard from "@features/leaderboard/pages/Leaderboard";
 
 export const router = createBrowserRouter([
   { path: "/", element: <Homepage />, errorElement: <NotFound /> },
@@ -32,7 +36,13 @@ export const router = createBrowserRouter([
       { path: "privacy", element: <AccountPrivacy /> },
       { path: "preferences", element: <AccountPreferences /> }
     ]},
-    { path: "/progression", element: <Progression /> },
+    { path: "/progression", element: <Progression />, children: [
+      { index: true, element: <Navigate to="level" replace /> },
+      { path: "level", element: <ProgressionLevel /> },
+      { path: "achievements", element: <ProgressionAchievements /> },
+      { path: "statistics", element: <ProgressionStatistics /> }
+    ]},
+    { path: "/leaderboard", element: <Leaderboard /> },
     { path: "/profile", element: <Profile /> },
     { path: "/profile:username", element: <Profile /> } // IMPLEMENT PROPERLY
   ]}

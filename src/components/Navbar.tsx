@@ -3,10 +3,11 @@ import { TbBellFilled } from "react-icons/tb"
 import { FaUser } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { BsFire } from "react-icons/bs";
+import { RiBarChart2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom"
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "@providers/AuthProvider";
-
+import Tooltip from "@components/Tooltip";
 
 type PopupItemProps = {
   title: string;
@@ -15,7 +16,7 @@ type PopupItemProps = {
 }
 
 const Navbar = () => {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const { unread } = useNotif();
 
   const [showPopup, setShowPopup] = useState(false);
@@ -33,46 +34,70 @@ const Navbar = () => {
 
   const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
     const popup = (
-      <div
-        className="border-b border-b-surface-secondary hover:border-b-surface-tertiary hover:-translate-y-0.5 px-2 transition duration-300 cursor-pointer"
+      <p
+        className="border-b border-b-surface-secondary hover:border-b-surface-tertiary hover:-translate-y-0.5 px-0.5 pb-1 -mb-1 transition duration-300 cursor-pointer font-medium"
         onClick={() => onClick()}
       >
         {title}
-      </div>
+      </p>
     )
-    return route ? <Link to={route} className="text-primary-text">{popup}</Link> : popup;
+    return route ? <Link to={route}>{popup}</Link> : popup;
   };
 
   const popupItems = [
-    { title: "View Profile", route: "/" },
+    { title: "View Profile", route: `/profile` },
     { title: "Friends", route: "/friends" },
     { title: "Account Settings", route: "/account" },
     { title: "Sign Out", onClick: signOut },
   ]
 
   return (
-    <nav className="bg-surface-primary w-full h-16 flex justify-between sticky top-0 px-6 z-50">
-      <div className="flex items-center raise">
-        <Link to="/dashboard">
-          <AiFillHome cursor="pointer" size={40} className="text-primary-button" />
-        </Link>
+    <nav className="bg-surface-primary w-full h-12 flex justify-between sticky top-0 px-6 z-50">
+      <div className="flex items-center">
+        <div className="raise rounded-lg">
+          <Tooltip text="Home" position="bottom" offset={8}>
+            <Link to="/dashboard">
+              <AiFillHome cursor="pointer" size={30} className="text-primary-button rounded-lg hover:text-primary-button-hover" />
+            </Link>
+          </Tooltip>
+        </div>
       </div>
-      <div className="flex items-center gap-6">
-        <div className="relative inline-block cursor-pointer raise">
-          <Link to="/notifications">
-            <TbBellFilled size={40} className="text-primary-button" />
-          </Link>
-          {unread && <div className="absolute bottom-0 right-0 w-4 h-4 bg-red-500 rounded-full animate-pulse" />}
+      <div className="flex items-center gap-4">
+        <div className="raise rounded-lg">
+          <Tooltip text="Leaderboard" position="bottom" offset={8}>
+            <Link to="/leaderboard">
+              <RiBarChart2Fill size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+            </Link>
+          </Tooltip>
         </div>
-        <div className="relative inline-block cursor-pointer raise">
-          <Link to="/progression">
-            <BsFire size={40} className="text-primary-button" />
-          </Link>
+        <div className="raise rounded-lg">
+          <Tooltip text="Progression" position="bottom" offset={8}>
+            <Link to="/progression">
+              <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+            </Link>
+          </Tooltip>
         </div>
-        <div className="relative" ref={popupRef}>
-          <FaUser cursor="pointer" size={36} onClick={() => setShowPopup(true)} className="text-primary-button raise" />
+        <div className="raise rounded-lg">
+          <Tooltip text="Notifications" position="bottom" offset={8}>
+            <Link to="/notifications">
+              <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+            </Link>
+            {unread && <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
+          </Tooltip>
+        </div>
+        <div ref={popupRef}>
+          <div className="raise rounded-lg">
+            <Tooltip text="Account" position="bottom" offset={8} disabled={showPopup}>
+              <FaUser
+                cursor="pointer"
+                size={26}
+                onClick={() => setShowPopup(true)}
+                className="text-primary-button rounded-lg hover:text-primary-button-hover"
+              />
+            </Tooltip>
+          </div>
           {showPopup && (
-            <div className="absolute right-0 w-40 mt-1 px-3 py-3 bg-surface-secondary rounded-xl shadow-xl flex flex-col gap-2 text-left">
+            <div className="absolute right-2 w-35 mt-1 px-3 py-3 bg-surface-secondary rounded-xl shadow-xl flex flex-col gap-2 text-left">
               {popupItems.map(({ title, route, onClick }) => (
                 <PopupItem
                   key={title}

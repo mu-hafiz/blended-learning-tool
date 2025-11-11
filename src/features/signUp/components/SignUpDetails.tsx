@@ -84,7 +84,7 @@ const SignUpDetails = ({ setStep, setData }: SignUpProps) => {
             <PasswordValidator key={idx} boolValue={check} message={message} />
           ))}
           <h3 className="my-3">
-            Already have an account? <Link to="/login">Login!</Link>
+            Already have an account? <Link to="/login" className="link">Login!</Link>
           </h3>
         </div>
         <Button

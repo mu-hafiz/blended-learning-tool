@@ -68,7 +68,7 @@ const Login = () => {
               title="Password"
             />
             <h3 className="my-3 text-left">
-              Don't have an account? <Link to="/signup">Sign up!</Link>
+              Don't have an account? <Link to="/signup" className="link">Sign up!</Link>
             </h3>
             <Button
               type="submit"

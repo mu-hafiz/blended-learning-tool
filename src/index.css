@@ -104,21 +104,36 @@
   @apply transition duration-300 hover:shadow-2xl hover:-translate-y-0.5;
 }
 
+@utility subtitle {
+  @apply text-secondary-text text-sm
+}
+
+@utility link {
+  @apply text-blue-500 hover:text-blue-700 transition duration-200
+}
+
+@utility basic-container {
+  @apply bg-surface-primary rounded-2xl flex flex-1 flex-col gap-3 text-left px-3 pb-3 overflow-y-auto
+}
+
 @layer base {
   body {
     @apply bg-base text-primary-text transition-colors duration-700
   }
   h1 {
-    @apply font-normal text-5xl leading-13
+    @apply font-bold text-3xl leading-13
   }
   h2 {
-    @apply text-2xl font-medium
+    @apply text-xl font-bold
   }
   h3 {
     @apply font-medium
   }
-  a {
-    @apply text-blue-500 hover:text-blue-700 transition duration-200
+  p {
+    @apply text-sm
+  }
+  hr {
+    @apply border-surface-tertiary bg-surface-tertiary
   }
 }
 
