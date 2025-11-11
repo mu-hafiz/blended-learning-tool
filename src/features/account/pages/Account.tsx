@@ -8,7 +8,7 @@ const Account = () => {
     <PageContainer title="Account">
       <Tabs routes={routeNames}/>
       <div className="basic-container rounded-tl-none">
-        <Outlet />
+        <Outlet/>
       </div>
     </PageContainer>
   )

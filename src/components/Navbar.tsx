@@ -64,8 +64,8 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-4">
         <div className="raise rounded-lg">
-          <Tooltip text="Leaderboard" position="bottom" offset={8}>
-            <Link to="/leaderboard">
+          <Tooltip text="Leaderboards" position="bottom" offset={8}>
+            <Link to="/leaderboards">
               <RiBarChart2Fill size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
             </Link>
           </Tooltip>

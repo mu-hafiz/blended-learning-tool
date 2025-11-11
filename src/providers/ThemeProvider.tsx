@@ -3,6 +3,9 @@ import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
 import { toast } from "@lib/toast";
 import type { Theme } from "@models/tables";
+import usersDB from "@lib/db/users";
+import unlockedThemesDB from "@lib/db/unlockedThemes";
+import themesDB from "@lib/db/themes";
 
 type ThemeContextType = {
   currentTheme: string | null
@@ -23,15 +26,9 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const loadAllThemes = async () => {
-      const { data, error } = await supabase.from('themes').select();
-      if (error) {
-        console.log("Error getting all themes: ", error);
-        throw new Error("Error getting all themes: ", error);
-      }
-
-      const light = data.filter(theme => theme.type === 'light');
-      const dark = data.filter(theme => theme.type === 'dark');
-
+      const themes = await themesDB.getThemes();
+      const light = themes.filter(theme => theme.type === 'light');
+      const dark = themes.filter(theme => theme.type === 'dark');
       setLightThemes(light);
       setDarkThemes(dark);
     }
@@ -42,32 +39,15 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const loadUserTheme = async () => {
       if (!user) return;
-      const { data, error } = await supabase.from('users')
-        .select('theme_id(data_theme)')
-        .eq('user_id', user.id)
-        .single();
-      
-      if (error) {
-        console.log("Error getting user's selected theme: ", error);
-        throw new Error("Error getting user's selected theme: ", error);
-      }
-
-      const loadedTheme = data?.theme_id?.data_theme || localStorage.getItem("theme") || "light-brand";
+      const dataTheme = await usersDB.getUserTheme(user.id);
+      const loadedTheme = dataTheme || localStorage.getItem("theme") || "light-brand";
       setCurrentTheme(loadedTheme);
     }
 
     const getUserUnlockedThemes = async () => {
       if (!user) return;
-      const { data, error } = await supabase.from('unlocked_themes')
-        .select('theme_id(*)')
-        .eq('user_id', user.id);
-      
-      if (error) {
-        console.log("Error getting user's unlocked themes: ", error);
-        throw new Error("Error getting user's unlocked themes: ", error);
-      }
-
-      setUnlockedThemeIds(data.map(item => item.theme_id.id));
+      const themes = await unlockedThemesDB.getUserUnlockedThemes(user.id);
+      setUnlockedThemeIds(themes.map(item => item.theme_id.id));
     }
 
     loadUserTheme();
@@ -85,12 +65,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setCurrentTheme(theme.data_theme);
 
     if (user) {
-      const { error } = await supabase.from('users')
-        .update({ theme_id: theme.id })
-        .eq('user_id', user.id);
-
-      if (error) {
-        console.error("Error setting theme: ", error);
+      const success = await usersDB.setUserTheme(user.id, theme.id);
+      if (!success) {
         toast.error("Could not set your theme, please try again later.");
       }
     }

@@ -59,7 +59,7 @@ const ChangePassword = ({ user }: { user: User | null | undefined }) => {
   };
 
   return (
-    <section className="m-2 mt-4">
+    <section>
       <form onSubmit={handleSubmit(handlePasswordChange)}>
         <h2>Change Password</h2>
         <p className="text-secondary-text">To change your password, enter your old and new password</p>

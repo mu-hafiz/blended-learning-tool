@@ -34,7 +34,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     type={type}
     disabled={loading || disabled}
     className={`
-      px-5 py-2.5 font-medium border border-transparent
+      px-2.5 py-1.5 font-medium border border-transparent
       rounded-lg transition duration-250 cursor-pointer
       disabled:opacity-50 disabled:cursor-default
       ${variantStyles[variant]} ${className}

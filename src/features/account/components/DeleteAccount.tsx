@@ -4,6 +4,7 @@ import { toast } from "@lib/toast";
 import { useEffect, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useAuth } from "@providers/AuthProvider";
+import usersDB from "@lib/db/users";
 
 const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
   const { login, signOut } = useAuth();
@@ -25,6 +26,7 @@ const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
 
   const handleDeleteAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) return;
     if (!confirmationStage) {
       setConfirmationStage(true);
       return;
@@ -48,11 +50,8 @@ const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
         return;
       }
     
-      const deleteResult = await supabase.from("users")
-        .update({ deleted: true })
-        .eq('user_id', user!.id);
-      if (deleteResult.error) {
-        console.log("Error deleting account: ", deleteResult.error);
+      const success = await usersDB.deleteUser(user.id);
+      if (!success) {
         toast.error("Could not delete your account, please try again later", {
           id: toastId
         });
@@ -66,7 +65,7 @@ const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
   };
 
   return (
-    <section className="m-2 my-4">
+    <section>
       <form onSubmit={handleDeleteAccount}>
         <h2>DANGER ZONE (Delete Account)</h2>
         <p className="text-secondary-text">This will wipe your achievements, stats, and other data</p>

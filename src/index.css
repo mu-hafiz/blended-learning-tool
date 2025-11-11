@@ -113,7 +113,7 @@
 }
 
 @utility basic-container {
-  @apply bg-surface-primary rounded-2xl flex flex-1 flex-col gap-3 text-left px-3 pb-3 overflow-y-auto
+  @apply bg-surface-primary rounded-2xl flex flex-1 flex-col gap-3 text-left p-4 overflow-y-auto
 }
 
 @layer base {

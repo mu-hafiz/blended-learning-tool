@@ -4,6 +4,7 @@ import { useAuth } from "./AuthProvider";
 import type { Notification } from "@models/tables";
 import { toast } from "@lib/toast";
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+import notifDB from "@lib/db/notifications";
 
 type NotifContextType = {
   notifications: Notification[];
@@ -31,17 +32,8 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user) return;
 
     const loadNotifications = async () => {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error('Could not load notifications: ', error);
-        throw new Error('Could not load notifications: ', error);
-      }
-      
-      setNotifications(data);
+      const notifications = await notifDB.getNotifications();
+      setNotifications(notifications);
     };
 
     loadNotifications();
@@ -96,27 +88,19 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateRead = async ({ notifId, read }: UpdateReadArgs) => {
-    const { error } = await supabase.from('notifications')
-      .update({ read })
-      .eq('id', notifId);
-    
-    if (error) {
-      console.log("Error marking notification as read: ", error);
+    const success = await notifDB.updateReadStatus(notifId, read);
+    if (!success) {
       toast.error("There was an error, please try again later.");
     }
   }
 
   const markAllRead = async () => {
-    const { error } = await supabase.from('notifications')
-      .update({ read: true })
-      .eq('read', false);
-    
-    if (error) {
-      console.log("Error marking all notifications as read: ", error);
+    const success = notifDB.markAllAsRead();
+    if (!success) {
       toast.error("There was an error, please try again later.");
-    }
-
-    setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
+    } else {
+      setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
+    } 
   }
 
   return (

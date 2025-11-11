@@ -8,6 +8,7 @@ import { useDebounce } from "@hooks/useDebounce";
 import { useForm } from "react-hook-form";
 import { profileSchema, type ProfileValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import usersDB from "@lib/db/users";
 
 const AccountProfile = () => {
   const { user } = useAuth();
@@ -47,14 +48,7 @@ const AccountProfile = () => {
     if (!user) return;
 
     const fetchUserInfo = async () => {
-      const { data, error } = await supabase.from('users')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      if (error) {
-        console.error("Could not get user's profile information: ", error);
-        throw new Error("Could not get user's profile information: ", error);
-      };
+      const data = await usersDB.getUser(user.id);
       reset({
         username: data.username,
         firstName: data.first_name,
@@ -68,24 +62,16 @@ const AccountProfile = () => {
   }, [user]);
 
   const handleProfileUpdate = async (data: ProfileValues) => {
+    if (!user) return;
     if (validUsername === false) {
       toast.error("That username is taken.");
       return;
     }
 
     const toastId = toast.loading("Updating profile...");
-    const { error } = await supabase.from('users')
-      .update({
-        username: data.username,
-        first_name: data.firstName,
-        middle_name: data.middleName,
-        last_name: data.lastName,
-        about_me: data.aboutMe
-      })
-      .eq('user_id', user!.id);
+    const success = await usersDB.updateUser(user.id, data);
 
-    if (error) {
-      console.error("Could not update user's profile information: ", error);
+    if (!success) {
       toast.error("Could not update profile, please try again later.", {
         id: toastId
       });
@@ -99,7 +85,7 @@ const AccountProfile = () => {
   }
 
   return (
-    <form className="m-2 mt-4" onSubmit={handleSubmit(handleProfileUpdate)}>
+    <form onSubmit={handleSubmit(handleProfileUpdate)}>
       <h2>Basic Info</h2>
       <p className="text-secondary-text">This information will be displayed on your profile (depending on your privacy settings)</p>
       <hr className="border-surface-secondary my-3"/>

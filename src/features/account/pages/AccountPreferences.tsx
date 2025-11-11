@@ -4,7 +4,7 @@ import ThemeItem from "../components/ThemeItem";
 const AccountPreferences = () => {
   const { lightThemes, darkThemes, unlockedThemeIds } = useTheme();
   return (
-    <div className="m-2 mt-4">
+    <div>
       <h2>Themes</h2>
       <p className="subtitle">Choose the perfect theme for you!</p>
       <hr className="my-3"/>

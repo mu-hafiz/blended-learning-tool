@@ -33,12 +33,14 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
           <p>{notif.description}</p>
         </div>
       </div>
-      <Button
-        variant="secondary"
-        onClick={() => updateRead({ notifId: notif.id, read: !notif.read })}
-      >
-        {notif.read ? "Mark as unread" : "Mark as read"}
-      </Button>
+      <div className="flex items-center">
+        <Button
+          variant="secondary"
+          onClick={() => updateRead({ notifId: notif.id, read: !notif.read })}
+        >
+          {notif.read ? "Mark as unread" : "Mark as read"}
+        </Button>
+      </div>
     </li>
   );
 };
