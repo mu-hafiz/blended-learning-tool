@@ -1,20 +1,19 @@
 import { Button, RHFTextInput } from "@components";
 import { useAuth } from "@providers/AuthProvider";
 import { useState, useEffect } from "react";
-import { supabase } from "@lib/supabaseClient";
 import { toast } from "@lib/toast";
 import { TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { useDebounce } from "@hooks/useDebounce";
 import { useForm } from "react-hook-form";
 import { profileSchema, type ProfileValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import usersDB from "@lib/db/users";
+import UsersDB from "@lib/db/users";
 
 const AccountProfile = () => {
   const { user } = useAuth();
   const [validUsername, setValidUsername] = useState<boolean | undefined>(undefined);
 
-  const { control, handleSubmit, watch, formState: { isSubmitting, isDirty, dirtyFields }, reset, getValues } = useForm<ProfileValues>({
+  const { control, handleSubmit, watch, formState: { isSubmitting, isDirty, dirtyFields }, reset, getValues, setError, clearErrors } = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema)
   });
 
@@ -25,13 +24,17 @@ const AccountProfile = () => {
     let cancelled = false;
 
     const checkUsername = async () => {
+      if (debouncedUsername.value.length < 6) {
+        setError('username', {type: 'minLength', message: '6 characters min'});
+      } else if (debouncedUsername.value.length > 30) {
+        setError('username', {type: 'maxLength', message: '30 characters max'});
+      } else {
+        clearErrors('username')
+      }
       await new Promise(resolve => setTimeout(resolve, 10));
       if (!cancelled) {
-        const { count } = await supabase.from('usernames')
-          .select('username', { count: 'exact', head: true })
-          .eq('username', debouncedUsername.value);
-
-        setValidUsername(count === 0);
+        const valid = await UsersDB.checkUsername(debouncedUsername.value);
+        setValidUsername(valid);
       }
     };
 
@@ -48,7 +51,7 @@ const AccountProfile = () => {
     if (!user) return;
 
     const fetchUserInfo = async () => {
-      const data = await usersDB.getUser(user.id);
+      const data = await UsersDB.getUser(user.id);
       reset({
         username: data.username,
         firstName: data.first_name,
@@ -69,7 +72,7 @@ const AccountProfile = () => {
     }
 
     const toastId = toast.loading("Updating profile...");
-    const success = await usersDB.updateUser(user.id, data);
+    const success = await UsersDB.updateUser(user.id, data);
 
     if (!success) {
       toast.error("Could not update profile, please try again later.", {
@@ -96,7 +99,7 @@ const AccountProfile = () => {
         description="This needs to be 6-30 characters long"
       />
       <div className="flex flex-row items-center">
-        {dirtyFields.username && (
+        {dirtyFields.username && !(debouncedUsername.value.length < 6) && !(debouncedUsername.value.length > 30) && (
           !debouncedUsername.ready || validUsername === undefined ? (
             <p className="text-secondary-text mt-2">Checking if username is free...</p>
           ) : validUsername ? (

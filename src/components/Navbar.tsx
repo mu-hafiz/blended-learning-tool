@@ -57,7 +57,7 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Home" position="bottom" offset={8}>
             <Link to="/dashboard">
-              <AiFillHome cursor="pointer" size={30} className="text-primary-button rounded-lg hover:text-primary-button-hover" />
+              <AiFillHome cursor="pointer" size={30} className="text-primary-button rounded-lg hover:text-primary-button-hover transition-colors duration-500" />
             </Link>
           </Tooltip>
         </div>
@@ -66,21 +66,21 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Leaderboards" position="bottom" offset={8}>
             <Link to="/leaderboards">
-              <RiBarChart2Fill size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+              <RiBarChart2Fill size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
             </Link>
           </Tooltip>
         </div>
         <div className="raise rounded-lg">
           <Tooltip text="Progression" position="bottom" offset={8}>
             <Link to="/progression">
-              <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+              <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
             </Link>
           </Tooltip>
         </div>
         <div className="raise rounded-lg">
           <Tooltip text="Notifications" position="bottom" offset={8}>
             <Link to="/notifications">
-              <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+              <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
             </Link>
             {unread && <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
           </Tooltip>
@@ -92,7 +92,7 @@ const Navbar = () => {
                 cursor="pointer"
                 size={26}
                 onClick={() => setShowPopup(true)}
-                className="text-primary-button rounded-lg hover:text-primary-button-hover"
+                className="text-primary-button rounded-lg hover:text-primary-button-hover transition-colors duration-500"
               />
             </Tooltip>
           </div>

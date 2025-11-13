@@ -81,4 +81,19 @@ async function setUserTheme(userId: string, themeId: string) {
   return true;
 }
 
-export default { getUser, updateUser, deleteUser, getUserTheme, setUserTheme };
+async function checkUsername(username: string) {
+  const { data, error } = await supabase.from('users')
+    .select()
+    .eq('username', username)
+    .eq('deleted', false)
+    .limit(1)
+
+  if (error) {
+    console.error("Error checking username uniqueness", error);
+    throw new Error("Error checking username uniqueness", error); 
+  }
+
+  return data && data.length === 0
+}
+
+export default { getUser, updateUser, deleteUser, getUserTheme, setUserTheme, checkUsername };
