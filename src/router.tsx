@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import RootLayout from "@components/RootLayout";
 import Homepage from "@pages/Homepage";
 import SignUp from "@features/signUp/pages/SignUp";
 import { ProtectedRoutes, AnonymousRoutes } from "@components";
@@ -20,30 +21,32 @@ import Friends from "@pages/Friends";
 import Leaderboards from "@features/leaderboards/pages/Leaderboards";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <Homepage />, errorElement: <NotFound /> },
-  { element: <AnonymousRoutes />, children: [
-    { path: "/signup", element: <SignUp /> },
-    { path: "/login", element: <Login /> },
+  { path: "/", element: <RootLayout />, children: [
+    { path: "/", element: <Homepage />, errorElement: <NotFound />},
+    { element: <AnonymousRoutes />, children: [
+      { path: "/signup", element: <SignUp /> },
+      { path: "/login", element: <Login /> },
+    ]},
+    { element: <ProtectedRoutes />, children: [
+      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/notifications", element: <Notifications /> },
+      { path: "/friends", element: <Friends /> },
+      { path: "/account", element: <Account />, children: [
+        { index: true, element: <Navigate to="profile" replace /> },
+        { path: "profile", element: <AccountProfile /> },
+        { path: "security", element: <AccountSecurity /> },
+        { path: "privacy", element: <AccountPrivacy /> },
+        { path: "preferences", element: <AccountPreferences /> }
+      ]},
+      { path: "/progression", element: <Progression />, children: [
+        { index: true, element: <Navigate to="level" replace /> },
+        { path: "level", element: <ProgressionLevel /> },
+        { path: "achievements", element: <ProgressionAchievements /> },
+        { path: "statistics", element: <ProgressionStatistics /> }
+      ]},
+      { path: "/leaderboards", element: <Leaderboards /> },
+      { path: "/profile", element: <Profile /> },
+      { path: "/profile:username", element: <Profile /> } // IMPLEMENT PROPERLY
+    ]}
   ]},
-  { element: <ProtectedRoutes />, children: [
-    { path: "/dashboard", element: <Dashboard /> },
-    { path: "/notifications", element: <Notifications /> },
-    { path: "/friends", element: <Friends /> },
-    { path: "/account", element: <Account />, children: [
-      { index: true, element: <Navigate to="profile" replace /> },
-      { path: "profile", element: <AccountProfile /> },
-      { path: "security", element: <AccountSecurity /> },
-      { path: "privacy", element: <AccountPrivacy /> },
-      { path: "preferences", element: <AccountPreferences /> }
-    ]},
-    { path: "/progression", element: <Progression />, children: [
-      { index: true, element: <Navigate to="level" replace /> },
-      { path: "level", element: <ProgressionLevel /> },
-      { path: "achievements", element: <ProgressionAchievements /> },
-      { path: "statistics", element: <ProgressionStatistics /> }
-    ]},
-    { path: "/leaderboards", element: <Leaderboards /> },
-    { path: "/profile", element: <Profile /> },
-    { path: "/profile:username", element: <Profile /> } // IMPLEMENT PROPERLY
-  ]}
 ]);

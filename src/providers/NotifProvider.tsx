@@ -5,6 +5,7 @@ import type { Notification } from "@models/tables";
 import { toast } from "@lib/toast";
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 import notifDB from "@lib/db/notifications";
+import { useNavigate } from "react-router-dom";
 
 type NotifContextType = {
   notifications: Notification[];
@@ -23,6 +24,7 @@ const NotifContext = createContext<NotifContextType | undefined>(undefined);
 export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const unread = useMemo(() => {
     return notifications.some((notif) => !notif.read);
@@ -78,7 +80,26 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     if (payload.eventType === "INSERT") {
       switch ((payload.new as Notification).type) {
         case 'achievement_unlocked':
-          toast.achievement(payload.new.title, payload.new.description);
+          toast.achievement({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate("/progression/achievements")
+          });
+          break;
+        case 'level_up':
+          toast.level({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate("/progression/level")
+          });
+          break;
+        case 'friend_request_accepted':
+        case 'friend_request_received':
+          toast.friend({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate("/friends")
+          });
           break;
         default:
           toast.notification(payload.new.title, payload.new.description);
