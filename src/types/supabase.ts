@@ -72,6 +72,30 @@ export type Database = {
         }
         Relationships: []
       }
+      courses: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          semester: Database["public"]["Enums"]["semester_type"] | null
+          title: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          semester?: Database["public"]["Enums"]["semester_type"] | null
+          title: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          semester?: Database["public"]["Enums"]["semester_type"] | null
+          title?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           course_id: string | null
@@ -218,27 +242,48 @@ export type Database = {
       }
       user_statistics: {
         Row: {
+          best_streak: number
+          course_id: string | null
           created_at: string
-          flashcards_completed: number
-          flashcards_created: number
+          current_streak: number
+          days_studied: number
+          flashcard_sets_completed: number
+          flashcard_sets_created: number
+          flashcards_used: number
+          id: string
+          questions_correct: number
           quizzes_completed: number
           quizzes_created: number
           quizzes_perfected: number
           user_id: string
         }
         Insert: {
+          best_streak?: number
+          course_id?: string | null
           created_at?: string
-          flashcards_completed?: number
-          flashcards_created?: number
+          current_streak?: number
+          days_studied?: number
+          flashcard_sets_completed?: number
+          flashcard_sets_created?: number
+          flashcards_used?: number
+          id?: string
+          questions_correct?: number
           quizzes_completed?: number
           quizzes_created?: number
           quizzes_perfected?: number
           user_id: string
         }
         Update: {
+          best_streak?: number
+          course_id?: string | null
           created_at?: string
-          flashcards_completed?: number
-          flashcards_created?: number
+          current_streak?: number
+          days_studied?: number
+          flashcard_sets_completed?: number
+          flashcard_sets_created?: number
+          flashcards_used?: number
+          id?: string
+          questions_correct?: number
           quizzes_completed?: number
           quizzes_created?: number
           quizzes_perfected?: number
@@ -246,9 +291,16 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "user_statistics_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "user_statistics_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["user_id"]
           },
@@ -337,7 +389,7 @@ export type Database = {
     }
     Functions: {
       add_to_user_stat: {
-        Args: { p_amount: number; p_attr: string }
+        Args: { p_amount: number; p_attr: string; p_course_id?: string }
         Returns: undefined
       }
       add_to_user_xp: {
@@ -364,6 +416,7 @@ export type Database = {
         | "username"
         | "privacy"
         | "theme"
+      semester_type: "one" | "two" | "full"
       theme_type: "light" | "dark"
       user_type: "student" | "instructor"
     }
@@ -517,6 +570,7 @@ export const Constants = {
         "privacy",
         "theme",
       ],
+      semester_type: ["one", "two", "full"],
       theme_type: ["light", "dark"],
       user_type: ["student", "instructor"],
     },

@@ -1,4 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
+import type { Statistics } from "../../../src/types/tables.ts";
 
 const supabaseAdmin = createClient(
   Deno.env.get('SUPABASE_URL') ?? '',
@@ -8,11 +9,19 @@ const supabaseAdmin = createClient(
 const getUserStats = async (user_id: string) => {
   const { data, error } = await supabaseAdmin.from('user_statistics')
     .select()
-    .eq('user_id', user_id)
-    .single();
+    .eq('user_id', user_id);
 
   if (error) throw new Error(error.message || JSON.stringify(error));
-  return data;
+
+  const totals = data.reduce((acc: Record<string, number>, row: Statistics) => {
+    for (const [key, value] of Object.entries(row)) {
+      if (typeof value === "number") {
+        acc[key] = (acc[key] || 0) + value
+      }
+    }
+  })
+
+  return totals;
 }
 
 export const checkQuizCompletions = async (user_id: string, unlock_criteria: { completed: number }, perfect: boolean = false) => {
