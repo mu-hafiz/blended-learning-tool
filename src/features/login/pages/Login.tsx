@@ -49,9 +49,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-surface-primary rounded-2xl w-130 p-6 py-10">
+      <div className="bg-surface-primary rounded-2xl w-130 p-6 pb-10">
         <form onSubmit={handleSubmit(handleLogin)}>
-          <h2 className="text-center pb-4">Log In</h2>
+          <h1 className="text-center pb-4">Log In</h1>
           <div className="flex flex-col gap-2">
             <RHFTextInput
               name="email"

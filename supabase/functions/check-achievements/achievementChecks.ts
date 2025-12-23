@@ -31,9 +31,9 @@ export const checkQuizCompletions = async (user_id: string, unlock_criteria: { c
   else { return false };
 }
 
-export const checkFlashcardCompletions = async (user_id: string, unlock_criteria: { completed: number }) => {
+export const checkFlashcardSetCompletions = async (user_id: string, unlock_criteria: { completed: number }) => {
   const data = await getUserStats(user_id);
-  if (data.flashcards_completed >= unlock_criteria.completed) { return true }
+  if (data.flashcard_sets_completed >= unlock_criteria.completed) { return true }
   else { return false };
 }
 
@@ -43,8 +43,8 @@ export const checkQuizCreations = async (user_id: string, unlock_criteria: { cre
   else { return false };
 }
 
-export const checkFlashcardCreations = async (user_id: string, unlock_criteria: { created: number }) => {
+export const checkFlashcardSetCreations = async (user_id: string, unlock_criteria: { created: number }) => {
   const data = await getUserStats(user_id);
-  if (data.flashcards_created >= unlock_criteria.created) { return true }
+  if (data.flashcard_sets_created >= unlock_criteria.created) { return true }
   else { return false };
 }

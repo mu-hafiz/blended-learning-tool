@@ -10,7 +10,7 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-surface-primary rounded-2xl w-130 p-6 py-10">
+      <div className="bg-surface-primary rounded-2xl w-130 p-6 pb-10">
         {step === 1 && (
           <SignUpDetails
             setStep={setStep}

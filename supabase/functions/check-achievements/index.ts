@@ -1,7 +1,7 @@
 import { corsHeaders, jsonResponse } from "../_shared/cors.ts";
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import type { AchievementType } from "../../../src/types/enums.ts";
-import { checkFlashcardCompletions, checkFlashcardCreations, checkQuizCompletions, checkQuizCreations } from "./achievementChecks.ts";
+import { checkFlashcardSetCompletions, checkFlashcardSetCreations, checkQuizCompletions, checkQuizCreations } from "./achievementChecks.ts";
 
 interface AchievementCheck {
   type: AchievementType,
@@ -57,11 +57,11 @@ Deno.serve(async (req) => {
         case 'quizzes_created':
           unlocked = await checkQuizCreations(user_id, achievement.unlock_criteria);
           break;
-        case 'flashcards_completed':
-          unlocked = await checkFlashcardCompletions(user_id, achievement.unlock_criteria);
+        case 'flashcard_sets_completed':
+          unlocked = await checkFlashcardSetCompletions(user_id, achievement.unlock_criteria);
           break;
-        case 'flashcards_created':
-          unlocked = await checkFlashcardCreations(user_id, achievement.unlock_criteria);
+        case 'flashcard_sets_created':
+          unlocked = await checkFlashcardSetCreations(user_id, achievement.unlock_criteria);
           break;
       }
 

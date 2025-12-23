@@ -23,7 +23,7 @@ const ProgressionAchievements = () => {
     }
     
     getAchievements();
-  }, [])
+  }, [user])
 
   return (
     <>

@@ -402,8 +402,8 @@ export type Database = {
         | "quizzes_completed"
         | "quizzes_perfected"
         | "quizzes_created"
-        | "flashcards_completed"
-        | "flashcards_created"
+        | "flashcard_sets_completed"
+        | "flashcard_sets_created"
       notification_type:
         | "friend_request_received"
         | "friend_request_accepted"
@@ -553,8 +553,8 @@ export const Constants = {
         "quizzes_completed",
         "quizzes_perfected",
         "quizzes_created",
-        "flashcards_completed",
-        "flashcards_created",
+        "flashcard_sets_completed",
+        "flashcard_sets_created",
       ],
       notification_type: [
         "friend_request_received",

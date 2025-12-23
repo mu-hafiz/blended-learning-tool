@@ -63,7 +63,7 @@ const SignUpDetails = ({ setStep, setData }: SignUpProps) => {
 
   return (
     <form onSubmit={handleSubmit(handleSendOTP)}>
-      <h2 className="text-center pb-4">Sign Up</h2>
+      <h1 className="text-center pb-4">Sign Up</h1>
       <div className="flex flex-col gap-2">
         <RHFTextInput
           name="email"
