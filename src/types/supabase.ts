@@ -240,6 +240,47 @@ export type Database = {
           },
         ]
       }
+      user_privacy: {
+        Row: {
+          achievements: Database["public"]["Enums"]["privacy_type"]
+          created_at: string
+          friends: Database["public"]["Enums"]["privacy_type"]
+          leaderboards: Database["public"]["Enums"]["privacy_needed_type"]
+          level: Database["public"]["Enums"]["privacy_needed_type"]
+          name: Database["public"]["Enums"]["privacy_type"]
+          profile: Database["public"]["Enums"]["privacy_needed_type"]
+          user_id: string
+        }
+        Insert: {
+          achievements?: Database["public"]["Enums"]["privacy_type"]
+          created_at?: string
+          friends?: Database["public"]["Enums"]["privacy_type"]
+          leaderboards?: Database["public"]["Enums"]["privacy_needed_type"]
+          level?: Database["public"]["Enums"]["privacy_needed_type"]
+          name?: Database["public"]["Enums"]["privacy_type"]
+          profile?: Database["public"]["Enums"]["privacy_needed_type"]
+          user_id?: string
+        }
+        Update: {
+          achievements?: Database["public"]["Enums"]["privacy_type"]
+          created_at?: string
+          friends?: Database["public"]["Enums"]["privacy_type"]
+          leaderboards?: Database["public"]["Enums"]["privacy_needed_type"]
+          level?: Database["public"]["Enums"]["privacy_needed_type"]
+          name?: Database["public"]["Enums"]["privacy_type"]
+          profile?: Database["public"]["Enums"]["privacy_needed_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_privacy_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       user_statistics: {
         Row: {
           best_streak: number
@@ -416,6 +457,8 @@ export type Database = {
         | "username"
         | "privacy"
         | "theme"
+      privacy_needed_type: "public" | "friends_only"
+      privacy_type: "public" | "friends_only" | "private"
       semester_type: "one" | "two" | "full"
       theme_type: "light" | "dark"
       user_type: "student" | "instructor"
@@ -570,6 +613,8 @@ export const Constants = {
         "privacy",
         "theme",
       ],
+      privacy_needed_type: ["public", "friends_only"],
+      privacy_type: ["public", "friends_only", "private"],
       semester_type: ["one", "two", "full"],
       theme_type: ["light", "dark"],
       user_type: ["student", "instructor"],

@@ -13,6 +13,7 @@ async function getStatistics(userId: string) {
   return data;
 }
 
+// NEED TO IMPLEMENT FOR LEADERBOARD
 async function getAllUserStatistics() {
   const { data, error } = await supabase.from('user_statistics').select('*, user_id(*), course_id(*)');
 
@@ -46,6 +47,7 @@ async function getAccumulatedStats(userId: string) {
   return totals;
 }
 
+// NEED TO IMPLEMENT FOR LEADERBOARD
 async function getAllUserAccumulatedStats() {
   const { data, error } = await supabase.from('user_statistics').select();
 
