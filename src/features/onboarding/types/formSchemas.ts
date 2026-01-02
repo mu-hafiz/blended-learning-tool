@@ -1,18 +1,5 @@
 import { z } from "zod";
 
-export const securitySchema = z.object({
-  newPassword: z.string().min(1, "Please enter your new password")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/, "Your password must pass all requirements"),
-  confirmPassword: z.string().min(1, "Please confirm your new password"),
-  oldPassword: z.string().min(1, "Please enter your old password"),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"]
-}).refine((data) => data.newPassword !== data.oldPassword, {
-  message: "Your new and old passwords cannot match.",
-  path: ["newPassword"]
-});
-
 export const profileSchema = z.object({
   username: z.string()
     .min(1, "Please enter a nickname")
@@ -33,5 +20,4 @@ export const profileSchema = z.object({
   aboutMe: z.string().optional()
 })
 
-export type SecurityValues = z.infer<typeof securitySchema>
 export type ProfileValues = z.infer<typeof profileSchema>

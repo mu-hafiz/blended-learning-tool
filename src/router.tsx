@@ -2,7 +2,12 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import RootLayout from "@components/RootLayout";
 import Homepage from "@pages/Homepage";
 import SignUp from "@features/signUp/pages/SignUp";
-import { ProtectedRoutes, AnonymousRoutes } from "@components";
+import Onboarding from "@features/onboarding/pages/Onboarding";
+import OnboardingProfile from "@features/onboarding/components/OnboardingProfile";
+import OnboardingCourses from "@features/onboarding/components/OnboardingCourses";
+import OnboardingPrivacy from "@features/onboarding/components/OnboardingPrivacy";
+import OnboardingPreferences from "@features/onboarding/components/OnboardingPreferences";
+import { ProtectedRoutes, AnonymousRoutes, OnboardingRoutes } from "@components";
 import Dashboard from "@pages/Dashboard";
 import Login from "@features/login/pages/Login";
 import NotFound from "@pages/NotFound";
@@ -22,11 +27,24 @@ import Leaderboards from "@features/leaderboards/pages/Leaderboards";
 
 export const router = createBrowserRouter([
   { path: "/", element: <RootLayout />, children: [
+
     { path: "/", element: <Homepage />, errorElement: <NotFound />},
+
     { element: <AnonymousRoutes />, children: [
-      { path: "/signup", element: <SignUp /> },
-      { path: "/login", element: <Login /> },
+      { path: "/account/signup", element: <SignUp /> },
+      { path: "/account/login", element: <Login /> },
     ]},
+
+    { element: <OnboardingRoutes />, children: [
+      { path: "/account/onboarding", element: <Onboarding />, children: [
+        { index: true, element: <Navigate to="profile" replace /> },
+        { path: "profile", element: <OnboardingProfile /> },
+        { path: "courses", element: <OnboardingCourses /> },
+        { path: "privacy", element: <OnboardingPrivacy /> },
+        { path: "preferences", element: <OnboardingPreferences /> },
+      ]},
+    ]},
+
     { element: <ProtectedRoutes />, children: [
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/notifications", element: <Notifications /> },
@@ -48,5 +66,6 @@ export const router = createBrowserRouter([
       { path: "/profile", element: <Profile /> },
       { path: "/profile:username", element: <Profile /> } // IMPLEMENT PROPERLY
     ]}
+    
   ]},
 ]);

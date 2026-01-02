@@ -11,14 +11,14 @@ function Homepage() {
         <Button
           variant="secondary"
           className="w-25"
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/account/login")}
         >
           Login
         </Button>
         <Button
           variant="primary"
           className="w-25"
-          onClick={() => navigate("/signup")}
+          onClick={() => navigate("/account/signup")}
         >
           Sign Up
         </Button>

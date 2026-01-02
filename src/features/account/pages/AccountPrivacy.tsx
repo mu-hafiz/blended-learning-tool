@@ -1,25 +1,9 @@
-import { useEffect, useState } from 'react';
-import UserPrivacyDB from '@lib/db/userPrivacy';
-import { useAuth } from "@providers/AuthProvider";
-import type { UserPrivacy } from "@models/tables";
-
-type PrivacySettings = Omit<UserPrivacy, 'user_id'|'created_at'>
+import { useOutletContext } from "react-router-dom";
+import { type AccountOutletContext } from "../types/stateTypes";
 
 const AccountPrivacy = () => {
-  const { user } = useAuth();
-  const [privacySettings, setPrivacySettings] = useState<PrivacySettings | null>(null);
 
-  useEffect(() => {
-    if (!user) return;
-
-    const getPrivacySettings = async () => {
-      const data = await UserPrivacyDB.getPrivacySettings(user.id);
-      const { user_id, created_at, ...privacyData } = data;
-      setPrivacySettings(privacyData);
-    }
-
-    getPrivacySettings();
-  }, [user]);
+  const { privacySettings, setPrivacySettings } = useOutletContext<AccountOutletContext>();
 
   return (
     <div>

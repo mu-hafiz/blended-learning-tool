@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
 import { toast } from "@lib/toast";
 import type { Theme } from "@models/tables";
@@ -37,15 +36,15 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   useEffect(() => {
+    if (!user) return;
+
     const loadUserTheme = async () => {
-      if (!user) return;
-      const dataTheme = await usersDB.getUserTheme(user.id);
+      const dataTheme = await usersDB.getUserTheme(user!.id);
       const loadedTheme = dataTheme || localStorage.getItem("theme") || "light-brand";
       setCurrentTheme(loadedTheme);
     }
 
     const getUserUnlockedThemes = async () => {
-      if (!user) return;
       const themes = await unlockedThemesDB.getUserUnlockedThemes(user.id);
       setUnlockedThemeIds(themes.map(item => item.theme_id.id));
     }

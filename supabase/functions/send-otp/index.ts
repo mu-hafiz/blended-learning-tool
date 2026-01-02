@@ -35,16 +35,47 @@ Deno.serve(async (req) => {
       to: email,
       subject: "Your Blended Learning Tool verification code",
       html: `
-        <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
-          <h2>Hello,</h2>
-          <p>Your verification code is:</p>
-          <p style="font-size: 1.5em; font-weight: bold; color: #0051ff;">${code}</p>
-          <p>This code expires in 10 minutes. If you did not request this, feel free to ignore this message.</p>
-          <hr />
-          <p style="font-size: 0.9em; color: #888;">
-            Sent by Blended Learning Tool • blendedlearningtool.app
-          </p>
-        </div>
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Verification Code</title>
+          </head>
+          <body style="margin:0; padding:0; background-color:#f5f5f5;">
+            <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <tr>
+                <td align="center" style="padding:24px;">
+                  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:480px; background:#ffffff; border-radius:6px;">
+                    <tr>
+                      <td style="padding:24px; font-family:Arial, Helvetica, sans-serif; color:#333; line-height:1.5;">
+                        <h2 style="margin-top:0;">Hello,</h2>
+
+                        <p>Your verification code is:</p>
+
+                        <p style="font-size:24px; font-weight:bold; color:#0051ff; margin:16px 0;">
+                          ${code}
+                        </p>
+
+                        <p>
+                          This code expires in 10 minutes.
+                          If you did not request this, you can safely ignore this email.
+                        </p>
+
+                        <hr style="border:none; border-top:1px solid #e0e0e0; margin:24px 0;" />
+
+                        <p style="font-size:12px; color:#888;">
+                          Sent by Blended Learning Tool<br />
+                          blendedlearningtool.app
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </body>
+        </html>
       `,
       text: `Hello,\n\nYour verification code is: ${code}\nIt expires in 10 minutes. If you did not request this, feel free to ignore this message.\n\nSent by Blended Learning Tool • blendedlearningtool.app`,
     });

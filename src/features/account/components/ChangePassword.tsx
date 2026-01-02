@@ -3,23 +3,17 @@ import { validatePassword } from "@utils/validatePassword";
 import { TiArrowLeftThick, TiArrowRightThick, TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { supabase } from "@lib/supabaseClient";
 import { toast } from "@lib/toast";
-import { useForm } from "react-hook-form";
-import { securitySchema, type SecurityValues } from "../types/formSchemas";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { type SecurityValues } from "../types/formSchemas";
 import type { User } from "@supabase/supabase-js";
 import { useAuth } from "@providers/AuthProvider";
+import { useOutletContext } from "react-router-dom";
+import { type AccountOutletContext } from "../types/stateTypes";
 
 const ChangePassword = ({ user }: { user: User | null | undefined }) => {
   const { login } = useAuth();
 
-  const { control, handleSubmit, watch, formState: { isSubmitting }, reset } = useForm<SecurityValues>({
-    resolver: zodResolver(securitySchema),
-    defaultValues: {
-      newPassword: "",
-      confirmPassword: "",
-      oldPassword: "",
-    }
-  });
+  const { securityForm } = useOutletContext<AccountOutletContext>();
+  const { control, handleSubmit, watch, formState: { isSubmitting }, reset } = securityForm;
 
   const newPassword = watch("newPassword");
   const confirmPassword = watch("confirmPassword");

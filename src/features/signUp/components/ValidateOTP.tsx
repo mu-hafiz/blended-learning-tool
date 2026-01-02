@@ -43,10 +43,10 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
       const signUpResult = await signUp({ email, password });
       
       if (signUpResult.success) {
-        toast.success("Account created!", {
+        toast.success("OTP Successful!", {
           id: toastId
         });
-        navigate('/dashboard');
+        navigate('/account/onboarding');
       } else {
         if (signUpResult.error.code === "user_already_exists") {
           toast.error("An account with that email already exists", {
@@ -71,7 +71,8 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
   return (
     <form onSubmit={handleSignUp}>
       <h2 className="text-center text-primary-text mb-2">One-Time Password</h2>
-      <p className="text-center text-secondary-text mb-8">An OTP has been sent to your email, please enter below:</p>
+      <p className="text-center text-secondary-text">An OTP has been sent to your email, please enter below:</p>
+      <p className="text-center text-secondary-text mb-8">(Check your junk folder!)</p>
       <OTPInput
         value={otp}
         onChange={(value) => {setOtp(value)}}

@@ -96,6 +96,21 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_flags: {
+        Row: {
+          active: boolean
+          flag: string
+        }
+        Insert: {
+          active?: boolean
+          flag: string
+        }
+        Update: {
+          active?: boolean
+          flag?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           course_id: string | null
@@ -347,39 +362,18 @@ export type Database = {
           },
         ]
       }
-      usernames: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          user_id: string
-          username: string
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          user_id: string
-          username: string
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          user_id?: string
-          username?: string
-        }
-        Relationships: []
-      }
       users: {
         Row: {
           about_me: string | null
           created_at: string
           deleted: boolean
-          first_name: string
-          last_name: string
+          first_name: string | null
+          last_name: string | null
           level: number
           middle_name: string | null
-          onboarding_step: Database["public"]["Enums"]["onboarding_type"]
-          role: Database["public"]["Enums"]["user_type"]
-          theme_id: string | null
+          onboarding_completed: boolean
+          role: Database["public"]["Enums"]["user_type"] | null
+          theme_id: string
           user_id: string
           username: string
           xp: number
@@ -388,13 +382,13 @@ export type Database = {
           about_me?: string | null
           created_at?: string
           deleted?: boolean
-          first_name?: string
-          last_name?: string
+          first_name?: string | null
+          last_name?: string | null
           level?: number
           middle_name?: string | null
-          onboarding_step?: Database["public"]["Enums"]["onboarding_type"]
-          role?: Database["public"]["Enums"]["user_type"]
-          theme_id?: string | null
+          onboarding_completed?: boolean
+          role?: Database["public"]["Enums"]["user_type"] | null
+          theme_id?: string
           user_id?: string
           username?: string
           xp?: number
@@ -403,13 +397,13 @@ export type Database = {
           about_me?: string | null
           created_at?: string
           deleted?: boolean
-          first_name?: string
-          last_name?: string
+          first_name?: string | null
+          last_name?: string | null
           level?: number
           middle_name?: string | null
-          onboarding_step?: Database["public"]["Enums"]["onboarding_type"]
-          role?: Database["public"]["Enums"]["user_type"]
-          theme_id?: string | null
+          onboarding_completed?: boolean
+          role?: Database["public"]["Enums"]["user_type"] | null
+          theme_id?: string
           user_id?: string
           username?: string
           xp?: number
@@ -451,12 +445,6 @@ export type Database = {
         | "like_received"
         | "achievement_unlocked"
         | "level_up"
-      onboarding_type:
-        | "completed"
-        | "basic_info"
-        | "username"
-        | "privacy"
-        | "theme"
       privacy_needed_type: "public" | "friends_only"
       privacy_type: "public" | "friends_only" | "private"
       semester_type: "one" | "two" | "full"
@@ -605,13 +593,6 @@ export const Constants = {
         "like_received",
         "achievement_unlocked",
         "level_up",
-      ],
-      onboarding_type: [
-        "completed",
-        "basic_info",
-        "username",
-        "privacy",
-        "theme",
       ],
       privacy_needed_type: ["public", "friends_only"],
       privacy_type: ["public", "friends_only", "private"],

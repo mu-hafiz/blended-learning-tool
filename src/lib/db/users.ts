@@ -3,9 +3,10 @@ import { supabase } from "@lib/supabaseClient";
 type updateProps = {
   username: string,
   firstName: string,
-  middleName: string,
+  middleName?: string,
   lastName: string,
-  aboutMe: string
+  aboutMe?: string,
+  onboardingCompleted?: boolean,
 }
 
 async function getUser(userId: string) {
@@ -22,14 +23,15 @@ async function getUser(userId: string) {
   return data;
 }
 
-async function updateUser(userId: string, {username, firstName, middleName, lastName, aboutMe}: updateProps) {
+async function updateUser(userId: string, {username, firstName, middleName, lastName, aboutMe, onboardingCompleted = false}: updateProps) {
   const { error } = await supabase.from('users')
     .update({
       username,
       first_name: firstName,
       middle_name: middleName,
       last_name: lastName,
-      about_me: aboutMe
+      about_me: aboutMe,
+      onboarding_completed: onboardingCompleted
     })
     .eq('user_id', userId);
 

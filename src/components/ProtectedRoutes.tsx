@@ -9,14 +9,22 @@ const ProtectedRoutes = () => {
     return <p className="flex">Loading...</p>
   }
 
-  return user ? (
+  if (!user) {
+    return <Navigate to="/account/login" replace/>;
+  }
+
+  if (!user.app_metadata?.onboardingCompleted) {
+    return <Navigate to="/account/onboarding" replace/>;
+  }
+
+  return (
     <>
       <Navbar/>
       <div className="max-w-7xl mx-auto pt-4">
         <Outlet/>
       </div>
     </>
-  ) : <Navigate to="/login"/>;
+  );
 }
 
 export default ProtectedRoutes;

@@ -34,6 +34,7 @@ const TextInput = ({
       <div className="flex flex-row items-center">
         <h3 className="text-left">{title}</h3>
         {!required && <p className="text-secondary-text ml-1">(optional)</p>}
+        {required && <p className="text-error-text ml-1">*</p>}
       </div>
       {description && <p className="text-secondary-text">{description}</p>}
       {!multiline ? (

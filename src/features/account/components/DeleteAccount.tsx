@@ -1,5 +1,4 @@
 import { Button, TextInput } from "@components";
-import { supabase } from "@lib/supabaseClient";
 import { toast } from "@lib/toast";
 import { useEffect, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";

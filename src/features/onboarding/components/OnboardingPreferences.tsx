@@ -1,12 +1,24 @@
+import { useEffect } from "react";
 import { useTheme } from "@providers/ThemeProvider";
 import ThemeItem from "@components/ThemeItem";
+import { useOutletContext } from "react-router-dom";
+import { type OnboardingOutletContext } from "../types/stateTypes";
 
-const AccountPreferences = () => {
+const OnboardingPreferences = () => {
   const { lightThemes, darkThemes, unlockedThemeIds } = useTheme();
+  const { buttonClicked, setButtonClicked, goToNextStep } = useOutletContext<OnboardingOutletContext>();
+
+  useEffect(() => {
+    if (!buttonClicked) return;
+    setButtonClicked(false);
+    goToNextStep();
+  }, [buttonClicked]);
+
   return (
     <div>
       <h2>Themes</h2>
       <p className="subtitle">Choose the perfect theme for you!</p>
+      <p className="subtitle">As you progress, you will unlock more themes to use.</p>
       <hr className="my-3"/>
       <h3 className="mb-3">Light Mode</h3>
       <div className="flex gap-3">
@@ -26,4 +38,5 @@ const AccountPreferences = () => {
   );
 };
 
-export default AccountPreferences;
+
+export default OnboardingPreferences;

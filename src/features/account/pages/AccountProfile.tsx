@@ -1,21 +1,18 @@
 import { Button, RHFTextInput } from "@components";
-import { useAuth } from "@providers/AuthProvider";
 import { useState, useEffect } from "react";
 import { toast } from "@lib/toast";
 import { TiTickOutline, TiTimesOutline } from "react-icons/ti";
 import { useDebounce } from "@hooks/useDebounce";
-import { useForm } from "react-hook-form";
-import { profileSchema, type ProfileValues } from "../types/formSchemas";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { type ProfileValues } from "../types/formSchemas";
 import UsersDB from "@lib/db/users";
+import { useOutletContext } from "react-router-dom";
+import { type AccountOutletContext } from "../types/stateTypes";
 
 const AccountProfile = () => {
-  const { user } = useAuth();
-  const [validUsername, setValidUsername] = useState<boolean | undefined>(undefined);
+  const { profileForm, user } = useOutletContext<AccountOutletContext>();
+  const { control, handleSubmit, watch, formState: { isSubmitting, isDirty, dirtyFields }, reset, getValues, setError, clearErrors } = profileForm;
 
-  const { control, handleSubmit, watch, formState: { isSubmitting, isDirty, dirtyFields }, reset, getValues, setError, clearErrors } = useForm<ProfileValues>({
-    resolver: zodResolver(profileSchema)
-  });
+  const [validUsername, setValidUsername] = useState<boolean | undefined>(undefined);
 
   const username = watch("username");
   const debouncedUsername = useDebounce(username);
@@ -46,23 +43,6 @@ const AccountProfile = () => {
   useEffect(() => {
     setValidUsername(undefined);
   }, [username]);
-
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchUserInfo = async () => {
-      const data = await UsersDB.getUser(user.id);
-      reset({
-        username: data.username,
-        firstName: data.first_name,
-        middleName: data.middle_name ?? "",
-        lastName: data.last_name,
-        aboutMe: data.about_me ?? ""
-      });
-    }
-    
-    fetchUserInfo();
-  }, [user]);
 
   const handleProfileUpdate = async (data: ProfileValues) => {
     if (!user) return;

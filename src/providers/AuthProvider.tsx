@@ -1,14 +1,23 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
+import UserDB from "@lib/db/users";
 
-import type { User } from "@supabase/supabase-js";
+import { FunctionsHttpError, type User } from "@supabase/supabase-js";
 type SignUpInfo = {
   email: string,
   password: string,
 };
+type FinishOnboardingInfo = {
+  username: string,
+  firstName: string,
+  middleName?: string,
+  lastName: string,
+  aboutMe?: string,
+}
 type AuthContextType = {
   user: User | null | undefined;
   signUp: ({ email, password }: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
+  finishOnboarding: ({ username, firstName, middleName, lastName, aboutMe }: FinishOnboardingInfo) => Promise<{ success: boolean; error?: any }>;
   login: (info: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
   signOut: () => Promise<{ success: boolean; error?: any }>;
 }
@@ -44,9 +53,52 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     if (error) {
-      console.error("Error signing up: ", error);
+      console.error("Sign up failed:", {
+        message: error.message,
+        status: error.status,
+        name: error.name,
+      });
       return { success: false, error };
     }
+
+    return { success: true };
+  }
+
+  const finishOnboarding = async ({ username, firstName, middleName, lastName, aboutMe }: FinishOnboardingInfo) => {
+    console.log("Inside finishOnboarding")
+
+    // Update all user information
+    const updateSuccess = await UserDB.updateUser(user!.id, {
+      username,
+      firstName,
+      middleName,
+      lastName,
+      aboutMe,
+      onboardingCompleted: true
+    });
+
+    if (!updateSuccess) {
+      return { success: false, error: "Could not update user" }
+    }
+
+    console.log("Updated user")
+
+    // IMPLEMENT!!!!!
+    // UPDATE USER PRIVACY SETTINGS
+
+    // Update app_metadata
+    const { error } = await supabase.functions.invoke("finish-onboarding", {
+      body: { userId: user!.id }
+    });
+
+    if (error instanceof FunctionsHttpError) {
+      console.log("Error updating onboarding status: ", error);
+      const errorMessage = await error.context.json();
+      return { success: false, error: errorMessage.error };
+    }
+
+    // Refresh the user's session so app_metadata updates
+    await supabase.auth.refreshSession();
 
     return { success: true };
   }
@@ -77,7 +129,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signUp, login, signOut }}>
+    <AuthContext.Provider value={{ user, signUp, finishOnboarding, login, signOut }}>
       {children}
     </AuthContext.Provider>
   );
