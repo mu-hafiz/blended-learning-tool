@@ -431,6 +431,7 @@ export type Database = {
         Args: { p_amount: number; p_user_id: string }
         Returns: undefined
       }
+      initialise_user: { Args: { user_id: string }; Returns: undefined }
     }
     Enums: {
       achievement_type:

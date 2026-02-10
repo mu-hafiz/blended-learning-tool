@@ -3,17 +3,22 @@ import { Outlet } from "react-router-dom";
 import { PageContainer, Tabs } from "@components";
 import UserPrivacyDB from '@lib/db/userPrivacy';
 import { useAuth } from "@providers/AuthProvider";
-import { type PrivacySettings } from '../types/stateTypes';
+import { type UserPrivacySettings } from '@models/tables';
 import { profileSchema, securitySchema, type ProfileValues, type SecurityValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import UsersDB from "@lib/db/users";
 import { useForm } from "react-hook-form";
+import { tryCatch } from '@utils/tryCatch';
+import { toast } from '@lib/toast';
 
 const routeNames = ["profile", "security", "privacy", "preferences"];
 
 const Account = () => {
   const { user } = useAuth();
-  const [privacySettings, setPrivacySettings] = useState<PrivacySettings | null>(null);
+  const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings | null>(null);
+  const [previousPrivacySettings, setPreviousPrivacySettings] = useState<UserPrivacySettings | null>(null);
+  const [privacyEdited, setPrivacyEdited] = useState(false);
+  const [privacySubmitting, setPrivacySubmitting] = useState(false);
 
   const profileForm = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema)
@@ -35,6 +40,7 @@ const Account = () => {
       const data = await UserPrivacyDB.getPrivacySettings(user.id);
       const { user_id, created_at, ...privacyData } = data;
       setPrivacySettings(privacyData);
+      setPreviousPrivacySettings(privacyData);
     }
 
     const fetchUserInfo = async () => {
@@ -52,6 +58,31 @@ const Account = () => {
     fetchUserInfo();
   }, [user]);
 
+  useEffect(() => {
+    setPrivacyEdited(JSON.stringify(privacySettings) !== JSON.stringify(previousPrivacySettings));
+  }, [privacySettings, previousPrivacySettings]);
+
+
+  const handlePrivacySubmit = async () => {
+    if (!user) return;
+
+    const toastId = toast.loading("Submitting...");
+    setPrivacySubmitting(true);
+
+    const {error} = await tryCatch(UserPrivacyDB.setPrivacySettings(user.id, privacySettings!));
+    if (error) {
+      toast.error("Could not update privacy options, please try again later", {
+        id: toastId
+      });
+    } else {
+      toast.success("Updated privacy settings!", {
+        id: toastId
+      });
+      setPreviousPrivacySettings(privacySettings);
+    }
+    setPrivacySubmitting(false);
+  };
+
   return (
     <PageContainer title="Account">
       <Tabs routes={routeNames}/>
@@ -60,6 +91,10 @@ const Account = () => {
           context={{
             privacySettings,
             setPrivacySettings,
+            previousPrivacySettings,
+            privacyEdited,
+            handlePrivacySubmit,
+            privacySubmitting,
             profileForm,
             securityForm,
             user

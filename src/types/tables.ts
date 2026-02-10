@@ -10,3 +10,4 @@ export type StatisticsWithCourse = Omit<Statistics, 'course_id'> & {
   course_id: Course | null;
 };
 export type UserPrivacy = Database['public']['Tables']['user_privacy']['Row'];
+export type UserPrivacySettings = Omit<UserPrivacy, 'user_id' | 'created_at'>;

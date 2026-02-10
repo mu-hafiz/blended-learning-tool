@@ -35,7 +35,7 @@ const OnboardingProfile = () => {
   }, [buttonClicked]);
 
   return (
-    <form className="flex flex-col gap-3">
+    <form className="flex flex-col gap-1">
       <RHFTextInput
         name="username"
         control={profileForm.control}

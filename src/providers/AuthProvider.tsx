@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
-import UserDB from "@lib/db/users";
+import { AuthError } from "@supabase/supabase-js";
 
 import { FunctionsHttpError, type User } from "@supabase/supabase-js";
+import type { UserPrivacySettings } from "@models/tables";
 type SignUpInfo = {
   email: string,
   password: string,
@@ -14,10 +15,14 @@ type FinishOnboardingInfo = {
   lastName: string,
   aboutMe?: string,
 }
+type SignUpResult =
+  | { success: true; error?: undefined; }
+  | { success: false; error: AuthError; };
+
 type AuthContextType = {
   user: User | null | undefined;
-  signUp: ({ email, password }: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
-  finishOnboarding: ({ username, firstName, middleName, lastName, aboutMe }: FinishOnboardingInfo) => Promise<{ success: boolean; error?: any }>;
+  signUp: ({ email, password }: SignUpInfo) => Promise<SignUpResult>;
+  finishOnboarding: (formValues: FinishOnboardingInfo, privacySettings: UserPrivacySettings) => Promise<{ success: boolean; error?: any }>;
   login: (info: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
   signOut: () => Promise<{ success: boolean; error?: any }>;
 }
@@ -46,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const signUp = async ({ email, password }: SignUpInfo) => {
+  const signUp = async ({ email, password }: SignUpInfo): Promise<SignUpResult> => {
     const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -64,31 +69,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { success: true };
   }
 
-  const finishOnboarding = async ({ username, firstName, middleName, lastName, aboutMe }: FinishOnboardingInfo) => {
-    console.log("Inside finishOnboarding")
-
-    // Update all user information
-    const updateSuccess = await UserDB.updateUser(user!.id, {
-      username,
-      firstName,
-      middleName,
-      lastName,
-      aboutMe,
-      onboardingCompleted: true
-    });
-
-    if (!updateSuccess) {
-      return { success: false, error: "Could not update user" }
-    }
-
-    console.log("Updated user")
-
-    // IMPLEMENT!!!!!
-    // UPDATE USER PRIVACY SETTINGS
-
-    // Update app_metadata
+  const finishOnboarding = async (formValues: FinishOnboardingInfo, privacySettings: UserPrivacySettings) => {
     const { error } = await supabase.functions.invoke("finish-onboarding", {
-      body: { userId: user!.id }
+      body: {
+        userId: user!.id,
+        formValues,
+        privacySettings
+      }
     });
 
     if (error instanceof FunctionsHttpError) {

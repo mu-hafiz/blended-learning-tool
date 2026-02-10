@@ -36,7 +36,7 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
         return;
       }
   
-      toast.loading("Creating account...", {
+      toast.loading("Signing you up...", {
         id: toastId
       });
   
@@ -46,7 +46,6 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
         toast.success("OTP Successful!", {
           id: toastId
         });
-        navigate('/account/onboarding');
       } else {
         if (signUpResult.error.code === "user_already_exists") {
           toast.error("An account with that email already exists", {

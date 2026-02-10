@@ -16,20 +16,20 @@ type PopupItemProps = {
 }
 
 const Navbar = () => {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
   const { unread } = useNotif();
 
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: PointerEvent) => {
       if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
         setShowPopup(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => document.removeEventListener("pointerdown", handleClickOutside);
   }, []);
 
   const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
@@ -81,8 +81,8 @@ const Navbar = () => {
           <Tooltip text="Notifications" position="bottom" offset={8}>
             <Link to="/notifications">
               <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              {unread && <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
             </Link>
-            {unread && <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
           </Tooltip>
         </div>
         <div ref={popupRef}>
@@ -91,7 +91,10 @@ const Navbar = () => {
               <FaUser
                 cursor="pointer"
                 size={26}
-                onClick={() => setShowPopup(true)}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  setShowPopup(true);
+                }}
                 className="text-primary-button rounded-lg hover:text-primary-button-hover transition-colors duration-500"
               />
             </Tooltip>

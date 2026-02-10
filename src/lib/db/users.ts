@@ -37,7 +37,7 @@ async function updateUser(userId: string, {username, firstName, middleName, last
 
   if (error) {
     console.error("Could not update user's profile information: ", error);
-    return false;
+    throw new Error("Could not update user's profile information: ", error);
   }
 
   return true;
@@ -50,7 +50,7 @@ async function deleteUser(userId: string) {
     
   if (deleteResult.error) {
     console.log("Error deleting account: ", deleteResult.error);
-    return false;
+    throw new Error("Error deleting account: ", deleteResult.error);
   }
 
   return true;
@@ -77,7 +77,7 @@ async function setUserTheme(userId: string, themeId: string) {
 
   if (error) {
     console.error("Error setting theme: ", error);
-    return false;
+    throw new Error("Error setting theme: ", error);
   }
 
   return true;

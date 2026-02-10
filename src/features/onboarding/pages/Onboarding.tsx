@@ -7,11 +7,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@providers/AuthProvider";
 import { toast } from "@lib/toast";
+import type { UserPrivacySettings } from "@models/tables";
+import UserPrivacyDB from '@lib/db/userPrivacy';
 
 const routes = ["profile", "courses", "privacy", "preferences"]
 
 const Onboarding = () => {
-  const { signOut, finishOnboarding } = useAuth();
+  const { user, signOut, finishOnboarding } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const step = routes.findIndex((route) => location.pathname.includes(route)) + 1;
@@ -27,12 +29,25 @@ const Onboarding = () => {
       aboutMe: ""
     }
   });
+  const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const getPrivacySettings = async () => {
+      const data = await UserPrivacyDB.getPrivacySettings(user.id);
+      const { user_id, created_at, ...privacyData } = data;
+      setPrivacySettings(privacyData);
+    }
+
+    getPrivacySettings();
+  }, [user]);
 
   useEffect(() => {
     if (step > maxStep) {
       navigate(`/account/onboarding/${routes[maxStep-1]}`, { replace: true })
     }
-  }, [step, maxStep, navigate])
+  }, [step, maxStep, navigate]);
 
   const goToNextStep = async () => {
     setMaxStep((prev) => Math.max(prev, step + 1));
@@ -40,8 +55,14 @@ const Onboarding = () => {
       console.log("Starting account creation")
       setButtonClicked(true);
       const toastId = toast.loading("Creating account...");
-      const { success, error } = await finishOnboarding(profileForm.getValues());
+      if (!privacySettings) {
+        toast.error("Something went wrong, please try again", {
+          id: toastId
+        });
+        return;
+      }
 
+      const { success, error } = await finishOnboarding(profileForm.getValues(), privacySettings);
       if (success) {
         toast.success("Account created!", {
           id: toastId
@@ -67,7 +88,8 @@ const Onboarding = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center">
+      <h1 className="flex mb-3">Create your account!</h1>
       <div className="bg-surface-primary rounded-2xl w-130 p-6">
         <div className="grid grid-cols-3 items-center mb-4">
           <div>
@@ -90,7 +112,9 @@ const Onboarding = () => {
             buttonClicked,
             setButtonClicked,
             goToNextStep,
-            profileForm
+            profileForm,
+            privacySettings,
+            setPrivacySettings
           }}
         />
         <div className="grid grid-cols-3 mt-6">

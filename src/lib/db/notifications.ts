@@ -40,7 +40,7 @@ async function updateReadStatus(notifId: string, read: boolean) {
   
   if (error) {
     console.log("Error marking notification as read: ", error);
-    return false;
+    throw new Error("Error marking notification as read: ", error);
   }
 
   return true;
@@ -53,7 +53,7 @@ async function markAllAsRead() {
   
   if (error) {
     console.log("Error marking all notifications as read: ", error);
-    return false;
+    throw new Error("Error marking all notifications as read: ", error);
   }
 
   return true;
