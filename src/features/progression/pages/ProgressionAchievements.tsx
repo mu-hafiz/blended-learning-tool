@@ -1,34 +1,15 @@
-import { useEffect, useState } from "react";
 import AchievementItem from "../components/AchievementItem";
-import AchievementsDB from "@lib/db/achievements";
-import UnlockedAchievementsDB from "@lib/db/unlockedAchievements";
-import type { Achievement } from "@models/tables";
-import { useAuth } from "@providers/AuthProvider";
+import { useOutletContext } from "react-router-dom";
+import type { ProgressionOutletContext } from "../types/stateTypes";
 
 const ProgressionAchievements = () => {
-  const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[]>([]);
-  const [lockedAchievements, setLockedAchievements] = useState<Achievement[]>([]);
-  const { user } = useAuth();
-  
-  useEffect(() => {
-    if (!user) return;
-
-    const getAchievements = async () => {
-      const achievements = await AchievementsDB.getAchievements();
-      const unlockedAchievements = await UnlockedAchievementsDB.getUnlockedAchievements(user.id);
-      const unlockedIds = unlockedAchievements.map(achievement => achievement.id);
-      const lockedAchievements = achievements.filter(achievement => !unlockedIds.includes(achievement.id));
-      setUnlockedAchievements(unlockedAchievements);
-      setLockedAchievements(lockedAchievements);
-    }
-    
-    getAchievements();
-  }, [user])
+  const { unlockedAchievements, lockedAchievements } = useOutletContext<ProgressionOutletContext>();
 
   return (
     <>
       <h2>Unlocked</h2>
-      <hr/>
+      <p className="subtitle">What have you accomplished?</p>
+      <hr className="divider"/>
       <div className="grid grid-cols-4 gap-4">
         {unlockedAchievements?.map(achievement => (
           <AchievementItem
@@ -42,8 +23,9 @@ const ProgressionAchievements = () => {
         ))}
       </div>
 
-      <h2>Locked</h2>
-      <hr/>
+      <h2 className="mt-5">Locked</h2>
+      <p className="subtitle">What will you unlock next?</p>
+      <hr className="divider"/>
       <div className="grid grid-cols-4 gap-4">
         {lockedAchievements?.map(achievement => (
           <AchievementItem

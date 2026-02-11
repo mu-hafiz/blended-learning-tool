@@ -9,6 +9,7 @@ import { useAuth } from "@providers/AuthProvider";
 import { toast } from "@lib/toast";
 import type { UserPrivacySettings } from "@models/tables";
 import UserPrivacyDB from '@lib/db/userPrivacy';
+import { tryCatch } from "@utils/tryCatch";
 
 const routes = ["profile", "courses", "privacy", "preferences"]
 
@@ -35,7 +36,11 @@ const Onboarding = () => {
     if (!user) return;
 
     const getPrivacySettings = async () => {
-      const data = await UserPrivacyDB.getPrivacySettings(user.id);
+      const { data, error } = await tryCatch(UserPrivacyDB.getPrivacySettings(user.id));
+      if (error) {
+        toast.error("Could not get privacy settings, please try again later");
+        return;
+      }
       const { user_id, created_at, ...privacyData } = data;
       setPrivacySettings(privacyData);
     }
@@ -62,19 +67,20 @@ const Onboarding = () => {
         return;
       }
 
-      const { success, error } = await finishOnboarding(profileForm.getValues(), privacySettings);
-      if (success) {
-        toast.success("Account created!", {
-          id: toastId
-        });
-      } else {
+      const { data: result, error } = await tryCatch(finishOnboarding(profileForm.getValues(), privacySettings));
+      if (error || !result.success) {
         toast.error("Something went wrong, please try again", {
           id: toastId
         });
         console.log("An error occured")
         console.log(error);
         setButtonClicked(false);
+        return;
       }
+
+      toast.success("Account created!", {
+        id: toastId
+      });
 
     } else {
       navigate(`/account/onboarding/${routes[step]}`);

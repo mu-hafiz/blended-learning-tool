@@ -4,10 +4,10 @@ import ThemeItem from "@components/ThemeItem";
 const AccountPreferences = () => {
   const { lightThemes, darkThemes, unlockedThemeIds } = useTheme();
   return (
-    <div>
+    <>
       <h2>Themes</h2>
       <p className="subtitle">Choose the perfect theme for you!</p>
-      <hr className="my-3"/>
+      <hr className="divider"/>
       <h3 className="mb-3">Light Mode</h3>
       <div className="flex gap-3">
         {lightThemes.map((theme, idx) => {
@@ -22,7 +22,7 @@ const AccountPreferences = () => {
           return <ThemeItem key={idx} theme={theme} locked={isLocked}/>
         })}
       </div>
-    </div>
+    </>
   );
 };
 

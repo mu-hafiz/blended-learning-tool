@@ -366,6 +366,7 @@ export type Database = {
         Row: {
           about_me: string | null
           created_at: string
+          daily_check_in: boolean
           deleted: boolean
           first_name: string | null
           last_name: string | null
@@ -381,6 +382,7 @@ export type Database = {
         Insert: {
           about_me?: string | null
           created_at?: string
+          daily_check_in?: boolean
           deleted?: boolean
           first_name?: string | null
           last_name?: string | null
@@ -396,6 +398,7 @@ export type Database = {
         Update: {
           about_me?: string | null
           created_at?: string
+          daily_check_in?: boolean
           deleted?: boolean
           first_name?: string | null
           last_name?: string | null
@@ -431,7 +434,8 @@ export type Database = {
         Args: { p_amount: number; p_user_id: string }
         Returns: undefined
       }
-      initialise_user: { Args: { user_id: string }; Returns: undefined }
+      daily_check_in: { Args: { p_user_id: string }; Returns: undefined }
+      daily_check_in_reset: { Args: never; Returns: undefined }
     }
     Enums: {
       achievement_type:

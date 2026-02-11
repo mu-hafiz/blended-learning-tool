@@ -7,6 +7,7 @@ import { type ProfileValues } from "../types/formSchemas";
 import UsersDB from "@lib/db/users";
 import { useOutletContext } from "react-router-dom";
 import { type AccountOutletContext } from "../types/stateTypes";
+import { tryCatch } from "@utils/tryCatch";
 
 const AccountProfile = () => {
   const { profileForm, user } = useOutletContext<AccountOutletContext>();
@@ -30,8 +31,12 @@ const AccountProfile = () => {
       }
       await new Promise(resolve => setTimeout(resolve, 10));
       if (!cancelled) {
-        const valid = await UsersDB.checkUsername(debouncedUsername.value);
-        setValidUsername(valid);
+        const { data: valid, error } = await tryCatch(UsersDB.checkUsername(debouncedUsername.value));
+        if (error) {
+          toast.error("There was an error checking username, please try again later");
+        } else {
+          setValidUsername(valid);
+        }
       }
     };
 
@@ -52,9 +57,9 @@ const AccountProfile = () => {
     }
 
     const toastId = toast.loading("Updating profile...");
-    const success = await UsersDB.updateUser(user.id, data);
+    const { error } = await tryCatch(UsersDB.updateUser(user.id, data));
 
-    if (!success) {
+    if (error) {
       toast.error("Could not update profile, please try again later.", {
         id: toastId
       });
@@ -70,8 +75,8 @@ const AccountProfile = () => {
   return (
     <form onSubmit={handleSubmit(handleProfileUpdate)}>
       <h2>Basic Info</h2>
-      <p className="text-secondary-text">This information will be displayed on your profile (depending on your privacy settings)</p>
-      <hr className="border-surface-secondary my-3"/>
+      <p className="subtitle">This information will be displayed on your profile (depending on your privacy settings)</p>
+      <hr className="divider"/>
       <RHFTextInput
         name="username"
         control={control}

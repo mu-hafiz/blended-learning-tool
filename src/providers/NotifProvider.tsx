@@ -6,6 +6,7 @@ import { toast } from "@lib/toast";
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 import notifDB from "@lib/db/notifications";
 import { useNavigate } from "react-router-dom";
+import { tryCatch } from "@utils/tryCatch";
 
 type NotifContextType = {
   notifications: Notification[];
@@ -34,7 +35,11 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user) return;
 
     const loadNotifications = async () => {
-      const notifications = await notifDB.getNotifications();
+      const { data: notifications, error } = await tryCatch(notifDB.getNotifications());
+      if (error) {
+        toast.error("Could not get your notifications");
+        return;
+      }
       setNotifications(notifications);
     };
 
@@ -109,19 +114,19 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateRead = async ({ notifId, read }: UpdateReadArgs) => {
-    const success = await notifDB.updateReadStatus(notifId, read);
-    if (!success) {
-      toast.error("There was an error, please try again later.");
+    const { error } = await tryCatch(notifDB.updateReadStatus(notifId, read));
+    if (error) {
+      toast.error("Could not update notification, please try again later.");
     }
   }
 
   const markAllRead = async () => {
-    const success = notifDB.markAllAsRead();
-    if (!success) {
-      toast.error("There was an error, please try again later.");
-    } else {
-      setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
-    } 
+    const { error } = await tryCatch(notifDB.markAllAsRead());
+    if (error) {
+      toast.error("Could not mark all as read, please try again later.");
+      return;
+    }
+    setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
   }
 
   return (

@@ -11,7 +11,7 @@ const Leaderboards = () => {
           </div>
           <Button>Friends</Button>
         </div>
-        <hr/>
+        <hr className="divider"/>
         <ul>
           
         </ul>

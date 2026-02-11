@@ -1,6 +1,7 @@
 import { useNotif } from "@providers/NotifProvider";
 import { Button, PageContainer } from "@components";
 import NotificationItem from "../components/NotificationItem";
+import { ImDrawer2 } from "react-icons/im";
 
 const Notifications = () => {
   const { notifications, markAllRead } = useNotif();
@@ -21,11 +22,20 @@ const Notifications = () => {
           Mark all as read
         </Button>
       </div>
-      <ul className="basic-container rounded-t-none">
-        {notifications.map((notif) => (
-          <NotificationItem key={notif.id} notif={notif} />
-        ))}
-      </ul>
+      {notifications.length > 0 ? (
+        <ul className="basic-container rounded-t-none">
+          {notifications.map((notif) => (
+            <NotificationItem key={notif.id} notif={notif} />
+          ))}
+        </ul>
+      ) : (
+        <div className="flex items-center justify-center basic-container rounded-t-none pb-15">
+          <ImDrawer2 size={100}/>
+          <h1 className="mt-5">No notifications yet...</h1>
+          <h2>Check back again later!</h2>
+        </div>
+      )}
+
     </PageContainer>
   );
 }

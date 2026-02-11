@@ -8,6 +8,11 @@ import { Link } from "react-router-dom"
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import Tooltip from "@components/Tooltip";
+import UserDB from "@lib/db/users";
+import { tryCatch, tryCatchRpc } from "@utils/tryCatch";
+import { toast } from "@lib/toast";
+import Button from "./Button";
+import { supabase } from "@lib/supabaseClient";
 
 type PopupItemProps = {
   title: string;
@@ -15,12 +20,48 @@ type PopupItemProps = {
   onClick: () => void;
 }
 
+const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
+  const popup = (
+    <p
+      className="border-b border-b-surface-secondary hover:border-b-surface-tertiary hover:-translate-y-0.5 px-0.5 pb-1 -mb-1 transition duration-300 cursor-pointer font-medium"
+      onClick={() => onClick()}
+    >
+      {title}
+    </p>
+  )
+  return route ? <Link to={route}>{popup}</Link> : popup;
+};
+
 const Navbar = () => {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const { unread } = useNotif();
 
+  const [checkedIn, setCheckedIn] = useState(true);
+  const [checkingIn, setCheckingIn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+
+  const popupItems = [
+    { title: "View Profile", route: `/profile` },
+    { title: "Friends", route: "/friends" },
+    { title: "Account Settings", route: "/account" },
+    { title: "Sign Out", onClick: signOut },
+  ]
+
+  useEffect(() => {
+    if (!user) return;
+
+    const getUser = async () => {
+      const { data: userInfo, error } = await tryCatch(UserDB.getUser(user.id));
+      if (error) {
+        toast.error("Could not get user info");
+        return;
+      }
+      setCheckedIn(userInfo.daily_check_in);
+    };
+
+    getUser();
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event: PointerEvent) => {
@@ -32,28 +73,24 @@ const Navbar = () => {
     return () => document.removeEventListener("pointerdown", handleClickOutside);
   }, []);
 
-  const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
-    const popup = (
-      <p
-        className="border-b border-b-surface-secondary hover:border-b-surface-tertiary hover:-translate-y-0.5 px-0.5 pb-1 -mb-1 transition duration-300 cursor-pointer font-medium"
-        onClick={() => onClick()}
-      >
-        {title}
-      </p>
-    )
-    return route ? <Link to={route}>{popup}</Link> : popup;
+  const checkIn = async () => {
+    if (!user) return;
+    setCheckingIn(true);
+    const { error } = await tryCatchRpc(() => supabase.rpc('daily_check_in', {
+      p_user_id: user.id
+    }));
+    if (error) {
+      toast.error("Could not check in, please try again later");
+      return;
+    }
+    toast.success("You have checked in! +50xp");
+    setCheckedIn(true);
+    setCheckingIn(false);
   };
-
-  const popupItems = [
-    { title: "View Profile", route: `/profile` },
-    { title: "Friends", route: "/friends" },
-    { title: "Account Settings", route: "/account" },
-    { title: "Sign Out", onClick: signOut },
-  ]
 
   return (
     <nav className="bg-surface-primary w-full h-12 flex justify-between sticky top-0 px-6 z-50">
-      <div className="flex items-center">
+      <div className="flex items-center gap-5">
         <div className="raise rounded-lg">
           <Tooltip text="Home" position="bottom" offset={8}>
             <Link to="/dashboard">
@@ -61,6 +98,14 @@ const Navbar = () => {
             </Link>
           </Tooltip>
         </div>
+        {!checkedIn && (
+          <Button
+            disabled={checkingIn}
+            onClick={checkIn}
+          >
+            Claim your daily check-in!
+          </Button>
+        )}
       </div>
       <div className="flex items-center gap-4">
         <div className="raise rounded-lg">

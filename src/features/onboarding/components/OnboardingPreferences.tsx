@@ -19,7 +19,7 @@ const OnboardingPreferences = () => {
       <h2>Themes</h2>
       <p className="subtitle">Choose the perfect theme for you!</p>
       <p className="subtitle">As you progress, you will unlock more themes to use.</p>
-      <hr className="my-3"/>
+      <hr className="divider"/>
       <h3 className="mb-3">Light Mode</h3>
       <div className="flex gap-3">
         {lightThemes.map((theme, idx) => {

@@ -15,6 +15,9 @@ const notifIcons: Record<string, JSX.Element> = {
 
 const NotificationItem = ({ notif }: { notif: Notification }) => {
   const { updateRead } = useNotif();
+  const date = new Date(notif.created_at);
+  const notifDate = date.toLocaleDateString("en-GB");
+  const notifTime = date.toLocaleTimeString("en-GB");
 
   const icon = notifIcons[notif.type] ?? <div>Test</div>
   const style = notif.read
@@ -33,7 +36,11 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
           <p>{notif.description}</p>
         </div>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center">
+          <p className="subtitle">{notifDate}</p>
+          <p className="subtitle">{notifTime}</p>
+        </div>
         <Button
           variant="secondary"
           onClick={() => updateRead({ notifId: notif.id, read: !notif.read })}

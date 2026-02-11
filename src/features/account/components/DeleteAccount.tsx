@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useAuth } from "@providers/AuthProvider";
 import usersDB from "@lib/db/users";
+import { tryCatch } from "@utils/tryCatch";
 
 const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
   const { login, signOut } = useAuth();
@@ -49,8 +50,8 @@ const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
         return;
       }
     
-      const success = await usersDB.deleteUser(user.id);
-      if (!success) {
+      const { error } = await tryCatch(usersDB.deleteUser(user.id));
+      if (error) {
         toast.error("Could not delete your account, please try again later", {
           id: toastId
         });
@@ -67,8 +68,8 @@ const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
     <section>
       <form onSubmit={handleDeleteAccount}>
         <h2>DANGER ZONE (Delete Account)</h2>
-        <p className="text-secondary-text">This will wipe your achievements, stats, and other data</p>
-        <hr className="border-surface-secondary my-3"/>
+        <p className="subtitle">This will wipe your achievements, stats, and other data</p>
+        <hr className="divider"/>
         <TextInput
           type="password"
           title="Password"

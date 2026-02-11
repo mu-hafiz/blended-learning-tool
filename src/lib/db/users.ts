@@ -98,4 +98,17 @@ async function checkUsername(username: string) {
   return data && data.length === 0
 }
 
-export default { getUser, updateUser, deleteUser, getUserTheme, setUserTheme, checkUsername };
+async function dailyCheckIn(userId: string) {
+  const { error } = await supabase.from('users')
+    .update({ daily_check_in: true })
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error("Error updating user's daily check in", error);
+    throw new Error("Error updating user's daily check in", error); 
+  }
+
+  return true;
+}
+
+export default { getUser, updateUser, deleteUser, getUserTheme, setUserTheme, checkUsername, dailyCheckIn };

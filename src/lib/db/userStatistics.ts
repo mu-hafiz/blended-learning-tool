@@ -2,7 +2,7 @@ import { supabase } from "@lib/supabaseClient";
 
 async function getStatistics(userId: string) {
   const { data, error } = await supabase.from('user_statistics')
-    .select('*, course_id(*)')
+    .select('*, course:course_id(*)')
     .eq('user_id', userId);
 
   if (error) {

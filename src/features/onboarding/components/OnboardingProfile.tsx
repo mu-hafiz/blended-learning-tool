@@ -3,6 +3,8 @@ import { useOutletContext } from "react-router-dom";
 import { type OnboardingOutletContext } from "../types/stateTypes";
 import { RHFTextInput } from "@components";
 import UserDB from "@lib/db/users";
+import { tryCatch } from "@utils/tryCatch";
+import { toast } from "@lib/toast";
 
 const OnboardingProfile = () => {
   const { buttonClicked, setButtonClicked, goToNextStep, profileForm } = useOutletContext<OnboardingOutletContext>();
@@ -15,9 +17,11 @@ const OnboardingProfile = () => {
       if (!formIsValid) return;
 
       // Check username
-      const usernameNotTaken = await UserDB.checkUsername(profileForm.getValues().username);
-
-      console.log(`Username valid: ${usernameNotTaken}`)
+      const { data: usernameNotTaken, error } = await tryCatch(UserDB.checkUsername(profileForm.getValues().username));
+      if (error) {
+        toast.error("Could not check username, please try again later");
+        return;
+      }
 
       if (!usernameNotTaken) {
         profileForm.setError("username", {

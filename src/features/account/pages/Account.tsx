@@ -37,14 +37,22 @@ const Account = () => {
     if (!user) return;
 
     const getPrivacySettings = async () => {
-      const data = await UserPrivacyDB.getPrivacySettings(user.id);
+      const { data, error } = await tryCatch(UserPrivacyDB.getPrivacySettings(user.id));
+      if (error) {
+        toast.error("Could not get your privacy settings, please try again later");
+        return;
+      };
       const { user_id, created_at, ...privacyData } = data;
       setPrivacySettings(privacyData);
       setPreviousPrivacySettings(privacyData);
     }
 
     const fetchUserInfo = async () => {
-      const data = await UsersDB.getUser(user.id);
+      const { data, error } = await tryCatch(UsersDB.getUser(user.id));
+      if (error) {
+        toast.error("Could not get user information, please try again later");
+        return;
+      };
       profileForm.reset({
         username: data.username,
         firstName: data.first_name!,

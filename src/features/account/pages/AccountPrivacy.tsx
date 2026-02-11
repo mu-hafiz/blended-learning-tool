@@ -30,10 +30,10 @@ const AccountPrivacy = () => {
   }
 
   return (
-    <div>
+    <>
       <h2>Privacy Settings</h2>
       <p className="subtitle">Tailor your account privacy and visibility</p>
-      <hr className="my-3"/>
+      <hr className="divider"/>
       {privacySettings && (
         (Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
           ([key, value]) => (
@@ -54,7 +54,7 @@ const AccountPrivacy = () => {
       >
         Set Options
       </Button>
-    </div>
+    </>
   );
 };
 

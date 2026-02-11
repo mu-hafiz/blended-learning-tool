@@ -5,6 +5,7 @@ import type { Theme } from "@models/tables";
 import usersDB from "@lib/db/users";
 import unlockedThemesDB from "@lib/db/unlockedThemes";
 import themesDB from "@lib/db/themes";
+import { tryCatch } from "@utils/tryCatch";
 
 type ThemeContextType = {
   currentTheme: string | null
@@ -25,7 +26,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const loadAllThemes = async () => {
-      const themes = await themesDB.getThemes();
+      const { data: themes, error } = await tryCatch(themesDB.getThemes());
+      if (error) {
+        toast.error("Could not load themes");
+        return;
+      }
       const light = themes.filter(theme => theme.type === 'light');
       const dark = themes.filter(theme => theme.type === 'dark');
       setLightThemes(light);
@@ -39,13 +44,21 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user) return;
 
     const loadUserTheme = async () => {
-      const dataTheme = await usersDB.getUserTheme(user!.id);
+      const { data: dataTheme, error } = await tryCatch(usersDB.getUserTheme(user!.id));
+      if (error) {
+        toast.error("Could not load your theme");
+        return;
+      }
       const loadedTheme = dataTheme || localStorage.getItem("theme") || "light-brand";
       setCurrentTheme(loadedTheme);
     }
 
     const getUserUnlockedThemes = async () => {
-      const themes = await unlockedThemesDB.getUserUnlockedThemes(user.id);
+      const { data: themes, error } = await tryCatch(unlockedThemesDB.getUserUnlockedThemes(user.id));
+      if (error) {
+        toast.error("Could not load your unlocked themes");
+        return;
+      }
       setUnlockedThemeIds(themes.map(item => item.theme_id.id));
     }
 
@@ -64,9 +77,9 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setCurrentTheme(theme.data_theme);
 
     if (user) {
-      const success = await usersDB.setUserTheme(user.id, theme.id);
-      if (!success) {
-        toast.error("Could not set your theme, please try again later.");
+      const { error } = await tryCatch(usersDB.setUserTheme(user.id, theme.id));
+      if (error) {
+        toast.error("Could not set your theme, please try again later");
       }
     }
 

@@ -1,37 +1,18 @@
 import { useState, useEffect } from "react";
-import UserStatsDB from "@lib/db/userStatistics";
 import type { StatisticsWithCourse } from "@models/tables";
 import { Button } from "@components";
-import { useAuth } from "@providers/AuthProvider";
 import { toast } from "@lib/toast";
+import { useOutletContext } from "react-router-dom";
+import type { ProgressionOutletContext } from "../types/stateTypes";
 
 const ProgressionStatistics = () => {
-  const [accumulatedStatistics, setAccumulatedStatistics] = useState<Record<string, number>>();
-  const [allStatistics, setAllStatistics] = useState<StatisticsWithCourse[]>([]);
+  const { accumulatedStatistics, allStatistics } = useOutletContext<ProgressionOutletContext>();
   const [displayStatistics, setDisplayStatistics] = useState<StatisticsWithCourse | Record<string, number> | null>(null);
   const [filterList, setFilterList] = useState<string[]>();
   const [filter, setFilter] = useState<string | null>("All");
-  const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) return;
-
-    const getStatistics = async () => {
-      const statistics = await UserStatsDB.getStatistics(user.id);
-      setAllStatistics(statistics);
-    }
-
-    const getAccumulatedStatistics = async () => {
-      const statistics = await UserStatsDB.getAccumulatedStats(user.id);
-      setAccumulatedStatistics(statistics);
-    }
-
-    getStatistics();
-    getAccumulatedStatistics();
-  }, [user]);
-
-  useEffect(() => {
-    const courseCodes = allStatistics.map((row) => row.course_id?.code || null);
+    const courseCodes = allStatistics.map((row) => row.course?.code || null);
     const filterList = courseCodes.filter(code => code !== null);
     filterList.push('Misc.', 'All');
 
@@ -47,8 +28,8 @@ const ProgressionStatistics = () => {
 
     if (allStatistics.length === 0) return;
     const filteredStatistics = allStatistics.find((row) => {
-      if (filter === null) return row.course_id === null;
-      return row.course_id?.code === filter
+      if (filter === null) return row.course === null;
+      return row.course?.code === filter
     });
     if (!filteredStatistics) {
       toast.error('Something went wrong with the filter, please try again later');
@@ -62,16 +43,16 @@ const ProgressionStatistics = () => {
       <div className="flex">
         <Button className="min-w-20">{filter}</Button>
       </div>
-      <h2>Quizzes</h2>
-      <hr/>
+      <h2 className="mt-5">Quizzes</h2>
+      <hr className="divider"/>
 
       <h3>Quizzes Completed: {displayStatistics?.quizzes_completed || 0}</h3>
       <h3>Quizzes Perfected: {displayStatistics?.quizzes_perfected || 0}</h3>
       <h3>Quizzes Created: {displayStatistics?.quizzes_created || 0}</h3>
       <h3>Questions Correct: {displayStatistics?.questions_correct || 0}</h3>
 
-      <h2>Flashcards</h2>
-      <hr/>
+      <h2 className="mt-5">Flashcards</h2>
+      <hr className="divider"/>
 
       <h3>Flashcard Sets Completed: {displayStatistics?.flashcard_sets_completed || 0}</h3>
       <h3>Flashcard Sets Created: {displayStatistics?.flashcard_sets_created || 0}</h3>

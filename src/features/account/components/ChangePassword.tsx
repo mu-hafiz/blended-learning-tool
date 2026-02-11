@@ -56,8 +56,8 @@ const ChangePassword = ({ user }: { user: User | null | undefined }) => {
     <section>
       <form onSubmit={handleSubmit(handlePasswordChange)}>
         <h2>Change Password</h2>
-        <p className="text-secondary-text">To change your password, enter your old and new password</p>
-        <hr className="border-surface-secondary my-3"/>
+        <p className="subtitle">To change your password, enter your old and new password</p>
+        <hr className="divider"/>
         <RHFTextInput
           name="oldPassword"
           control={control}

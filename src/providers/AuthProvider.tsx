@@ -15,15 +15,15 @@ type FinishOnboardingInfo = {
   lastName: string,
   aboutMe?: string,
 }
-type SignUpResult =
+type SupabaseResult =
   | { success: true; error?: undefined; }
   | { success: false; error: AuthError; };
 
 type AuthContextType = {
   user: User | null | undefined;
-  signUp: ({ email, password }: SignUpInfo) => Promise<SignUpResult>;
+  signUp: ({ email, password }: SignUpInfo) => Promise<SupabaseResult>;
+  login: ({ email, password }: SignUpInfo) => Promise<SupabaseResult>;
   finishOnboarding: (formValues: FinishOnboardingInfo, privacySettings: UserPrivacySettings) => Promise<{ success: boolean; error?: any }>;
-  login: (info: SignUpInfo) => Promise<{ success: boolean; error?: any }>;
   signOut: () => Promise<{ success: boolean; error?: any }>;
 }
 
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const signUp = async ({ email, password }: SignUpInfo): Promise<SignUpResult> => {
+  const signUp = async ({ email, password }: SignUpInfo): Promise<SupabaseResult> => {
     const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -63,6 +63,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         status: error.status,
         name: error.name,
       });
+      return { success: false, error };
+    }
+
+    return { success: true };
+  }
+
+  const login = async ({ email, password }: SignUpInfo): Promise<SupabaseResult> => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.error('Error signing in: ', error);
+      return { success: false, error };
+    }
+
+    return { success: true };
+  }
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Error signing out: ", error);
       return { success: false, error };
     }
 
@@ -86,31 +111,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Refresh the user's session so app_metadata updates
     await supabase.auth.refreshSession();
-
-    return { success: true };
-  }
-
-  const login = async ({ email, password }: SignUpInfo) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      console.error('Error signing in: ', error);
-      return { success: false, error };
-    }
-
-    return { success: true };
-  }
-
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.error("Error signing out: ", error);
-      return { success: false, error };
-    }
 
     return { success: true };
   }
