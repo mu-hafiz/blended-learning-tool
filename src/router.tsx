@@ -4,7 +4,6 @@ import Homepage from "@pages/Homepage";
 import SignUp from "@features/signUp/pages/SignUp";
 import Onboarding from "@features/onboarding/pages/Onboarding";
 import OnboardingProfile from "@features/onboarding/components/OnboardingProfile";
-import OnboardingCourses from "@features/onboarding/components/OnboardingCourses";
 import OnboardingPrivacy from "@features/onboarding/components/OnboardingPrivacy";
 import OnboardingPreferences from "@features/onboarding/components/OnboardingPreferences";
 import { ProtectedRoutes, AnonymousRoutes, OnboardingRoutes } from "@components";
@@ -22,7 +21,10 @@ import ProgressionLevel from "@features/progression/pages/ProgressionLevel";
 import ProgressionAchievements from "@features/progression/pages/ProgressionAchievements";
 import ProgressionStatistics from "@features/progression/pages/ProgressionStatistics";
 import Profile from "@features/profile/pages/Profile";
-import Friends from "@pages/Friends";
+import Friends from "@features/friends/pages/Friends";
+import FriendsList from "@features/friends/pages/FriendsList";
+import FriendsIncoming from "@features/friends/pages/FriendsIncoming";
+import FriendsOutgoing from "@features/friends/pages/FriendsOutgoing";
 import Leaderboards from "@features/leaderboards/pages/Leaderboards";
 
 export const router = createBrowserRouter([
@@ -39,7 +41,6 @@ export const router = createBrowserRouter([
       { path: "/account/onboarding", element: <Onboarding />, children: [
         { index: true, element: <Navigate to="profile" replace /> },
         { path: "profile", element: <OnboardingProfile /> },
-        { path: "courses", element: <OnboardingCourses /> },
         { path: "privacy", element: <OnboardingPrivacy /> },
         { path: "preferences", element: <OnboardingPreferences /> },
       ]},
@@ -48,7 +49,12 @@ export const router = createBrowserRouter([
     { element: <ProtectedRoutes />, children: [
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/notifications", element: <Notifications /> },
-      { path: "/friends", element: <Friends /> },
+      { path: "/friends", element: <Friends />, children: [
+        { index: true, element: <Navigate to="list" replace /> },
+        { path: "list", element: <FriendsList /> },
+        { path: "incoming", element: <FriendsIncoming /> },
+        { path: "outgoing", element: <FriendsOutgoing /> }
+      ]},
       { path: "/account", element: <Account />, children: [
         { index: true, element: <Navigate to="profile" replace /> },
         { path: "profile", element: <AccountProfile /> },

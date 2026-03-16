@@ -11,7 +11,7 @@ import type { UserPrivacySettings } from "@models/tables";
 import UserPrivacyDB from '@lib/db/userPrivacy';
 import { tryCatch } from "@utils/tryCatch";
 
-const routes = ["profile", "courses", "privacy", "preferences"]
+const routes = ["profile", "privacy", "preferences"]
 
 const Onboarding = () => {
   const { user, signOut, finishOnboarding } = useAuth();
