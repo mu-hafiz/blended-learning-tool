@@ -3,6 +3,7 @@ import RequestsDB from "@lib/db/friendRequests";
 import { toast } from "@lib/toast";
 import { type User } from "@models/tables";
 import { Button } from "@components";
+import { HiInboxArrowDown } from "react-icons/hi2";
 
 type IgnoredRequestsProps = {
   onClose: () => void;
@@ -35,27 +36,34 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
     <div className="w-100 h-100 flex flex-col">
       <h2 className="text-center mb-3">Ignored Friend Requests</h2>
       <hr className="divider mt-5"/>
-      <ul className="mt-4 gap-2 flex flex-col flex-1 overflow-auto">
-        {ignoredUsers.map(({user_id: senderId, username}) => {
-          return (
-            <div
-              className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
-              key={senderId}
-            >
-              <div className="flex flex-row items-center gap-2">
-                <div className="bg-black rounded-full h-10 w-10"/>
-                <p>{username}</p>
-              </div>
-              <Button
-                variant="primary"
-                onClick={() => stopIgnoring(senderId, userId)}
+      {ignoredUsers.length === 0 ? (
+        <div className="h-full flex flex-col items-center justify-center">
+          <HiInboxArrowDown size={100}/>
+          <h2 className="mt-3">No ignored requests here...</h2>
+        </div>
+      ) : (
+        <ul className="mt-4 gap-2 flex flex-col flex-1 overflow-auto">
+          {ignoredUsers.map(({user_id: senderId, username}) => {
+            return (
+              <div
+                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
+                key={senderId}
               >
-                Remove from ignored
-              </Button>
-            </div>
-          )
-        })}
-      </ul>
+                <div className="flex flex-row items-center gap-2">
+                  <div className="bg-black rounded-full h-10 w-10"/>
+                  <p>{username}</p>
+                </div>
+                <Button
+                  variant="primary"
+                  onClick={() => stopIgnoring(senderId, userId)}
+                >
+                  Remove from ignored
+                </Button>
+              </div>
+            )
+          })}
+        </ul>
+      )}
     </div>
   );
 };

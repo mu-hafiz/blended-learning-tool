@@ -88,7 +88,7 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
       />
       <hr className="divider mt-5"/>
       {username === "" && (
-        <div className="mt-10 flex flex-col items-center justify-center">
+        <div className="h-full flex flex-col items-center justify-center">
           <MdPersonAdd size={80} />
           <h2 className="mt-3">Search for users by their username</h2>
         </div>

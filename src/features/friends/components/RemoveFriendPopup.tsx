@@ -39,13 +39,12 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
     <div className="w-100 h-100 flex flex-col">
       <h2 className="text-center mb-3">Remove Friend</h2>
       <hr className="divider mt-5"/>
-      {friendsList.length === 0 && (
-        <div className="flex flex-col items-center justify-center h-full pb-15">
+      {friendsList.length === 0 ? (
+        <div className="h-full flex flex-col items-center justify-center">
           <MdPersonAddDisabled size={100}/>
           <h2 className="mt-3">No friends to remove...</h2>
         </div>
-      )}
-      {friendsList.length > 0 && (
+      ) : (
         <ul className="mt-4 gap-2 flex flex-col flex-1 overflow-auto">
           {friendsList.map(({ friend }) => {
             return (

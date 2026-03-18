@@ -23,7 +23,7 @@ const Notifications = () => {
         </Button>
       </div>
       {notifications.length > 0 ? (
-        <ul className="basic-container rounded-t-none">
+        <ul className="basic-container rounded-t-none gap-2">
           {notifications.map((notif) => (
             <NotificationItem key={notif.id} notif={notif} />
           ))}
