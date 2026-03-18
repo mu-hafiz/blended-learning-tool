@@ -22,15 +22,3 @@ export async function tryCatch<T, E = Error>(
     return { data: null, error: error as E };
   }
 }
-
-// Version for Supabase RPC / Postgrest builders
-export async function tryCatchRpc<T, E = Error>(
-  fn: () => PromiseLike<T> | T, // allow builder or promise
-): Promise<Result<T, E>> {
-  try {
-    const data = await fn(); // `await` works on PromiseLike
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: error as E };
-  }
-}

@@ -99,11 +99,17 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
           });
           break;
         case 'friend_request_accepted':
+          toast.friend({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate("/friends/list")
+          });
+          break;
         case 'friend_request_received':
           toast.friend({
             title: payload.new.title,
             description: payload.new.description,
-            navigate: () => navigate("/friends")
+            navigate: () => navigate("/friends/incoming")
           });
           break;
         default:

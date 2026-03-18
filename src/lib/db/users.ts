@@ -111,4 +111,26 @@ async function dailyCheckIn(userId: string) {
   return true;
 }
 
-export default { getUser, updateUser, deleteUser, getUserTheme, setUserTheme, checkUsername, dailyCheckIn };
+async function findUser(search: string) {
+  const { data, error } = await supabase.from('users')
+    .select('user_id, username')
+    .ilike('username', `%${search}%`);
+  
+  if (error) {
+    console.error("Error finding users", error);
+    throw new Error("Error finding users", error); 
+  }
+
+  return data;
+}
+
+export default {
+  getUser,
+  updateUser,
+  deleteUser,
+  getUserTheme,
+  setUserTheme,
+  checkUsername,
+  dailyCheckIn,
+  findUser
+};

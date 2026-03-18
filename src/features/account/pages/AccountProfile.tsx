@@ -32,6 +32,7 @@ const AccountProfile = () => {
       await new Promise(resolve => setTimeout(resolve, 10));
       if (!cancelled) {
         const { data: valid, error } = await tryCatch(UsersDB.checkUsername(debouncedUsername.value));
+        if (cancelled) return;
         if (error) {
           toast.error("There was an error checking username, please try again later");
         } else {

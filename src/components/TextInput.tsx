@@ -30,7 +30,7 @@ const TextInput = ({
   const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col w-full">
       <div className="flex flex-row items-center">
         <h3 className="text-left">{title}</h3>
         {!required && <p className="text-secondary-text ml-1">(optional)</p>}

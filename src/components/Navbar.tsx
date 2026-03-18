@@ -9,7 +9,7 @@ import { useRef, useState, useEffect } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import Tooltip from "@components/Tooltip";
 import UserDB from "@lib/db/users";
-import { tryCatch, tryCatchRpc } from "@utils/tryCatch";
+import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
 import Button from "./Button";
 import { supabase } from "@lib/supabaseClient";
@@ -76,11 +76,12 @@ const Navbar = () => {
   const checkIn = async () => {
     if (!user) return;
     setCheckingIn(true);
-    const { error } = await tryCatchRpc(() => supabase.rpc('daily_check_in', {
+    const { error } = await supabase.rpc('daily_check_in', {
       p_user_id: user.id
-    }));
+    });
     if (error) {
       toast.error("Could not check in, please try again later");
+      console.error(error.message);
       return;
     }
     toast.success("You have checked in! +50xp");
