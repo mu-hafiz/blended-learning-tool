@@ -64,12 +64,12 @@ const FriendsIncoming = () => {
       {incomingRequests.length > 0 ?
         (
           <ul className="grid grid-cols-3">
-            {incomingRequests.filter(r => r.ignored !== true).map((request) => (
+            {incomingRequests.filter(r => r.ignored !== true).map(({ sender }) => (
               <FriendIncomingItem
-                username={request.sender.username}
-                accept={() => acceptRequest(request.sender.user_id, request.sender.username)}
-                ignore={() => ignoreRequest(request.sender.user_id)}
-                key={request.sender.user_id}
+                username={sender.username}
+                accept={() => acceptRequest(sender.user_id, sender.username)}
+                ignore={() => ignoreRequest(sender.user_id)}
+                key={sender.user_id}
               />
             ))}
           </ul>

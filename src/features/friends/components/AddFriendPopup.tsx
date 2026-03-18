@@ -65,7 +65,6 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
       return;
     }
 
-    // Call function to add friend
     const { error } = await supabase.rpc('add_friend_request', {
       p_sender_id: senderId,
       p_receiver_id: receiverId

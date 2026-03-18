@@ -5,10 +5,12 @@ import FriendItem from "../components/FriendItem";
 import { Button, PopupContainer } from "@components";
 import { useState } from "react";
 import AddFriendPopup from "../components/AddFriendPopup";
+import RemoveFriendPopup from "../components/RemoveFriendPopup";
 
 const FriendsList = () => {
   const { friendsList, user, combinedUserIds } = useOutletContext<FriendsOutletContext>();
   const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showRemovePopup, setShowRemovePopup] = useState(false);
 
   return (
     <>
@@ -19,7 +21,12 @@ const FriendsList = () => {
         >
           Add Friend
         </Button>
-        <Button variant="danger">Remove Friend</Button>
+        <Button
+          variant="danger"
+          onClick={() => setShowRemovePopup(true)}
+        >
+          Remove Friend
+        </Button>
       </div>
       <hr className="divider"/>
       {friendsList.length > 0 ?
@@ -49,6 +56,16 @@ const FriendsList = () => {
           onClose={() => setShowAddPopup(false)}
           userId={user?.id}
           combinedUserIds={combinedUserIds}
+        />
+      </PopupContainer>
+      <PopupContainer
+        open={showRemovePopup}
+        onClose={() => setShowRemovePopup(false)}
+      >
+        <RemoveFriendPopup
+          onClose={() => setShowRemovePopup(false)}
+          userId={user?.id}
+          friendsList={friendsList}
         />
       </PopupContainer>
     </>
