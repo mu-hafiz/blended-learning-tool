@@ -28,9 +28,9 @@ import FriendsOutgoing from "@features/friends/pages/FriendsOutgoing";
 import Leaderboards from "@features/leaderboards/pages/Leaderboards";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <RootLayout />, children: [
+  { path: "/", element: <RootLayout />, errorElement: <NotFound />, children: [
 
-    { path: "/", element: <Homepage />, errorElement: <NotFound />},
+    { path: "/", element: <Homepage /> },
 
     { element: <AnonymousRoutes />, children: [
       { path: "/account/signup", element: <SignUp /> },

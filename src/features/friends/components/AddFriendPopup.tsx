@@ -42,7 +42,7 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
       }
       if (cancelled) return;
 
-      setUsers(data);
+      setUsers(data.filter(u => u.user_id !== userId));
       setQueryDone(true);
     }
 
@@ -94,19 +94,19 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
         </div>
       )}
       {(username !== "" && (!debouncedUsername.ready || users === undefined)) && (
-        <div className="mt-10 flex flex-col items-center justify-center">
+        <div className="h-full flex flex-col items-center justify-center">
           <ImSpinner6 size={80} />
           <h2 className="mt-3">Finding users...</h2>
         </div>
       )}
       {(queryDone && users?.length === 0) && (
-        <div className="mt-10 flex flex-col items-center justify-center">
+        <div className="h-full flex flex-col items-center justify-center">
           <FaPersonCircleXmark size={80} />
           <h2 className="mt-3">No users found...</h2>
         </div>
       )}
       {(queryDone && users?.length > 0) && (
-        <ul className="mt-4 gap-2 flex flex-col flex-1 overflow-auto">
+        <ul className="h-full gap-2 flex flex-col flex-1 overflow-auto">
           {users.filter(u => u.user_id !== userId).map(({user_id: receiverId, username}) => {
             return (
               <div

@@ -35,25 +35,30 @@ const AccountPrivacy = () => {
       <p className="subtitle">Tailor your account privacy and visibility</p>
       <hr className="divider"/>
       {privacySettings && (
-        (Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
-          ([key, value]) => (
-          <div className="grid grid-cols-8" key={key}>
-            <p className="capitalize">{key}</p>
-            <Dropdown
-              options={options[key]}
-              onChange={(chosenValue) => handlePrivacyChange(key, chosenValue)}
-              value={snakeCaseToWords(value)}
-              disabled={privacySubmitting}
-            />
-          </div>
-        ))
+        <ul className="grid grid-cols-3 gap-4 mb-5">
+          {(Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
+            ([key, value]) => (
+              <div className="flex w-full justify-evenly items-center">
+                <h3 className="capitalize">{key}</h3>
+                <Dropdown
+                  options={options[key]}
+                  onChange={(chosenValue) => handlePrivacyChange(key, chosenValue)}
+                  value={snakeCaseToWords(value)}
+                  disabled={privacySubmitting}
+                />
+              </div>
+          ))}
+        </ul>
       )}
-      <Button
-        disabled={!privacyEdited || privacySubmitting}
-        onClick={handlePrivacySubmit}
-      >
-        Set Options
-      </Button>
+      <div className="flex justify-center">
+        <Button
+          disabled={!privacyEdited || privacySubmitting}
+          onClick={handlePrivacySubmit}
+        >
+          Set Options
+        </Button>
+      </div>
+      
     </>
   );
 };

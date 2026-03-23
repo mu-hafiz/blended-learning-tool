@@ -42,17 +42,17 @@ const Dropdown = ({ placeholder, options, value, onChange, disabled = false }: D
       <div
         className={
           `
-            px-2.5 py-1.5 flex justify-between items-center text-sm w-30 bg-secondary-button font-medium rounded-lg hover:cursor-pointer
+            px-2.5 py-1.5 flex gap-2 justify-between items-center text-sm min-w-30 bg-secondary-button font-medium rounded-lg hover:cursor-pointer
             ${clicked && "rounded-b-none"}
           `
         }
-        onPointerDown={disabled ? undefined : () => setClicked(true)}
+        onPointerDown={disabled ? undefined : () => setClicked(!clicked)}
       >
         <p>{value ?? placeholder}</p>
         <FaCaretDown />
       </div>
       {clicked &&
-        <div className="w-full max-h-40 absolute overflow-y-auto rounded-b-lg z-50 shadow-lg">
+        <div className="w-max max-w-[20rem] max-h-40 absolute overflow-y-auto overscroll-none rounded-b-lg z-50 shadow-lg">
           {options.map(option => (
             <DropdownItem
               key={option}

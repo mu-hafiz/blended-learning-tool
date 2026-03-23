@@ -28,7 +28,10 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
     <li className={style}>
       <div className="flex flex-row gap-3 items-center">
         {!notif.read && (
-          <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse"/>
+          <>
+            <div className="absolute w-4 h-4 bg-red-500 rounded-full"/>
+            <div className="w-4 h-4 bg-red-500 rounded-full animate-ping"/>
+          </>
         )}
         {icon}
         <div>
