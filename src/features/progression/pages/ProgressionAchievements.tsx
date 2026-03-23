@@ -17,7 +17,6 @@ const ProgressionAchievements = () => {
             title={achievement.title}
             description={achievement.description}
             xp={achievement.xp}
-            imageUrl={achievement.image_url}
             unlocked
           />
         ))}
@@ -33,7 +32,6 @@ const ProgressionAchievements = () => {
             title={achievement.title}
             description={achievement.description}
             xp={achievement.xp}
-            imageUrl={achievement.image_url}
           />
         ))}
       </div>

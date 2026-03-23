@@ -2,24 +2,35 @@ import { PageContainer, Tabs } from "@components"
 import { Outlet } from "react-router-dom";
 import { useAuth } from "@providers/AuthProvider";
 import { useState, useEffect } from "react";
-import type { Achievement, StatisticsWithCourse } from "@models/tables";
+import type { Achievement, Statistics } from "@models/tables";
 import AchievementsDB from "@lib/db/achievements";
 import UnlockedAchievementsDB from "@lib/db/unlockedAchievements";
 import UserDB from "@lib/db/users"
 import UserStatsDB from "@lib/db/userStatistics";
 import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
+import { useLoading } from "@providers/LoadingProvider";
 
 const routes = ["level", "achievements", "statistics"];
 
 const Progression = () => {
   const { user } = useAuth();
-  const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[]>([]);
-  const [lockedAchievements, setLockedAchievements] = useState<Achievement[]>([]);
+  const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[] | undefined>();
+  const [lockedAchievements, setLockedAchievements] = useState<Achievement[] | undefined>();
   const [level, setLevel] = useState(0);
   const [xp, setXp] = useState(0);
-  const [allStatistics, setAllStatistics] = useState<StatisticsWithCourse[]>([]);
-  const [accumulatedStatistics, setAccumulatedStatistics] = useState<Record<string, number>>();
+  const [statistics, setStatistics] = useState<Statistics | undefined>();
+  const { showLoading, hideLoading } = useLoading();
+
+  useEffect(() => {
+    if (unlockedAchievements !== undefined && lockedAchievements !== undefined && statistics !== undefined) {
+      hideLoading();
+    } else {
+      showLoading("Fetching your stats...");
+    }
+
+    return () => hideLoading();
+  }, [unlockedAchievements, lockedAchievements, statistics]);
 
   useEffect(() => {
     if (!user) return;
@@ -53,21 +64,11 @@ const Progression = () => {
         toast.error("Could not get your statistics, please try again later");
         return;
       }
-      setAllStatistics(statistics);
-    }
-
-    const getAccumulatedStatistics = async () => {
-      const { data: statistics, error } = await tryCatch(UserStatsDB.getAccumulatedStats(user.id));
-      if (error) {
-        toast.error("Could not get your statistics, please try again later");
-        return;
-      }
-      setAccumulatedStatistics(statistics);
+      setStatistics(statistics);
     }
     
     getUserLevel();
     getStatistics();
-    getAccumulatedStatistics();
     getAchievements();
   }, [user])
 
@@ -81,8 +82,7 @@ const Progression = () => {
             lockedAchievements,
             level,
             xp,
-            allStatistics,
-            accumulatedStatistics
+            statistics
           }}
         />
       </div>
