@@ -3,7 +3,7 @@ import { TbBellFilled } from "react-icons/tb"
 import { FaUser } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { BsFire } from "react-icons/bs";
-import { RiBarChart2Fill } from "react-icons/ri";
+import { MdLeaderboard } from "react-icons/md";
 import { Link } from "react-router-dom"
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "@providers/AuthProvider";
@@ -112,7 +112,7 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Leaderboards" position="bottom" offset={8}>
             <Link to="/leaderboards">
-              <RiBarChart2Fill size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              <MdLeaderboard size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
             </Link>
           </Tooltip>
         </div>
@@ -127,7 +127,12 @@ const Navbar = () => {
           <Tooltip text="Notifications" position="bottom" offset={8}>
             <Link to="/notifications">
               <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
-              {unread && <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
+              {unread && 
+                <>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-ping" />
+                </>
+              }
             </Link>
           </Tooltip>
         </div>
