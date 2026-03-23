@@ -1,4 +1,6 @@
 import type { LeaderboardUser } from "../types/stateTypes";
+import { Avatar } from "@components";
+import { useNavigate } from "react-router-dom";
 
 const positionColours: Record<number, string> = {
   1: "bg-yellow-500",
@@ -8,26 +10,30 @@ const positionColours: Record<number, string> = {
 }
 
 const LeaderboardItem = (
-  { level, stat, username, position, onClick, myUsername }: LeaderboardUser
-  & { position: number, onClick: () => void, myUsername: string | undefined }
+  { level, stat, username, position, myUsername, profilePicture }: LeaderboardUser
+  & { position: number, myUsername: string | undefined }
 ) => {
-  const positionColour = position >= 4 ? positionColours[4] : positionColours[position]
+  const navigate = useNavigate();
 
-  console.log(`Username: ${username}, My Username: ${myUsername}`)
+  const positionColour = position >= 4 ? positionColours[4] : positionColours[position]
 
   return (
     <div
       className={`
-        flex items-center bg-surface-tertiary rounded-2xl h-15 raise p-5 justify-between cursor-pointer
+        flex items-center bg-surface-tertiary rounded-2xl h-15 raise px-4 justify-between cursor-pointer
         ${username === myUsername ? "animate-pulse" : ""}
       `}
-      onClick={onClick}
+      onClick={() => navigate(`/profile/${username}`)}
     >
       <div className="flex flex-row items-center">
         <div className={`flex items-center justify-center w-8 h-8 rounded-full ${positionColour}`}>
           <h2>{position}</h2>
         </div>
-        <div className="bg-black rounded-full h-10 w-10 mx-4"/>
+        <Avatar
+          filePath={profilePicture}
+          size={40}
+          className="mx-3"
+        />
         <div className="flex flex-col">
           <h3>{username}</h3>
           <p>Level {level}</p>

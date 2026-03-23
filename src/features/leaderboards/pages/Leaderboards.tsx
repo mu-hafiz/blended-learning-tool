@@ -10,7 +10,6 @@ import { wordsToSnakeCase, snakeCaseToWords } from "@utils/stringManip";
 import { MdLeaderboard } from "react-icons/md";
 import type { LeaderboardUser, JustStatistics } from "../types/stateTypes";
 import LeaderboardItem from "../components/LeaderboardItem";
-import { useNavigate } from "react-router-dom";
 import FriendsDB from "@lib/db/friends";
 
 const Leaderboards = () => {
@@ -23,7 +22,6 @@ const Leaderboards = () => {
   const [statOptions, setStatOptions] = useState<string[]>([]);
   const [selectedStat, setSelectedStat] = useState<string>("Days Studied");
   const [friendIds, setFriendIds] = useState<string[]>();
-  const navigate = useNavigate();
   
   useEffect(() => {
     if (!user || allStatistics === undefined) {
@@ -70,7 +68,8 @@ const Leaderboards = () => {
     const leaderboardItems = filtered.map(u => ({
         username: u.user.username,
         level: u.user.level,
-        stat: u[stat]
+        stat: u[stat],
+        profilePicture: u.user.profile_picture
       }));
     leaderboardItems.sort((a, b) => {
       const primarySort = b.stat - a.stat;
@@ -126,7 +125,7 @@ const Leaderboards = () => {
                 level={u.level}
                 key={u.username}
                 position={idx + 1}
-                onClick={() => navigate(`/profile/${u.username}`)}
+                profilePicture={u.profilePicture}
               />
             ))}
           </ul>

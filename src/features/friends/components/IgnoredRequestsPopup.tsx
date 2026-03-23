@@ -2,8 +2,9 @@ import { tryCatch } from "@utils/tryCatch";
 import RequestsDB from "@lib/db/friendRequests";
 import { toast } from "@lib/toast";
 import { type User } from "@models/tables";
-import { Button } from "@components";
+import { Button, Avatar } from "@components";
 import { HiInboxArrowDown } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 type IgnoredRequestsProps = {
   onClose: () => void;
@@ -12,6 +13,7 @@ type IgnoredRequestsProps = {
 }
 
 const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequestsProps) => {
+  const navigate = useNavigate();
 
   const stopIgnoring = async (senderId: string, receiverId: string | undefined) => {
     onClose();
@@ -43,14 +45,20 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
         </div>
       ) : (
         <ul className="mt-4 gap-2 flex flex-col flex-1 overflow-auto">
-          {ignoredUsers.map(({user_id: senderId, username}) => {
+          {ignoredUsers.map(({user_id: senderId, username, profile_picture: profilePicture}) => {
             return (
               <div
-                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
+                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between cursor-pointer"
                 key={senderId}
               >
-                <div className="flex flex-row items-center gap-2">
-                  <div className="bg-black rounded-full h-10 w-10"/>
+                <div
+                  className="flex flex-row items-center gap-2 cursor-pointer"
+                  onClick={() => navigate(`/profile/${username}`)}
+                >
+                  <Avatar
+                    filePath={profilePicture}
+                    size={40}
+                  />
                   <p>{username}</p>
                 </div>
                 <Button

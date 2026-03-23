@@ -39,6 +39,7 @@ const FriendsOutgoing = () => {
                 username={request.username}
                 cancel={() => cancelRequest(request.user_id, request.username)}
                 key={request.user_id}
+                profilePicture={request.profile_picture}
               />
             ))}
           </ul>

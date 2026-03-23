@@ -1,6 +1,6 @@
 import { MdPersonAddDisabled } from "react-icons/md";
 import type { Friend } from "../types/stateTypes";
-import { Button } from "@components";
+import { Button, Avatar } from "@components";
 import { toast } from "@lib/toast";
 import { supabase } from "@lib/supabaseClient";
 
@@ -53,7 +53,10 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
                 key={friend.user_id}
               >
                 <div className="flex flex-row items-center gap-2">
-                  <div className="bg-black rounded-full h-10 w-10"/>
+                  <Avatar
+                    filePath={friend.profile_picture}
+                    size={40}
+                  />
                   <p>{friend.username}</p>
                 </div>
                 <Button

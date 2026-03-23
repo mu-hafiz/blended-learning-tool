@@ -4,6 +4,7 @@ export type LeaderboardUser = {
   username: string;
   level: number;
   stat: number;
+  profilePicture: string;
 }
 
 export type JustStatistics = Omit<Statistics, 'user_id' | 'created_at'>

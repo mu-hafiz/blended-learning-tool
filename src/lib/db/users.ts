@@ -113,7 +113,7 @@ async function dailyCheckIn(userId: string) {
 
 async function findUser(search: string) {
   const { data, error } = await supabase.from('users')
-    .select('user_id, username')
+    .select('user_id, username, profile_picture')
     .ilike('username', `%${search}%`);
   
   if (error) {

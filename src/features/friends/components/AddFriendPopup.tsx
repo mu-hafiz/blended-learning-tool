@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@components";
+import { Button, TextInput, Avatar } from "@components";
 import { useEffect, useState } from "react";
 import { useDebounce } from "@hooks/useDebounce";
 import { tryCatch } from "@utils/tryCatch";
@@ -9,10 +9,12 @@ import UserDB from "@lib/db/users";
 import { toast } from "@lib/toast";
 import { FaPlus } from "react-icons/fa";
 import { supabase } from "@lib/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 type UserQuery = {
   user_id: string;
   username: string;
+  profile_picture: string;
 }
 
 type AddFriendProps = {
@@ -26,6 +28,7 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
   const [users, setUsers] = useState<UserQuery[]>([]);
   const [queryDone, setQueryDone] = useState(false);
   const debouncedUsername = useDebounce(username);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let cancelled = false;
@@ -107,14 +110,20 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
       )}
       {(queryDone && users?.length > 0) && (
         <ul className="h-full gap-2 flex flex-col flex-1 overflow-auto">
-          {users.filter(u => u.user_id !== userId).map(({user_id: receiverId, username}) => {
+          {users.filter(u => u.user_id !== userId).map(({user_id: receiverId, username, profile_picture: profilePicture}) => {
             return (
               <div
                 className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
                 key={receiverId}
               >
-                <div className="flex flex-row items-center gap-2">
-                  <div className="bg-black rounded-full h-10 w-10"/>
+                <div
+                  className="flex flex-row items-center gap-2 cursor-pointer"
+                  onClick={() => navigate(`/profile/${username}`)}
+                >
+                  <Avatar
+                    filePath={profilePicture}
+                    size={40}
+                  />
                   <p>{username}</p>
                 </div>
                 <Button

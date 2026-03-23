@@ -70,6 +70,7 @@ const FriendsIncoming = () => {
                 accept={() => acceptRequest(sender.user_id, sender.username)}
                 ignore={() => ignoreRequest(sender.user_id)}
                 key={sender.user_id}
+                profilePicture={sender.profile_picture}
               />
             ))}
           </ul>
