@@ -11,6 +11,7 @@ import Tooltip from "@components/Tooltip";
 import { toast } from "@lib/toast";
 import Button from "./Button";
 import { supabase } from "@lib/supabaseClient";
+import Avatar from "./Avatar";
 
 type PopupItemProps = {
   title: string;
@@ -127,15 +128,18 @@ const Navbar = () => {
         <div ref={popupRef}>
           <div className="raise rounded-lg">
             <Tooltip text="Account" position="bottom" offset={8} disabled={showPopup}>
-              <FaUser
-                cursor="pointer"
-                size={26}
+              <div
+                className="cursor-pointer"
                 onPointerDown={(e) => {
                   e.stopPropagation();
                   setShowPopup(true);
                 }}
-                className="text-primary-button rounded-lg hover:text-primary-button-hover transition-colors duration-500"
-              />
+              >
+                <Avatar
+                  filePath={userProfile?.profile_picture}
+                  size={30}
+                />
+              </div>
             </Tooltip>
           </div>
           {showPopup && (

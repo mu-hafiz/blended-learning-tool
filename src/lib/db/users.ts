@@ -124,6 +124,20 @@ async function findUser(search: string) {
   return data;
 }
 
+async function updateProfilePicture(userId: string, filePath: string) {
+  const { error } = await supabase.from('users')
+    .update({
+      profile_picture: filePath,
+      profile_picture_updated_at: new Date().toISOString()
+    })
+    .eq('user_id', userId);
+  
+  if (error) {
+    console.error("Error updating new profile picture", error);
+    throw new Error("Error updating new profile picture", error); 
+  }
+}
+
 export default {
   getUser,
   updateUser,
@@ -132,5 +146,6 @@ export default {
   setUserTheme,
   checkUsername,
   dailyCheckIn,
-  findUser
+  findUser,
+  updateProfilePicture
 };
