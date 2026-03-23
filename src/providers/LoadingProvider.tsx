@@ -19,7 +19,6 @@ export const LoadingProvider = ({ children }: {children: React.ReactNode}) => {
   }
 
   const hideLoading = () => {
-    setMessage("");
     setLoading(false);
   }
 
