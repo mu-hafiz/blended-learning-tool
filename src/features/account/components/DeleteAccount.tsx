@@ -1,13 +1,12 @@
 import { Button, TextInput } from "@components";
 import { toast } from "@lib/toast";
 import { useEffect, useRef, useState } from "react";
-import type { User } from "@supabase/supabase-js";
 import { useAuth } from "@providers/AuthProvider";
 import usersDB from "@lib/db/users";
 import { tryCatch } from "@utils/tryCatch";
 
-const DeleteAccount = ({ user }: { user: User | null | undefined }) => {
-  const { login, signOut } = useAuth();
+const DeleteAccount = () => {
+  const { user, login, signOut } = useAuth();
 
   const [confirmDeletePassword, setConfirmDeletePassword] = useState("");
   const [confirmationStage, setConfirmationStage] = useState(false);

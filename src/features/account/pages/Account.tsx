@@ -6,7 +6,6 @@ import { useAuth } from "@providers/AuthProvider";
 import { type UserPrivacySettings } from '@models/tables';
 import { profileSchema, securitySchema, type ProfileValues, type SecurityValues } from "../types/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import UsersDB from "@lib/db/users";
 import { useForm } from "react-hook-form";
 import { tryCatch } from '@utils/tryCatch';
 import { toast } from '@lib/toast';
@@ -14,7 +13,7 @@ import { toast } from '@lib/toast';
 const routeNames = ["profile", "security", "privacy", "preferences"];
 
 const Account = () => {
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings | null>(null);
   const [previousPrivacySettings, setPreviousPrivacySettings] = useState<UserPrivacySettings | null>(null);
   const [privacyEdited, setPrivacyEdited] = useState(false);
@@ -47,24 +46,19 @@ const Account = () => {
       setPreviousPrivacySettings(privacyData);
     }
 
-    const fetchUserInfo = async () => {
-      const { data, error } = await tryCatch(UsersDB.getUser(user.id));
-      if (error) {
-        toast.error("Could not get user information, please try again later");
-        return;
-      };
-      profileForm.reset({
-        username: data.username,
-        firstName: data.first_name!,
-        middleName: data.middle_name ?? "",
-        lastName: data.last_name!,
-        aboutMe: data.about_me ?? ""
-      });
-    }
-
     getPrivacySettings();
-    fetchUserInfo();
   }, [user]);
+
+  useEffect(() => {
+    if (!userProfile) return;
+    profileForm.reset({
+      username: userProfile.username,
+      firstName: userProfile.first_name!,
+      middleName: userProfile.middle_name ?? "",
+      lastName: userProfile.last_name!,
+      aboutMe: userProfile.about_me ?? ""
+    });
+  }, [userProfile])
 
   useEffect(() => {
     setPrivacyEdited(JSON.stringify(privacySettings) !== JSON.stringify(previousPrivacySettings));
@@ -105,7 +99,6 @@ const Account = () => {
             privacySubmitting,
             profileForm,
             securityForm,
-            user
           }}
         />
       </div>

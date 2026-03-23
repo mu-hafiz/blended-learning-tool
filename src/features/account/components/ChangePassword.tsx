@@ -4,13 +4,12 @@ import { TiArrowLeftThick, TiArrowRightThick, TiTickOutline, TiTimesOutline } fr
 import { supabase } from "@lib/supabaseClient";
 import { toast } from "@lib/toast";
 import { type SecurityValues } from "../types/formSchemas";
-import type { User } from "@supabase/supabase-js";
 import { useAuth } from "@providers/AuthProvider";
 import { useOutletContext } from "react-router-dom";
 import { type AccountOutletContext } from "../types/stateTypes";
 
-const ChangePassword = ({ user }: { user: User | null | undefined }) => {
-  const { login } = useAuth();
+const ChangePassword = () => {
+  const { user, login } = useAuth();
 
   const { securityForm } = useOutletContext<AccountOutletContext>();
   const { control, handleSubmit, watch, formState: { isSubmitting }, reset } = securityForm;

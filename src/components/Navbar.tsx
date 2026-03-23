@@ -8,8 +8,6 @@ import { Link } from "react-router-dom"
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import Tooltip from "@components/Tooltip";
-import UserDB from "@lib/db/users";
-import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
 import Button from "./Button";
 import { supabase } from "@lib/supabaseClient";
@@ -33,7 +31,7 @@ const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
 };
 
 const Navbar = () => {
-  const { user, signOut } = useAuth();
+  const { user, userProfile, signOut } = useAuth();
   const { unread } = useNotif();
 
   const [checkedIn, setCheckedIn] = useState(true);
@@ -49,19 +47,9 @@ const Navbar = () => {
   ]
 
   useEffect(() => {
-    if (!user) return;
-
-    const getUser = async () => {
-      const { data: userInfo, error } = await tryCatch(UserDB.getUser(user.id));
-      if (error) {
-        toast.error("Could not get user info");
-        return;
-      }
-      setCheckedIn(userInfo.daily_check_in);
-    };
-
-    getUser();
-  }, [user]);
+    if (!userProfile) return;
+    setCheckedIn(userProfile.daily_check_in);
+  }, [userProfile]);
 
   useEffect(() => {
     const handleClickOutside = (event: PointerEvent) => {

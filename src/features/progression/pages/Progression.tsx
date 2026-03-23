@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import type { Achievement, Statistics } from "@models/tables";
 import AchievementsDB from "@lib/db/achievements";
 import UnlockedAchievementsDB from "@lib/db/unlockedAchievements";
-import UserDB from "@lib/db/users"
 import UserStatsDB from "@lib/db/userStatistics";
 import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
@@ -14,7 +13,7 @@ import { useLoading } from "@providers/LoadingProvider";
 const routes = ["level", "achievements", "statistics"];
 
 const Progression = () => {
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[] | undefined>();
   const [lockedAchievements, setLockedAchievements] = useState<Achievement[] | undefined>();
   const [level, setLevel] = useState(0);
@@ -47,16 +46,6 @@ const Progression = () => {
       setUnlockedAchievements(unlockedAchievements);
       setLockedAchievements(lockedAchievements);
     }
-
-    const getUserLevel = async () => {
-      const { data: userData, error } = await tryCatch(UserDB.getUser(user.id));
-      if (error) {
-        toast.error("Could not get your level, please try again later");
-        return;
-      }
-      setLevel(userData.level);
-      setXp(userData.xp);
-    }
     
     const getStatistics = async () => {
       const { data: statistics, error } = await tryCatch(UserStatsDB.getStatistics(user.id));
@@ -67,10 +56,15 @@ const Progression = () => {
       setStatistics(statistics);
     }
     
-    getUserLevel();
     getStatistics();
     getAchievements();
-  }, [user])
+  }, [user]);
+
+  useEffect(() => {
+    if (!userProfile) return;
+    setLevel(userProfile.level);
+    setXp(userProfile.xp);
+  }, [userProfile]);
 
   return (
     <PageContainer title="Progression">

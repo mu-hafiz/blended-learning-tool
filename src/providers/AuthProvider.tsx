@@ -1,9 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { AuthError } from "@supabase/supabase-js";
+import UserDB from "@lib/db/users";
 
-import { FunctionsHttpError, type User } from "@supabase/supabase-js";
+import type { User as UserProfile } from "@models/tables";
+import { FunctionsHttpError, type User as SupabaseUser } from "@supabase/supabase-js";
 import type { UserPrivacySettings } from "@models/tables";
+import { tryCatch } from "@utils/tryCatch";
 type SignUpInfo = {
   email: string,
   password: string,
@@ -20,7 +23,9 @@ type SupabaseResult =
   | { success: false; error: AuthError; };
 
 type AuthContextType = {
-  user: User | null | undefined;
+  user: SupabaseUser | null | undefined;
+  userProfile: UserProfile | null | undefined;
+  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null | undefined>>;
   signUp: ({ email, password }: SignUpInfo) => Promise<SupabaseResult>;
   login: ({ email, password }: SignUpInfo) => Promise<SupabaseResult>;
   finishOnboarding: (formValues: FinishOnboardingInfo, privacySettings: UserPrivacySettings) => Promise<{ success: boolean; error?: any }>;
@@ -32,7 +37,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // We use 'undefined' as the 'loading' state
-  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [user, setUser] = useState<SupabaseUser | null | undefined>(undefined);
+  const [userProfile, setUserProfile] = useState<UserProfile | null | undefined>(undefined);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -50,6 +56,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       listener.subscription?.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchUser = async () => {
+      const { data, error } = await tryCatch(UserDB.getUser(user.id));
+      if (error) {
+        console.log("Could not fetch user profile", error);
+        setUserProfile(null);
+      }
+      setUserProfile(data);
+    }
+
+    fetchUser();    
+  }, [user])
 
   const signUp = async ({ email, password }: SignUpInfo): Promise<SupabaseResult> => {
     const { error } = await supabase.auth.signUp({
@@ -116,7 +137,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signUp, finishOnboarding, login, signOut }}>
+    <AuthContext.Provider value={{ user, userProfile, setUserProfile, signUp, finishOnboarding, login, signOut }}>
       {children}
     </AuthContext.Provider>
   );
