@@ -21,6 +21,9 @@ import ProgressionLevel from "@features/progression/pages/ProgressionLevel";
 import ProgressionAchievements from "@features/progression/pages/ProgressionAchievements";
 import ProgressionStatistics from "@features/progression/pages/ProgressionStatistics";
 import Profile from "@features/profile/pages/Profile";
+import ProfileStatistics from "@features/profile/pages/ProfileStatistics";
+import ProfileAchievements from "@features/profile/pages/ProfileAchievements";
+import ProfileFriends from "@features/profile/pages/ProfileFriends";
 import Friends from "@features/friends/pages/Friends";
 import FriendsList from "@features/friends/pages/FriendsList";
 import FriendsIncoming from "@features/friends/pages/FriendsIncoming";
@@ -69,9 +72,12 @@ export const router = createBrowserRouter([
         { path: "statistics", element: <ProgressionStatistics /> }
       ]},
       { path: "/leaderboards", element: <Leaderboards /> },
-      { path: "/profile", element: <Profile /> },
-      { path: "/profile:username", element: <Profile /> } // IMPLEMENT PROPERLY
+      { path: "/profile/:username", element: <Profile />, children: [
+        { index: true, element: <Navigate to="statistics" replace /> },
+        { path: "statistics", element: <ProfileStatistics /> },
+        { path: "achievements", element: <ProfileAchievements /> },
+        { path: "friends", element: <ProfileFriends /> }
+      ]}
     ]}
-    
   ]},
 ]);

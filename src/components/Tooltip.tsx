@@ -18,6 +18,7 @@ const Tooltip = ({ text, children, position, offset, disabled=false }: TooltipPr
           rounded-lg px-2 py-1
           opacity-0 group-hover:opacity-100
           transition-all duration-300 z-10 pointer-events-none
+          whitespace-nowrap
         `}
         style={{
           [position === 'bottom' ? 'top' : 'bottom']: `calc(100% + ${offset ?? 0}px)`

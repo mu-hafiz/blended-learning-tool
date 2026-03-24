@@ -7,7 +7,8 @@ import { useEffect, useMemo, useState } from "react";
 import type { User } from "@models/tables";
 import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
-import { type Friend, type Incoming } from "../types/stateTypes";
+import type { Incoming } from "../types/stateTypes";
+import type { Friend } from "@models/tables";
 import { supabase } from "@lib/supabaseClient";
 
 const routeNames = ["list", "incoming", "outgoing"];

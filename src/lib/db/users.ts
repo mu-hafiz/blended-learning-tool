@@ -23,6 +23,20 @@ async function getUser(userId: string) {
   return data;
 }
 
+async function getUserByUsername(username: string) {
+  const { data, error } = await supabase.from('users')
+    .select('*')
+    .eq('username', username)
+    .single();
+  
+  if (error) {
+    console.error("Could not get user's profile information: ", error);
+    throw new Error("Could not get user's profile information: ", error);
+  };
+
+  return data;
+}
+
 async function updateUser(userId: string, {username, firstName, middleName, lastName, aboutMe, onboardingCompleted = false}: updateProps) {
   const { error } = await supabase.from('users')
     .update({
@@ -140,6 +154,7 @@ async function updateProfilePicture(userId: string, filePath: string) {
 
 export default {
   getUser,
+  getUserByUsername,
   updateUser,
   deleteUser,
   getUserTheme,

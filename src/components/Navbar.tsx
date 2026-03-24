@@ -1,6 +1,6 @@
 import { useNotif } from "@providers/NotifProvider";
 import { TbBellFilled } from "react-icons/tb"
-import { FaUser } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { BsFire } from "react-icons/bs";
 import { MdLeaderboard } from "react-icons/md";
@@ -41,8 +41,7 @@ const Navbar = () => {
   const popupRef = useRef<HTMLDivElement>(null);
 
   const popupItems = [
-    { title: "View Profile", route: `/profile` },
-    { title: "Friends", route: "/friends" },
+    { title: "View Profile", route: `/profile/me` },
     { title: "Account Settings", route: "/account" },
     { title: "Sign Out", onClick: signOut },
   ]
@@ -109,6 +108,16 @@ const Navbar = () => {
           <Tooltip text="Progression" position="bottom" offset={8}>
             <Link to="/progression">
               <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+            </Link>
+          </Tooltip>
+        </div>
+
+        <div className="h-7/12 border-l-2 border-surface-tertiary" />
+
+        <div className="raise rounded-lg">
+          <Tooltip text="Friends" position="bottom" offset={8}>
+            <Link to="/friends">
+              <FaUserFriends size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
             </Link>
           </Tooltip>
         </div>

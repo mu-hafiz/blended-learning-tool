@@ -8,6 +8,9 @@ export type Statistics = Database['public']['Tables']['user_statistics']['Row'];
 export type StatisticsWithUser = Statistics & {
   user: User
 };
-export type Course = Database['public']['Tables']['courses']['Row'];
 export type UserPrivacy = Database['public']['Tables']['user_privacy']['Row'];
 export type UserPrivacySettings = Omit<UserPrivacy, 'user_id' | 'created_at'>;
+export type Friend = {
+  friend: User;
+  date: string;
+}
