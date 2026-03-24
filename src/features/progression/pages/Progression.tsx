@@ -14,11 +14,11 @@ const routes = ["level", "achievements", "statistics"];
 
 const Progression = () => {
   const { user, userProfile } = useAuth();
-  const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[] | undefined>();
-  const [lockedAchievements, setLockedAchievements] = useState<Achievement[] | undefined>();
+  const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[] | null | undefined>();
+  const [lockedAchievements, setLockedAchievements] = useState<Achievement[] | null | undefined>();
   const [level, setLevel] = useState(0);
   const [xp, setXp] = useState(0);
-  const [statistics, setStatistics] = useState<Statistics | undefined>();
+  const [statistics, setStatistics] = useState<Statistics | null | undefined>();
   const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
@@ -39,6 +39,8 @@ const Progression = () => {
       const { data: unlockedAchievements, error: unlockedError } = await tryCatch(UnlockedAchievementsDB.getUnlockedAchievements(user.id));
       if (achievementsError || unlockedError) {
         toast.error("Could not get achievements, please try again later");
+        setUnlockedAchievements(null);
+        setLockedAchievements(null);
         return;
       }
       const unlockedIds = unlockedAchievements.map(achievement => achievement.id);
@@ -51,6 +53,7 @@ const Progression = () => {
       const { data: statistics, error } = await tryCatch(UserStatsDB.getStatistics(user.id));
       if (error) {
         toast.error("Could not get your statistics, please try again later");
+        setStatistics(null);
         return;
       }
       setStatistics(statistics);
