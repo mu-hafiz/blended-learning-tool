@@ -1,8 +1,7 @@
 import { MdPersonAddDisabled } from "react-icons/md";
 import type { Friend } from "../types/stateTypes";
 import { Button, Avatar } from "@components";
-import { toast } from "@lib/toast";
-import { supabase } from "@lib/supabaseClient";
+import { removeFriend } from "@lib/friends";
 
 type RemoveFriendProps = {
   onClose: () => void;
@@ -11,30 +10,6 @@ type RemoveFriendProps = {
 }
 
 const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) => {
-
-  const removeFriend = async (userId: string | undefined, friendId: string, friendUsername: string) => {
-    onClose();
-    const toastId = toast.loading(`Sending ${friendUsername} a request...`);
-
-    if (!userId) {
-      toast.error("Could not get your user information, please try again later", { id: toastId });
-      console.error("This user's ID is undefined");
-      return;
-    }
-
-    const { error } = await supabase.rpc('remove_friend', {
-      p_user_id_1: userId,
-      p_user_id_2: friendId
-    });
-    if (error) {
-      toast.error("Could not remove friend, please try again later", { id: toastId });
-      console.error(error.message);
-      return;
-    }
-
-    toast.success(`Removed ${friendUsername} from your friends`, { id: toastId });
-  }
-
   return (
     <div className="w-100 h-100 flex flex-col">
       <h2 className="text-center mb-3">Remove Friend</h2>
@@ -61,7 +36,10 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
                 </div>
                 <Button
                   variant="danger"
-                  onClick={() => removeFriend(userId, friend.user_id, friend.username)}
+                  onClick={() => {
+                    onClose()
+                    removeFriend(userId, friend.user_id, friend.username)
+                  }}
                 >
                   Remove
                 </Button>

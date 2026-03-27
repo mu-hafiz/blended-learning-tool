@@ -17,7 +17,7 @@ const FriendItem = ({ friend, date }: { friend: User, date: string }) => {
         className="mx-4"
       />
       <div className="flex flex-col">
-        <p>{friend.username}</p>
+        <h3>{friend.username}</h3>
         <p className="subtitle">Friends since {friendDate}</p>
       </div>
     </div>

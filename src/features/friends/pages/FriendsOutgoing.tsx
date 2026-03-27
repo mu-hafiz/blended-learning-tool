@@ -2,42 +2,22 @@ import { useOutletContext } from "react-router-dom";
 import type { FriendsOutletContext } from "../types/stateTypes";
 import { MdPersonAdd } from "react-icons/md";
 import FriendOutgoingItem from "../components/FriendOutgoingItem";
-import { toast } from "@lib/toast";
-import { supabase } from "@lib/supabaseClient";
+import { useAuth } from "@providers/AuthProvider";
+import { cancelRequest } from "@lib/friends";
 
 const FriendsOutgoing = () => {
-  const { outgoingRequests, user } = useOutletContext<FriendsOutletContext>();
-
-  const cancelRequest = async (receiverId: string, receiverUsername: string) => {
-    const toastId = toast.loading("Accepting request...");
-    if (!user?.id) {
-      toast.error("Could not get your information, please try again later", { id: toastId });
-      console.error("User ID is undefined");
-      return;
-    }
-
-    const { error } = await supabase.rpc('remove_friend_request', {
-      p_sender_id: user.id,
-      p_receiver_id: receiverId
-    });
-    if (error) {
-      toast.error("Could not send request, please try again later", { id: toastId });
-      console.error(error.message);
-      return;
-    }
-
-    toast.info(`Friend request to ${receiverUsername} cancelled`, { id: toastId });
-  }
+  const { user } = useAuth();
+  const { outgoingRequests } = useOutletContext<FriendsOutletContext>();
 
   return (
     <>
       {outgoingRequests.length > 0 ?
         (
-          <ul className="grid grid-cols-3">
+          <ul className="grid grid-cols-3 gap-4">
             {outgoingRequests.map((request) => (
               <FriendOutgoingItem
                 username={request.username}
-                cancel={() => cancelRequest(request.user_id, request.username)}
+                cancel={() => cancelRequest(user, request.user_id, request.username)}
                 key={request.user_id}
                 profilePicture={request.profile_picture}
               />

@@ -86,7 +86,6 @@ const Friends = () => {
             friendsList,
             incomingRequests,
             outgoingRequests,
-            user,
             combinedUserIds,
             ignoredUsers
           }}

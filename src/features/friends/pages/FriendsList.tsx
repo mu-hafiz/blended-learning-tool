@@ -1,14 +1,16 @@
 import { useOutletContext } from "react-router-dom";
 import type { FriendsOutletContext } from "../types/stateTypes";
 import { MdPersonAddDisabled } from "react-icons/md";
-import FriendItem from "../components/FriendItem";
+import FriendItem from "@components/FriendItem";
 import { Button, PopupContainer } from "@components";
 import { useState } from "react";
 import AddFriendPopup from "../components/AddFriendPopup";
 import RemoveFriendPopup from "../components/RemoveFriendPopup";
+import { useAuth } from "@providers/AuthProvider";
 
 const FriendsList = () => {
-  const { friendsList, user, combinedUserIds } = useOutletContext<FriendsOutletContext>();
+  const { user } = useAuth();
+  const { friendsList, combinedUserIds } = useOutletContext<FriendsOutletContext>();
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [showRemovePopup, setShowRemovePopup] = useState(false);
 
@@ -31,7 +33,7 @@ const FriendsList = () => {
       <hr className="divider"/>
       {friendsList.length > 0 ?
         (
-          <ul className="grid grid-cols-4">
+          <ul className="grid grid-cols-4 gap-4">
             {friendsList.map((friend) => (
               <FriendItem
                 friend={friend.friend}

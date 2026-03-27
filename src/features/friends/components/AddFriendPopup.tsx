@@ -8,8 +8,8 @@ import { FaPersonCircleXmark } from "react-icons/fa6";
 import UserDB from "@lib/db/users";
 import { toast } from "@lib/toast";
 import { FaPlus } from "react-icons/fa";
-import { supabase } from "@lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { addFriend } from "@lib/friends";
 
 type UserQuery = {
   user_id: string;
@@ -52,34 +52,6 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
     if (debouncedUsername.ready && debouncedUsername.value !== "") findUser();
     return () => { cancelled = true }
   }, [debouncedUsername.ready, debouncedUsername.value])
-
-  // BUG!!!!!!!
-  // If you ignore a request, it will no longer show up in the combinedUserIds array (see 'Friends.tsx')
-  // This means that it will appear as though you haven't added them as a friend, and will let you add them
-  // But there will already be an entry existing for request (unless the sender cancels)
-  // So you won't be able to send that person a friend request again
-  const addFriend = async (senderId: string | undefined, receiverId: string) => {
-    onClose();
-    const toastId = toast.loading(`Sending ${username} a request...`);
-
-    if (!senderId) {
-      toast.error("Could not get your user information, please try again later", { id: toastId });
-      console.error("This user's ID is undefined");
-      return;
-    }
-
-    const { error } = await supabase.rpc('add_friend_request', {
-      p_sender_id: senderId,
-      p_receiver_id: receiverId
-    });
-    if (error) {
-      toast.error("Could not send request, please try again later", { id: toastId });
-      console.error(error.message);
-      return;
-    }
-
-    toast.success("Request sent!", { id: toastId });
-  }
 
   return (
     <div className="w-100 h-100 flex flex-col">
@@ -129,7 +101,10 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
                 <Button
                   variant="success"
                   className="py-2"
-                  onClick={() => addFriend(userId, receiverId)}
+                  onClick={() => {
+                    onClose()
+                    addFriend(userId, receiverId)
+                  }}
                   disabled={combinedUserIds.includes(receiverId)}
                 >
                   <FaPlus size={15} />
