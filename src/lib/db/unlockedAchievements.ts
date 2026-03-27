@@ -2,7 +2,7 @@ import { supabase } from "@lib/supabaseClient";
 
 async function getUnlockedAchievements(userId: string) {
   const { data, error } = await supabase.from('unlocked_achievements')
-    .select('achievement_id(*)')
+    .select('created_at, achievement_id(*)')
     .eq('user_id', userId);
   
   if (error) {
@@ -10,7 +10,13 @@ async function getUnlockedAchievements(userId: string) {
     throw new Error('Could not get user achievements: ', error);
   }
 
-  return data.map(achievements => achievements.achievement_id);
+  return data.map(achievement => {
+    const { created_at, achievement_id } = achievement;
+    return {
+      ...achievement_id,
+      created_at
+    }
+  });
 };
 
 export default { getUnlockedAchievements };

@@ -1,6 +1,34 @@
+import FriendItem from "@components/FriendItem";
+import { useOutletContext } from "react-router-dom";
+import type { ProfileOutletContext } from "../types/stateTypes";
+import { MdPersonAddDisabled } from "react-icons/md";
+
 const ProfileFriends = () => {
+  const { friends } = useOutletContext<ProfileOutletContext>();
+
   return (
-    <></>
+    <>
+      <h2>Number of Friends: {friends?.length ?? 0}</h2>
+      <hr className="divider" />
+      {friends && friends.length > 0 ?
+        (
+          <ul className="grid grid-cols-4 gap-4">
+            {friends.map((friend) => (
+              <FriendItem
+                friend={friend.friend}
+                date={friend.date}
+                key={friend.friend.user_id}
+              />
+            ))}
+          </ul>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full gap-5">
+            <MdPersonAddDisabled size={100}/>
+            <h1>No one's around...</h1>
+          </div>
+        )
+      }
+    </>
   );
 }
 
