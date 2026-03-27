@@ -6,12 +6,13 @@ import { Dropdown } from "@components";
 import { snakeCaseToWords, wordsToSnakeCase } from "@utils/stringManip";
 
 const options = {
-  achievements: ["Public", "Friends Only", "Private"],
+  achievements: ["Public", "Friends Only"],
   friends: ["Public", "Friends Only", "Private"],
   leaderboards: ["Public", "Friends Only"],
   level: ["Public", "Friends Only"],
   name: ["Public", "Friends Only", "Private"],
-  profile: ["Public", "Friends Only"]
+  profile_picture: ["Public", "Friends Only"],
+  statistics: ["Public", "Friends Only"]
 }
 
 const OnboardingPrivacy = () => {
