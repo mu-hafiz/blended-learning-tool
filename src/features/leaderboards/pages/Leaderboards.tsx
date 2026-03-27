@@ -31,8 +31,10 @@ const Leaderboards = () => {
       return;
     }
 
+    if (!user) return;
+
     const getStatistics = async () => {
-      const statistics = await StatisticsDB.getStatisticsAllUsers();
+      const statistics = await StatisticsDB.getLeaderboardStatisticsAllUsers(user.id);
       setAllStatistics(statistics);
       if (statistics.length !== 0) {
         const { user, user_id, created_at, ...rest } = statistics[0];
@@ -42,7 +44,6 @@ const Leaderboards = () => {
     };
 
     const getFriends = async () => {
-      if (!user) return;
       const friends = await FriendsDB.getFriends(user.id);
       setFriendIds(friends.map(f => f.friend.user_id));
     }
