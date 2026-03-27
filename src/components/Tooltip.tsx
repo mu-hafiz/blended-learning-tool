@@ -6,10 +6,10 @@ type TooltipProps = {
   disabled?: boolean;
 }
 
-const Tooltip = ({ text, children, position, offset, disabled=false }: TooltipProps) => {
+const Tooltip = ({ text, children, position, offset = 5, disabled=false }: TooltipProps) => {
   if (disabled) return <>{children}</>
   return (
-    <div className="relative flex items-center justify-center group align-middle">
+    <div className="relative inline-block align-middle group">
       {children}
       <h3
         className={`

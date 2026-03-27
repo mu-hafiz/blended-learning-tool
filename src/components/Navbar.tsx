@@ -41,7 +41,7 @@ const Navbar = () => {
   const popupRef = useRef<HTMLDivElement>(null);
 
   const popupItems = [
-    { title: "View Profile", route: `/profile/me` },
+    { title: "View Profile", route: `/profile/${userProfile?.username}` },
     { title: "Account Settings", route: "/account" },
     { title: "Sign Out", onClick: signOut },
   ]

@@ -31,7 +31,7 @@ const Avatar = ({ filePath, size = 10, className = "", onClick } : AvatarProps) 
   return (
     <div
       style={{ width: size, height: size }}
-      className={`rounded-full overflow-hidden ${className}`}
+      className={`rounded-full overflow-hidden flex-shrink-0 aspect-square ${className}`}
     >
       {avatarUrl ? (
         <img
