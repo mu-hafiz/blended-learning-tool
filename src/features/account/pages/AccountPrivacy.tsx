@@ -5,12 +5,13 @@ import type { UserPrivacySettings } from "@models/tables";
 import { snakeCaseToWords, wordsToSnakeCase } from "@utils/stringManip";
 
 const options = {
-  achievements: ["Public", "Friends Only", "Private"],
+  achievements: ["Public", "Friends Only"],
   friends: ["Public", "Friends Only", "Private"],
   leaderboards: ["Public", "Friends Only"],
   level: ["Public", "Friends Only"],
   name: ["Public", "Friends Only", "Private"],
-  profile: ["Public", "Friends Only"]
+  profile_picture: ["Public", "Friends Only"],
+  statistics: ["Public", "Friends Only"]
 }
 
 const AccountPrivacy = () => {
@@ -39,7 +40,7 @@ const AccountPrivacy = () => {
           {(Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
             ([key, value]) => (
               <div className="flex w-full justify-evenly items-center">
-                <h3 className="capitalize">{key}</h3>
+                <h3 className="capitalize">{snakeCaseToWords(key)}</h3>
                 <Dropdown
                   options={options[key]}
                   onChange={(chosenValue) => handlePrivacyChange(key, chosenValue)}

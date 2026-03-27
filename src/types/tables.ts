@@ -10,6 +10,9 @@ export type StatisticsWithUser = Statistics & {
 };
 export type UserPrivacy = Database['public']['Tables']['user_privacy']['Row'];
 export type UserPrivacySettings = Omit<UserPrivacy, 'user_id' | 'created_at'>;
+export type UserPrivacyBoolean = {
+  [K in keyof UserPrivacySettings]: boolean;
+};
 export type Friend = {
   friend: User;
   date: string;
