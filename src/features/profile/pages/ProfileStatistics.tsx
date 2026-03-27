@@ -1,8 +1,19 @@
 import { useOutletContext } from "react-router-dom";
 import type { ProfileOutletContext } from "../types/stateTypes";
+import { FaLock } from "react-icons/fa";
 
 const ProfileStatistics = () => {
-  const { statistics } = useOutletContext<ProfileOutletContext>();
+  const { statistics, privacySettings, myProfile } = useOutletContext<ProfileOutletContext>();
+
+  if (!myProfile && !privacySettings?.statistics) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <FaLock size={100} className="mb-5"/>
+        <h1>Private</h1>
+        <h2>You are not permitted to view...</h2>
+      </div>
+    );
+  }
 
   return (
     <>

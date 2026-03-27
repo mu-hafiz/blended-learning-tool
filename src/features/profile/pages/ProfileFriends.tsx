@@ -2,9 +2,20 @@ import FriendItem from "@components/FriendItem";
 import { useOutletContext } from "react-router-dom";
 import type { ProfileOutletContext } from "../types/stateTypes";
 import { MdPersonAddDisabled } from "react-icons/md";
+import { FaLock } from "react-icons/fa";
 
 const ProfileFriends = () => {
-  const { friends } = useOutletContext<ProfileOutletContext>();
+  const { friends, privacySettings, myProfile } = useOutletContext<ProfileOutletContext>();
+
+  if (!myProfile && !privacySettings?.friends) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <FaLock size={100} className="mb-5"/>
+        <h1>Private</h1>
+        <h2>You are not permitted to view...</h2>
+      </div>
+    );
+  }
 
   return (
     <>

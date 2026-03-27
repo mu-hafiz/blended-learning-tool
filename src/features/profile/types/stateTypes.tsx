@@ -5,4 +5,5 @@ export type ProfileOutletContext = {
   achievements: Achievement[] | null | undefined;
   friends: Friend[] | null | undefined;
   privacySettings: UserPrivacyBoolean | null | undefined;
+  myProfile: boolean;
 }

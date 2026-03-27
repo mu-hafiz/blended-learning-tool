@@ -208,7 +208,8 @@ const Profile = () => {
               statistics,
               achievements,
               friends,
-              privacySettings
+              privacySettings,
+              myProfile
             }}
           />
         </div>
