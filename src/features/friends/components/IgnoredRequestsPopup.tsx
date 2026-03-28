@@ -4,7 +4,7 @@ import { toast } from "@lib/toast";
 import { type User } from "@models/tables";
 import { Button, Avatar } from "@components";
 import { HiInboxArrowDown } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 type IgnoredRequestsProps = {
   onClose: () => void;
@@ -13,8 +13,6 @@ type IgnoredRequestsProps = {
 }
 
 const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequestsProps) => {
-  const navigate = useNavigate();
-
   const stopIgnoring = async (senderId: string, receiverId: string | undefined) => {
     onClose();
     const toastId = toast.loading("Removing request from ignored...");
@@ -51,16 +49,16 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
                 className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between cursor-pointer"
                 key={senderId}
               >
-                <div
+                <Link
                   className="flex flex-row items-center gap-2 cursor-pointer"
-                  onClick={() => navigate(`/profile/${username}`)}
+                  to={`/profile/${username}`}
                 >
                   <Avatar
                     filePath={profilePicture}
                     size={40}
                   />
                   <p>{username}</p>
-                </div>
+                </Link>
                 <Button
                   variant="primary"
                   onClick={() => stopIgnoring(senderId, userId)}

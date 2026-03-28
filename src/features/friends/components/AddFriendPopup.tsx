@@ -8,7 +8,7 @@ import { FaPersonCircleXmark } from "react-icons/fa6";
 import UserDB from "@lib/db/users";
 import { toast } from "@lib/toast";
 import { FaPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { addFriend } from "@lib/friends";
 
 type UserQuery = {
@@ -28,7 +28,6 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
   const [users, setUsers] = useState<UserQuery[]>([]);
   const [queryDone, setQueryDone] = useState(false);
   const debouncedUsername = useDebounce(username);
-  const navigate = useNavigate();
 
   useEffect(() => {
     let cancelled = false;
@@ -88,16 +87,16 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
                 className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
                 key={receiverId}
               >
-                <div
+                <Link
                   className="flex flex-row items-center gap-2 cursor-pointer"
-                  onClick={() => navigate(`/profile/${username}`)}
+                  to={`/profile/${username}`}
                 >
                   <Avatar
                     filePath={profilePicture}
                     size={40}
                   />
                   <p>{username}</p>
-                </div>
+                </Link>
                 <Button
                   variant="success"
                   className="py-2"
