@@ -17,3 +17,7 @@ export type Friend = {
   friend: User;
   date: string;
 }
+export type FlashcardSet = Database['public']['Tables']['flashcard_sets']['Row'];
+export type FlashcardSetWithUser = FlashcardSet & {
+  creator: User
+};

@@ -12,6 +12,7 @@ import { toast } from "@lib/toast";
 import Button from "./Button";
 import { supabase } from "@lib/supabaseClient";
 import Avatar from "./Avatar";
+import { TbCardsFilled } from "react-icons/tb";
 
 type PopupItemProps = {
   title: string;
@@ -87,6 +88,19 @@ const Navbar = () => {
             </Link>
           </Tooltip>
         </div>
+
+        <div className="h-7/12 border-l-2 border-surface-tertiary" />
+
+        <div className="raise rounded-lg">
+          <Tooltip text="Flashcards" position="bottom" offset={8}>
+            <Link to="/flashcards">
+              <TbCardsFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+            </Link>
+          </Tooltip>
+        </div>
+
+        <div className="h-7/12 border-l-2 border-surface-tertiary" />
+
         {!checkedIn && (
           <Button
             disabled={checkingIn}
