@@ -35,6 +35,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     type={type}
     disabled={loading || disabled}
     className={`
+      inline-flex items-center justify-center
       px-2.5 py-1.5 text-sm font-medium border border-transparent
       rounded-lg transition duration-250 cursor-pointer
       disabled:opacity-50 disabled:cursor-default

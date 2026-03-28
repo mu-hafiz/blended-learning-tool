@@ -2,7 +2,7 @@ import { useState } from "react";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 
 type TextInputProps = {
-  title: string;
+  title?: string;
   description?: string;
   value?: string;
   placeholder?: string;
@@ -32,17 +32,17 @@ const TextInput = ({
   return (
     <div className="flex flex-col w-full">
       <div className="flex flex-row items-center">
-        <h3 className="text-left">{title}</h3>
-        {!required && <p className="text-secondary-text ml-1">(optional)</p>}
-        {required && <p className="text-error-text ml-1">*</p>}
+        {title && <h3 className="text-left">{title}</h3>}
+        {!required && title && <p className="text-secondary-text ml-1">(optional)</p>}
+        {required && title && <p className="text-error-text ml-1">*</p>}
       </div>
       {description && <p className="text-secondary-text">{description}</p>}
       {!multiline ? (
-        <div className="relative mt-1.5">
+        <div className={`relative ${title && "mt-1.5"} ${className}`}>
           <input
             type={inputType}
             placeholder={placeholder}
-            className={`w-full p-2 h-10 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder ${className}`}
+            className={`w-full p-2 h-10 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder`}
             onChange={onChange}
             required={required && !rhfMode}
             value={value ?? ""}
