@@ -1,0 +1,1 @@
+SELECT set_config('achievement_trigger.secret', 'I5yj3a8dHXsRWL9jxSPW', true);

@@ -84,7 +84,7 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Home" position="bottom" offset={8}>
             <Link to="/dashboard">
-              <AiFillHome cursor="pointer" size={30} className="text-primary-button rounded-lg hover:text-primary-button-hover transition-colors duration-500" />
+              <AiFillHome cursor="pointer" size={30} className="text-primary-button rounded-lg hover:text-primary-button-hover transition-colors duration-300" />
             </Link>
           </Tooltip>
         </div>
@@ -94,7 +94,7 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Flashcards" position="bottom" offset={8}>
             <Link to="/flashcards">
-              <TbCardsFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              <TbCardsFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
             </Link>
           </Tooltip>
         </div>
@@ -114,14 +114,14 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Leaderboards" position="bottom" offset={8}>
             <Link to="/leaderboards">
-              <MdLeaderboard size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              <MdLeaderboard size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
             </Link>
           </Tooltip>
         </div>
         <div className="raise rounded-lg">
           <Tooltip text="Progression" position="bottom" offset={8}>
             <Link to="/progression">
-              <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
             </Link>
           </Tooltip>
         </div>
@@ -131,14 +131,14 @@ const Navbar = () => {
         <div className="raise rounded-lg">
           <Tooltip text="Friends" position="bottom" offset={8}>
             <Link to="/friends">
-              <FaUserFriends size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              <FaUserFriends size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
             </Link>
           </Tooltip>
         </div>
         <div className="raise rounded-lg">
           <Tooltip text="Notifications" position="bottom" offset={8}>
             <Link to="/notifications">
-              <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-500" />
+              <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
               {unread && 
                 <>
                   <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full" />

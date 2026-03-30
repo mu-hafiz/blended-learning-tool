@@ -1,4 +1,5 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "success";
 
@@ -34,13 +35,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     ref={ref}
     type={type}
     disabled={loading || disabled}
-    className={`
+    className={twMerge(`
       inline-flex items-center justify-center
       px-2.5 py-1.5 text-sm font-medium border border-transparent
-      rounded-lg transition duration-250 cursor-pointer
-      disabled:opacity-50 disabled:cursor-default
-      ${variantStyles[variant]} ${className}
-    `}
+      rounded-lg transition-colors duration-200 cursor-pointer
+      disabled:opacity-50 disabled:cursor-default`,
+      variantStyles[variant],
+      className
+    )}
     onClick={onClick}
   >
     {loading ? loadingMessage : children}

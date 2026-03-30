@@ -21,3 +21,7 @@ export type FlashcardSet = Database['public']['Tables']['flashcard_sets']['Row']
 export type FlashcardSetWithUser = FlashcardSet & {
   creator: User
 };
+export type Flashcard = Database['public']['Tables']['flashcards']['Row'];
+export type FlashcardSetWithFlashcards = FlashcardSet & {
+  flashcards: Flashcard[]
+}

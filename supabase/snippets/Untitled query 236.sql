@@ -1,0 +1,1 @@
+select submit_flashcard_results('00b0c524-6917-4d37-8a28-1908310aa416', '9e8ddf17-f38b-4605-b59a-6cddbd2e62ac', 10, 12);

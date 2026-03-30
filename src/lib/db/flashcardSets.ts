@@ -7,6 +7,21 @@ async function getAllPublicFlashcardSets(userId: string) {
 
   if (error) {
     console.error('Could not get flashcard sets: ', error);
+    throw new Error('Could not get flashcard sets: ', error);''
+  }
+
+  return data;
+}
+
+async function getFlashcardSetWithFlashcards(flashcardSetId: string) {
+  const { data, error } = await supabase.from('flashcard_sets')
+    .select('*, flashcards (*)')
+    .eq('id', flashcardSetId)
+    .order('order', { referencedTable: 'flashcards', ascending: true })
+    .single();
+
+  if (error) {
+    console.error('Could not get flashcard sets: ', error);
     throw new Error('Could not get flashcard sets: ', error);
   }
 
@@ -14,5 +29,6 @@ async function getAllPublicFlashcardSets(userId: string) {
 }
 
 export default {
-  getAllPublicFlashcardSets
+  getAllPublicFlashcardSets,
+  getFlashcardSetWithFlashcards
 };
