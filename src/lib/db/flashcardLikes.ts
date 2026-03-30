@@ -13,6 +13,22 @@ async function getLikedFlashcardSets(userId: string) {
   return data.map(l => l.flashcard_set_id);
 }
 
+async function isFlashcardSetLiked(userId: string, flashcardSetId: string) {
+  const { data, error } = await supabase.from('flashcard_likes')
+    .select()
+    .eq('user_id', userId)
+    .eq('flashcard_set_id', flashcardSetId)
+    .maybeSingle();
+  
+  if (error) {
+    console.error('Could not get like flashcard sets: ', error);
+    throw new Error('Could not get like flashcard sets: ', error);
+  }
+
+  return data !== null;
+}
+
+
 async function likeFlashcardSet(userId: string, flashcardSetId: string) {
   const { error } = await supabase.from('flashcard_likes')
     .insert({
@@ -40,6 +56,7 @@ async function unlikeFlashcardSet(userId: string, flashcardSetId: string) {
 
 export default {
   getLikedFlashcardSets,
+  isFlashcardSetLiked,
   likeFlashcardSet,
   unlikeFlashcardSet
 }

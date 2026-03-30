@@ -15,7 +15,7 @@ async function getAllPublicFlashcardSets(userId: string) {
 
 async function getFlashcardSetWithFlashcards(flashcardSetId: string) {
   const { data, error } = await supabase.from('flashcard_sets')
-    .select('*, flashcards (*)')
+    .select('*, creator:creator_id(*), flashcards (*)')
     .eq('id', flashcardSetId)
     .order('order', { referencedTable: 'flashcards', ascending: true })
     .single();

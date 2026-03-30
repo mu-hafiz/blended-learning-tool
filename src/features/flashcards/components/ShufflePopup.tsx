@@ -1,6 +1,6 @@
 import { Button } from "@components";
 
-const ShufflePopup = ({ handleShuffle }: { handleShuffle: () => void }) => {
+const ShufflePopup = ({ handleShuffle, onClose }: { handleShuffle: () => void, onClose: () => void }) => {
   return (
     <>
       <h2 className="text-center mb-2">Are you sure you want to shuffle?</h2>
@@ -8,6 +8,7 @@ const ShufflePopup = ({ handleShuffle }: { handleShuffle: () => void }) => {
       <div className="flex justify-center gap-2">
         <Button
           variant="secondary"
+          onClick={onClose}
         >
           Go Back...
         </Button>

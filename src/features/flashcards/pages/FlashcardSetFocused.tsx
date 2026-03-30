@@ -1,18 +1,19 @@
 import { useAuth } from "@providers/AuthProvider";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FlashcardSetsDB from "@lib/db/flashcardSets";
 import { tryCatch } from "@utils/tryCatch";
 import NotFound from "@pages/NotFound";
 import { toast } from "@lib/toast";
 import type { Flashcard, FlashcardSet } from "@models/tables";
 import { useLoading } from "@providers/LoadingProvider";
-import { PageContainer, PopupContainer } from "@components";
+import { PageContainer, PopupContainer, Tooltip } from "@components";
 import Results from "../components/Results";
 import { supabase } from "@lib/supabaseClient";
 import FocusedView from "../components/FocusedView";
 import ShufflePopup from "../components/ShufflePopup";
 import { shuffleArray } from "@utils/shuffleArray";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const FlashcardSetFocused = () => {
   const { user } = useAuth();
@@ -128,8 +129,24 @@ const FlashcardSetFocused = () => {
 
   return (
     <>
-      <PageContainer title={flashcardSetInfo?.title}>
-        <div className="flex flex-col h-full items-center justify-center gap-5">
+      <PageContainer>
+        <div className="flex items-center w-full">
+          <Tooltip
+            position="bottom"
+            text="Back to overview"
+          >
+            <Link to={`/flashcards/${flashcardSetId}`}>
+              <FaArrowLeftLong
+                size={50}
+                className="cursor-pointer transition-transform duration-250 hover:-translate-x-1"
+              />
+            </Link>
+          </Tooltip>
+          <h1 className="absolute left-1/2 transform -translate-x-1/2">
+            {flashcardSetInfo?.title}
+          </h1>
+        </div>
+        <div className="flex flex-col flex-1 items-center justify-center gap-5">
           {currentFlashcard && !showResults && (
             <FocusedView
               flashcardNumber={flashcardNumber}
@@ -156,6 +173,7 @@ const FlashcardSetFocused = () => {
       >
         <ShufflePopup
           handleShuffle={() => handleShuffle(true)}
+          onClose={() => setShowShufflePopup(false)}
         />
       </PopupContainer>
     </>

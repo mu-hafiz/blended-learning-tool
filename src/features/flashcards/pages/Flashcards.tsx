@@ -14,6 +14,7 @@ import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
 import { useDebounce } from "@hooks/useDebounce";
 import TagsPopup from "../components/TagsPopup";
+import { handleLike, handleBookmark } from "../utils/flashcardActions";
 
 const Flashcards = () => {
   const { user } = useAuth();
@@ -88,56 +89,6 @@ const Flashcards = () => {
     setDisplayedFlashcardSets(flashcards);
   }, [user, allFlashcardSets, showCreated, showBookmarks, showLikes, debouncedSearch, selectedTags]);
 
-  const handleLike = async (like: boolean, flashcardSetId: string) => {
-    const toastId = toast.loading("Working on it...");
-    if (!user) {
-      toast.error("Could not load your account, please try again later", { id: toastId });
-      console.log("User ID is null/undefined");
-      return;
-    }
-    if (like) {
-      const { error } = await tryCatch(FlashcardLikesDB.likeFlashcardSet(user.id, flashcardSetId));
-      if (error) {
-        toast.error("Could not like flashcard set, please try again later", { id: toastId });
-        return;
-      };
-      setLikedFlashcards(prev => [...prev, flashcardSetId]);
-    } else {
-      const { error } = await tryCatch(FlashcardLikesDB.unlikeFlashcardSet(user.id, flashcardSetId));
-      if (error) {
-        toast.error("Could not unlike flashcard set, please try again later", { id: toastId });
-        return;
-      };
-      setLikedFlashcards(prev => prev.filter(f => f !== flashcardSetId));
-    }
-    toast.info(like ? "Liked!" : "Removed Like", { id: toastId });
-  }
-  
-  const handleBookmark = async (bookmark: boolean, flashcardSetId: string) => {
-    const toastId = toast.loading("Working on it...");
-    if (!user) {
-      toast.error("Could not load your account, please try again later", { id: toastId });
-      console.log("User ID is null/undefined");
-      return;
-    }
-    if (bookmark) {
-      const { error } = await tryCatch(FlashcardBookmarksDB.bookmarkFlashcardSet(user.id, flashcardSetId));
-      if (error) {
-        toast.error("Could not bookmark flashcard set, please try again later", { id: toastId });
-        return;
-      };
-      setBookmarkedFlashcards(prev => [...prev, flashcardSetId]);
-    } else {
-      const { error } = await tryCatch(FlashcardBookmarksDB.removeBookmarkFlashcardSet(user.id, flashcardSetId));
-      if (error) {
-        toast.error("Could not remove bookmark for flashcard set, please try again later", { id: toastId });
-        return;
-      };
-      setBookmarkedFlashcards(prev => prev.filter(f => f !== flashcardSetId));
-    }
-    toast.info(bookmark ? "Bookmarked!" : "Removed Bookmark", { id: toastId });
-  }
-
   return (
     <>
       <PageContainer title="Flashcards">
@@ -204,15 +155,15 @@ const Flashcards = () => {
                   flashcardSet={flashcardSet}
                   liked={liked}
                   bookmarked={bookmarked}
-                  likeFunction={() => handleLike(!liked, flashcardSet.id)}
-                  bookmarkFunction={() => handleBookmark(!bookmarked, flashcardSet.id)}
+                  likeFunction={() => handleLike(!liked, flashcardSet.id, user, setLikedFlashcards)}
+                  bookmarkFunction={() => handleBookmark(!bookmarked, flashcardSet.id, user, setBookmarkedFlashcards)}
                   key={flashcardSet.id}
                 />
               );
             })}
           </ul>
         :
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col flex-1 items-center justify-center">
             <TbCards size={100}/>
             <h1 className="mt-5">No matching flashcard sets...</h1>
           </div>

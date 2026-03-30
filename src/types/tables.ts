@@ -23,5 +23,12 @@ export type FlashcardSetWithUser = FlashcardSet & {
 };
 export type Flashcard = Database['public']['Tables']['flashcards']['Row'];
 export type FlashcardSetWithFlashcards = FlashcardSet & {
+  creator: User,
   flashcards: Flashcard[]
+}
+export type FlashcardHistory = Database['public']['Tables']['flashcard_history']['Row'];
+export type FlashcardComment = Database['public']['Tables']['flashcard_comments']['Row'];
+export type FlashcardCommentWithUser = FlashcardComment & {
+  user: User,
+  reply_to_user: User | null
 }
