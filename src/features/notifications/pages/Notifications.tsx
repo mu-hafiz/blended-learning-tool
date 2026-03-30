@@ -23,7 +23,7 @@ const Notifications = () => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col h-full items-center justify-center">
+          <div className="flex flex-col flex-1 items-center justify-center">
             <ImDrawer2 size={100}/>
             <h1 className="mt-5">No notifications yet...</h1>
             <h2>Check back again later!</h2>

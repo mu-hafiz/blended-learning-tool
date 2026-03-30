@@ -36,7 +36,7 @@ const FriendsIncoming = () => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full pb-15">
+          <div className="flex flex-col flex-1 items-center justify-center pb-15">
             <HiInboxArrowDown size={100}/>
             <h1 className="mt-5">No requests received.</h1>
             <h2>All cleaned up!</h2>

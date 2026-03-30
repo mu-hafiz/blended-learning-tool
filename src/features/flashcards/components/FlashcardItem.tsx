@@ -6,7 +6,7 @@ const FlashcardItem = ({ flashcard }: { flashcard: Flashcard }) => {
 
   return (
     <div
-      className="w-180 h-100 perspective cursor-pointer"
+      className="aspect-[9/5] h-100 perspective cursor-pointer"
       onClick={() => setShowFront(prev => !prev)}
     >
       <div

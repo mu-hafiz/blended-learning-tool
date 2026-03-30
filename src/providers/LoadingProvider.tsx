@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 type LoadingContextType = {
   loading: boolean;
@@ -13,17 +13,24 @@ export const LoadingProvider = ({ children }: {children: React.ReactNode}) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const showLoading = (message: string) => {
+  const showLoading = useCallback((message: string) => {
     setMessage(message);
     setLoading(true);
-  }
+  }, []);
 
-  const hideLoading = () => {
+  const hideLoading = useCallback(() => {
     setLoading(false);
-  }
+  }, []);
+
+  const value = useMemo(() => ({
+    loading,
+    message,
+    showLoading,
+    hideLoading,
+  }), [loading, message, showLoading, hideLoading]);
 
   return (
-    <LoadingContext.Provider value={{ loading, message, showLoading, hideLoading }}>
+    <LoadingContext.Provider value={value}>
       {children}
     </LoadingContext.Provider>
   )

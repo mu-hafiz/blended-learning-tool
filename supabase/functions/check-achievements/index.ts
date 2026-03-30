@@ -15,7 +15,8 @@ const supabaseAdmin = createClient(
 const getUserStats = async (user_id: string): Statistics => {
   const { data, error } = await supabaseAdmin.from('user_statistics')
     .select()
-    .eq('user_id', user_id);
+    .eq('user_id', user_id)
+    .single();
   if (error) throw new Error(error.message || JSON.stringify(error));
   return data;
 }
@@ -73,7 +74,7 @@ Deno.serve(async (req) => {
     console.log(achievements.data);
 
     // Fetch statistics
-    const statistics = getUserStats(user_id);
+    const statistics = await getUserStats(user_id);
 
     // Run checks for each type of achievement
     for (const achievement of achievements.data) {
@@ -105,10 +106,18 @@ Deno.serve(async (req) => {
     }
 
     // Unlock required achievements
-    const { error: achievementError } = await supabaseAdmin.from('unlocked_achievements')
-      .insert(toBeUnlocked.map(a => ({user_id, achievement_id: a.achievement_id})))
-      .onConflict('user_id,achievement_id')
-      .ignore()
+    const { error: achievementError } = await supabaseAdmin
+      .from('unlocked_achievements')
+      .upsert(
+        toBeUnlocked.map((a) => ({
+          user_id,
+          achievement_id: a.achievement_id,
+        })),
+        {
+          onConflict: 'user_id,achievement_id',
+          ignoreDuplicates: true,
+        }
+      );
     
     if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
 

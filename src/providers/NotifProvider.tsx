@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { useAuth } from "./AuthProvider";
 import type { Notification } from "@models/tables";
@@ -58,7 +58,7 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user]);
 
-  const handleNotifChange = (payload: RealtimePostgresChangesPayload<{
+  const handleNotifChange = useCallback((payload: RealtimePostgresChangesPayload<{
     [key: string]: any;
   }>) => {
     let newList = [];
@@ -117,7 +117,7 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
           break;
       }
     };
-  }
+  }, [navigate]);
 
   const updateRead = async ({ notifId, read }: UpdateReadArgs) => {
     const { error } = await tryCatch(notifDB.updateReadStatus(notifId, read));

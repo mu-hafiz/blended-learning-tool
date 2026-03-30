@@ -13,18 +13,7 @@ const Dashboard = () => {
       p_amount: 1,
       p_attr: 'flashcard_sets_completed'
     });
-
-    const achievementResult = await supabase.functions.invoke('check-achievements', {
-      body: { user_id: user!.id, type: 'flashcard_sets_completed' }
-    });
-
-    if (!achievementResult.response?.ok) {
-      console.log(achievementResult.error);
-      toast.error(achievementResult.error);
-      return;
-    } else {
-      toast.success('Incremented')
-    }
+    toast.success('Incremented')
   }
 
   return (
