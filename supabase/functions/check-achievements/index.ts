@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
   try {
     // Verification
     const providedSecret = req.headers.get('x-trigger-secret');
-    if (!providedSecret || providedSecret !== Deno.env.get('LOCAL_TRIGGER_SECRET')) {
+    if (!providedSecret || providedSecret !== (Deno.env.get('TRIGGER_SECRET') ?? Deno.env.get('LOCAL_TRIGGER_SECRET'))) {
       return new Response('Unauthorized', { status: 401 });
     }
 
