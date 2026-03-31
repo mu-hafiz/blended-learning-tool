@@ -7,16 +7,18 @@ type AchievementProps = {
   description: string,
   xp: number,
   unlocked?: false
+  percentage: string,
 } | {
   title: string,
   description: string,
   xp: number,
   unlocked: true,
   dateUnlocked: string,
+  percentage: string,
 }
 
 const AchievementItem = (props: AchievementProps) => {
-  const { title, description, xp, unlocked } = props;
+  const { title, description, xp, unlocked, percentage } = props;
   let date = "";
   if (unlocked) {
     date = formatDate(props.dateUnlocked);
@@ -28,7 +30,7 @@ const AchievementItem = (props: AchievementProps) => {
       text={`Unlocked on: ${date}`}
       disabled={!unlocked}
     >
-      <div className="h-20 bg-surface-tertiary rounded-xl flex items-center p-5 raise">
+      <div className="h-fit bg-surface-tertiary rounded-xl flex items-center p-5 raise">
         <FaTrophy
           size={40}
           className={unlocked
@@ -38,7 +40,8 @@ const AchievementItem = (props: AchievementProps) => {
         />
         <div className="ml-3 flex flex-col">
           <h3>{title}</h3>
-          <p className="subtitle">{description}</p>
+          <p>{description}</p>
+          <p className="subtitle">Unlocked by {percentage}% of users</p>
         </div>
         {!unlocked && <h3>+{xp}XP</h3>}
       </div>

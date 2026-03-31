@@ -22,6 +22,7 @@ const ProgressionAchievements = () => {
                 xp={achievement.xp}
                 unlocked
                 dateUnlocked={achievement.created_at}
+                percentage={achievement.percentage}
               />
             ))}
           </div>
@@ -43,6 +44,7 @@ const ProgressionAchievements = () => {
             title={achievement.title}
             description={achievement.description}
             xp={achievement.xp}
+            percentage={achievement.percentage}
           />
         ))}
       </div>
