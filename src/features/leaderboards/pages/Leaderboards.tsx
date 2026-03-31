@@ -128,6 +128,7 @@ const Leaderboards = () => {
                 key={u.username}
                 position={idx + 1}
                 profilePicture={u.profilePicture}
+                levelPrivacy={u.levelPrivacy}
               />
             ))}
           </ul>
