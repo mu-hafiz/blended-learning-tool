@@ -173,33 +173,43 @@ const Profile = () => {
   return (
     <>
       <div className="flex flex-col h-[calc(100vh-100px)]">
-        <div className="flex flex-row items-center gap-5 mt-2 mb-6">
-          <Avatar
-            filePath={userInfo?.profile_picture}
-            size={100}
-            className="cursor-pointer"
-            onClick={() => setShowProfilePopup(true)}
-          />
-          <div className="flex flex-col">
-            <h1>{userInfo?.username}</h1>
-            {(myProfile || privacySettings?.name) &&
-              <h2>{userInfo?.first_name} {userInfo?.middle_name} {userInfo?.last_name}</h2>
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row items-center gap-5 mt-2 mb-6">
+            <Avatar
+              filePath={userInfo?.profile_picture}
+              size={100}
+              className="cursor-pointer"
+              onClick={() => setShowProfilePopup(true)}
+            />
+            <div className="flex flex-col">
+              <h1>{userInfo?.username}</h1>
+              {(myProfile || privacySettings?.name) &&
+                <h2>{userInfo?.first_name} {userInfo?.middle_name} {userInfo?.last_name}</h2>
+              }
+            </div>
+            {(myProfile || privacySettings?.level) && 
+              <Tooltip
+                text={`XP: ${userInfo?.xp}`}
+                position="top"
+                offset={5}
+              >
+                <div className="w-18 h-10 flex flex-row items-center justify-center gap-1 rounded-full bg-surface-secondary">
+                  <PiStarFill size={25} color="yellow"/>
+                  <h2>{userInfo?.level}</h2>
+                </div>
+              </Tooltip>
             }
+            {renderFriendButton()}
           </div>
-          {(myProfile || privacySettings?.level) && 
-            <Tooltip
-              text={`XP: ${userInfo?.xp}`}
-              position="top"
-              offset={5}
-            >
-              <div className="w-18 h-10 flex flex-row items-center justify-center gap-1 rounded-full bg-surface-secondary">
-                <PiStarFill size={25} color="yellow"/>
-                <h2>{userInfo?.level}</h2>
+          {userInfo?.about_me && (
+            <>
+              <div className="flex flex-col gap-4 max-w-100 pr-10">
+                <h2>About Me:</h2>
+                <p className="line-clamp-4">{userInfo?.about_me}</p>
               </div>
-            </Tooltip>
-          }
-          {renderFriendButton()}
-        </div> 
+            </>
+          )}
+        </div>
         <Tabs routes={routeNames} />
         <div className="basic-container rounded-tl-none">
           <Outlet
