@@ -95,7 +95,8 @@ const ProfilePicture = () => {
         <div className="flex flex-col items-center justify-center gap-3">
           <h3>Must be JPG, JPEG, PNG, or WEBP</h3>
           <Button
-            disabled={uploading}
+            loading={uploading}
+            loadingMessage="Uploading..."
             onClick={() => fileUploadRef.current?.click()}
           >
             Upload Here

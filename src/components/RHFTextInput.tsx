@@ -1,5 +1,6 @@
 import { Controller, type Control, type FieldValues, type Path } from "react-hook-form";
 import TextInput from "./TextInput";
+import { twMerge } from "tailwind-merge";
 
 type RHFTextInputProps<T extends FieldValues = FieldValues> = {
   name: Path<T>;
@@ -11,11 +12,13 @@ type RHFTextInputProps<T extends FieldValues = FieldValues> = {
   required?: boolean;
   multiline?: boolean;
   className?: string;
+  containerClassName?: string;
 }
 
 function RHFTextInput<T extends FieldValues = FieldValues>({
   name,
   control,
+  containerClassName,
   ...rest
 }: RHFTextInputProps<T>) {
   return (
@@ -23,7 +26,7 @@ function RHFTextInput<T extends FieldValues = FieldValues>({
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <div className="flex flex-col gap-1 flex-1">
+        <div className={twMerge("flex flex-col gap-1", containerClassName)}>
           <TextInput {...field} {...rest} rhfMode={true} />
           {fieldState.error && (
             <p className="text-left text-red-500">{fieldState.error.message}</p>

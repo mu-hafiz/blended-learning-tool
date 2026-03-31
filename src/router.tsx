@@ -32,6 +32,7 @@ import Leaderboards from "@features/leaderboards/pages/Leaderboards";
 import Flashcards from "@features/flashcards/pages/Flashcards";
 import FlashcardSet from "@features/flashcards/pages/FlashcardSet";
 import FlashcardSetFocused from "@features/flashcards/pages/FlashcardSetFocused";
+import FlashcardSetCreate from "@features/flashcards/pages/FlashcardSetCreate";
 
 export const router = createBrowserRouter([
   { path: "/", element: <RootLayout />, errorElement: <NotFound />, children: [
@@ -82,8 +83,10 @@ export const router = createBrowserRouter([
         { path: "friends", element: <ProfileFriends /> }
       ]},
       { path: "/flashcards", element: <Flashcards /> },
+      { path: "/flashcards/create", element: <FlashcardSetCreate /> },
       { path: "/flashcards/:flashcardSetId", element: <FlashcardSet /> },
-      { path: "/flashcards/:flashcardSetId/focused", element: <FlashcardSetFocused /> }
+      { path: "/flashcards/:flashcardSetId/focused", element: <FlashcardSetFocused /> },
+      { path: "/flashcards/:flashcardSetId/edit", element: <FlashcardSetCreate /> }
     ]}
   ]},
 ]);

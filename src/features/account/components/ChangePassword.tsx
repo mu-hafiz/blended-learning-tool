@@ -71,6 +71,7 @@ const ChangePassword = () => {
             type="password"
             title="New Password"
             placeholder="**********"
+            containerClassName="flex-1"
           />
           <TiArrowLeftThick size={35}/>
           <div className="flex flex-col items-center">
@@ -86,6 +87,7 @@ const ChangePassword = () => {
             type="password"
             title="Confirm Password"
             placeholder="**********"
+            containerClassName="flex-1"
           />
         </div>
         <div className="flex flex-col bg-surface-secondary rounded-2xl w-fit mx-auto p-4">

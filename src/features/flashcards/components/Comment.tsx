@@ -70,7 +70,7 @@ const CommentBase = ({ user, replyToUser, date, comment, replyAction, ownsCommen
             >
               <RxCross2
                 size={20}
-                className="text-red-400 cursor-pointer transition-transform duration-200 hover:-translate-y-0.5"
+                className="text-error cursor-pointer transition-transform duration-200 hover:-translate-y-0.5"
                 onClick={deleteAction}
               />
             </Tooltip>

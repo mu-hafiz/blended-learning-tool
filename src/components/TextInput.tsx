@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
+import { twMerge } from "tailwind-merge";
 
 type TextInputProps = {
   title?: string;
@@ -12,6 +13,7 @@ type TextInputProps = {
   multiline?: boolean;
   className?: string;
   rhfMode?: boolean;
+  containerClassName?: string;
 }
 
 const TextInput = ({
@@ -25,12 +27,13 @@ const TextInput = ({
   multiline,
   className,
   rhfMode,
+  containerClassName
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
 
   return (
-    <div className="flex flex-col w-full">
+    <div className={twMerge("flex flex-col w-full", containerClassName)}>
       <div className="flex flex-row items-center">
         {title && <h3 className="text-left">{title}</h3>}
         {!required && title && <p className="text-secondary-text ml-1">(optional)</p>}
@@ -38,7 +41,7 @@ const TextInput = ({
       </div>
       {description && <p className="text-secondary-text">{description}</p>}
       {!multiline ? (
-        <div className={`relative ${title && "mt-1.5"} ${className}`}>
+        <div className={twMerge("relative", title ? "mt-1.5" : "", className)}>
           <input
             type={inputType}
             placeholder={placeholder}
@@ -60,7 +63,10 @@ const TextInput = ({
       ) : (
         <textarea
           placeholder={placeholder}
-          className={`mt-1.5 p-3 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder ${className}`}
+          className={twMerge(`
+            mt-1.5 p-3 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
+            className
+          )}
           onChange={onChange}
           required={required && !rhfMode}
           value={value ?? ""}

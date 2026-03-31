@@ -2,9 +2,13 @@ import { Button, TextInput } from "@components";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 
-const TagsPopup = ({ setSearchTags }: { setSearchTags: (tags: string[]) => void; }) => {
+type TagsPopupProps = {
+  setTags: (tags: string[]) => void;
+  currentTags: string[];
+}
+
+const TagsPopup = ({ setTags, currentTags }: TagsPopupProps) => {
   const [tag, setTag] = useState("");
-  const [currentTags, setCurrentTags] = useState<string[]>([]);
 
   const handleAdd = () => {
     if (!tag) return;
@@ -12,20 +16,14 @@ const TagsPopup = ({ setSearchTags }: { setSearchTags: (tags: string[]) => void;
       setTag("");
       return;
     }
-    setCurrentTags(prev => {
-      const updated = [...prev, tag.replace(",", "")];
-      setSearchTags(updated);
-      return updated;
-    });
+    const cleaned = tag.replace(/[,#]/g, "").replace(" ", "_").toLowerCase();
+    if (!cleaned) return;
+    setTags([...currentTags, cleaned]);
     setTag("");
   }
 
   const handleRemove = (tag: string) => {
-    setCurrentTags(prev => {
-      const updated = prev.filter(t => t !== tag);
-      setSearchTags(updated);
-      return updated;
-    });
+    setTags(currentTags.filter(t => t !== tag));
   }
 
   return (

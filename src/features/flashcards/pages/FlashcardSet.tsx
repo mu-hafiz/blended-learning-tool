@@ -1,9 +1,9 @@
-import { Avatar, Button, PageContainer, PopupContainer } from "@components";
+import { Avatar, Button, PageContainer, Tooltip } from "@components";
 import { useEffect, useState } from "react";
-import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart } from "react-icons/fa";
+import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart, FaBookReader, FaEyeSlash } from "react-icons/fa";
 import { TbCardsFilled } from "react-icons/tb";
 import FlashcardItem from "../components/FlashcardItem";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowLeftLong, FaArrowRightLong, FaPencil } from "react-icons/fa6";
 import { handleLikeSingle, handleBookmarkSingle } from "../utils/flashcardActions";
 import FlashcardLikesDB from "@lib/db/flashcardLikes";
 import FlashcardBookmarksDB from "@lib/db/flashcardBookmarks";
@@ -14,17 +14,17 @@ import { useAuth } from "@providers/AuthProvider";
 import { tryCatch } from "@utils/tryCatch";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "@lib/toast";
-import type { User, Flashcard, FlashcardSet, FlashcardHistory, FlashcardCommentWithUser } from "@models/tables";
+import type { User, Flashcard, FlashcardSet as FlashcardSetRow, FlashcardHistory, FlashcardCommentWithUser } from "@models/tables";
 import { useLoading } from "@providers/LoadingProvider";
-import { FaBookReader } from "react-icons/fa";
 import CommentSection from "../components/CommentSection";
 import HistorySection from "../components/HistorySection";
+import NotFound from "@pages/NotFound";
 
 const FlashcardSet = () => {
   const { user } = useAuth();
   const { showLoading, hideLoading } = useLoading();
   const { flashcardSetId } = useParams();
-  const [flashcardSetInfo, setFlashcardSetInfo] = useState<FlashcardSet | null | undefined>(undefined);
+  const [flashcardSetInfo, setFlashcardSetInfo] = useState<FlashcardSetRow | null | undefined>(undefined);
   const [flashcardHistory, setFlashcardHistory] = useState<FlashcardHistory[] | null | undefined>(undefined);
   const [flashcards, setFlashcards] = useState<Flashcard[] | null | undefined>(undefined);
   const [currentFlashcard, setCurrentFlashcard] = useState<Flashcard | undefined>(undefined);
@@ -33,6 +33,8 @@ const FlashcardSet = () => {
   const [flashcardNumber, setFlashcardNumber] = useState(1);
   const [bookmarked, setBookmarked] = useState(false);
   const [liked, setLiked] = useState(false);
+
+  if (flashcardSetInfo === null) return <NotFound />;
 
   useEffect(() => {
     if (flashcardSetInfo !== undefined && flashcards !== undefined) {
@@ -129,10 +131,10 @@ const FlashcardSet = () => {
 
   return (
     <PageContainer>
-      <div className="flex justify-between gap-10">
+      <div className="flex items-center justify-between gap-10">
         <div className="flex flex-col">
           <Link
-            className="flex flex-row gap-2"
+            className="flex flex-row gap-2 w-fit"
             to={`/profile/${creator?.username}`}
           >
             <Avatar
@@ -141,7 +143,18 @@ const FlashcardSet = () => {
             />
             <h2>{creator?.username}</h2>
           </Link>
-          <h1>{flashcardSetInfo?.title}</h1>
+          <div className="flex flex-row gap-2 items-center">
+            <h1>{flashcardSetInfo?.title}</h1>
+            {flashcardSetInfo?.private && 
+              <Tooltip
+                position="top"
+                text="Private to you"
+                offset={15}
+              >
+                <FaEyeSlash size={30} />
+              </Tooltip>
+            }
+          </div>
           <h3 className="line-clamp-3">{flashcardSetInfo?.description}</h3>
           <p className="my-1 subtitle">Last Updated: {flashcardSetInfo?.updated_at && new Date(flashcardSetInfo.updated_at).toLocaleDateString()}</p>
           <div className="flex gap-2 max-w-200 overflow-x-auto overflow-y-hidden mt-2 mb-4 pb-2">
@@ -191,6 +204,15 @@ const FlashcardSet = () => {
             >
               <FaBookReader size={20} />
               Study with this set!
+            </Link>
+          </Button>
+          <Button variant="secondary">
+            <Link
+              to={`/flashcards/${flashcardSetId}/edit`}
+              className="flex gap-2"
+            >
+              <FaPencil size={20} />
+              Edit Flashcard Set
             </Link>
           </Button>
         </div>

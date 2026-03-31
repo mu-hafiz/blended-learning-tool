@@ -121,17 +121,20 @@ const BasicInfo = () => {
           name="firstName"
           control={control}
           title="First Name"
+          containerClassName="flex-1"
         />
         <RHFTextInput
           name="middleName"
           control={control}
           title="Middle Name"
           required={false}
+          containerClassName="flex-1"
         />
         <RHFTextInput
           name="lastName"
           control={control}
           title="Last Name"
+          containerClassName="flex-1"
         />
       </div>
       <RHFTextInput

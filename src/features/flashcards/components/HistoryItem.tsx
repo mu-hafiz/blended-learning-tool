@@ -9,7 +9,7 @@ const HistoryItem = ({ history }: { history: FlashcardHistory }) => {
   return (
     <div className="flex flex-col gap-3 bg-surface-primary rounded-2xl p-4">
       <h3>{date}</h3>
-      <div className="w-full bg-warning rounded-full h-2">
+      <div className="w-full bg-error rounded-full h-2">
         <div className="bg-success h-2 rounded-full" style={{ width: `${percentage}%`}}/>
       </div>
       <div className="flex flex-row items-center justify-evenly">

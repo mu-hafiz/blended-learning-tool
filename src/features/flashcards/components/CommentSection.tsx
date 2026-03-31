@@ -78,6 +78,8 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
   }
 
   const handleDelete = async () => {
+    setShowDeletePopup(false);
+    
     if (!commentIdToDelete) {
       toast.error("Could not delete comment, please try again later");
       return;
@@ -100,7 +102,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
 
   return (
     <>
-      <div className="flex flex-col gap-4 mb-6">
+      <div className="flex flex-col gap-4">
         <h2>Comments</h2>
         <div className="flex flex-row items-center gap-2">
           <TextInput

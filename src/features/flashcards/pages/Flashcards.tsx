@@ -15,6 +15,8 @@ import { toast } from "@lib/toast";
 import { useDebounce } from "@hooks/useDebounce";
 import TagsPopup from "../components/TagsPopup";
 import { handleLike, handleBookmark } from "../utils/flashcardActions";
+import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Flashcards = () => {
   const { user } = useAuth();
@@ -68,7 +70,7 @@ const Flashcards = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !debouncedSearch.ready) return;
 
     var flashcards = allFlashcardSets;
     if (debouncedSearch.ready) {
@@ -107,6 +109,15 @@ const Flashcards = () => {
                 Select Tags{selectedTags.length > 0 && ` (${selectedTags.length})`}
             </Button>
           </div>
+          <Button variant="success">
+            <Link
+              to="/flashcards/create"
+              className="flex flex-row items-center gap-2"
+            >
+              Create
+              <FaPlus />
+            </Link>
+          </Button>
           <div className="flex flex-row gap-2">
             <Button
               className="flex flex-row items-center text-nowrap"
@@ -174,7 +185,8 @@ const Flashcards = () => {
         onClose={() => setShowTagsPopup(false)}
       >
         <TagsPopup
-          setSearchTags={setSelectedTags}
+          setTags={setSelectedTags}
+          currentTags={selectedTags}
         />
       </PopupContainer>
     </>
