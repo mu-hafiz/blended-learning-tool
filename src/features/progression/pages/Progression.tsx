@@ -14,12 +14,15 @@ const routes = ["level", "achievements", "statistics"];
 
 const Progression = () => {
   const { user, userProfile } = useAuth();
+  const { showLoading, hideLoading } = useLoading();
+
   const [unlockedAchievements, setUnlockedAchievements] = useState<Achievement[] | null | undefined>();
   const [lockedAchievements, setLockedAchievements] = useState<Achievement[] | null | undefined>();
   const [level, setLevel] = useState(0);
   const [xp, setXp] = useState(0);
   const [statistics, setStatistics] = useState<Statistics | null | undefined>();
-  const { showLoading, hideLoading } = useLoading();
+  const [checkedIn, setCheckedIn] = useState(true);
+  const [checkingIn, setCheckingIn] = useState(false);
 
   useEffect(() => {
     if (unlockedAchievements !== undefined && lockedAchievements !== undefined && statistics !== undefined) {
@@ -67,6 +70,7 @@ const Progression = () => {
     if (!userProfile) return;
     setLevel(userProfile.level);
     setXp(userProfile.xp);
+    setCheckedIn(userProfile.daily_check_in);
   }, [userProfile]);
 
   return (
@@ -79,7 +83,11 @@ const Progression = () => {
             lockedAchievements,
             level,
             xp,
-            statistics
+            statistics,
+            checkedIn,
+            checkingIn,
+            setCheckedIn,
+            setCheckingIn
           }}
         />
       </div>

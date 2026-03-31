@@ -8,9 +8,6 @@ import { Link } from "react-router-dom"
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "@providers/AuthProvider";
 import Tooltip from "@components/Tooltip";
-import { toast } from "@lib/toast";
-import Button from "./Button";
-import { supabase } from "@lib/supabaseClient";
 import Avatar from "./Avatar";
 import { TbCardsFilled } from "react-icons/tb";
 
@@ -33,11 +30,9 @@ const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
 };
 
 const Navbar = () => {
-  const { user, userProfile, signOut } = useAuth();
+  const { userProfile, signOut } = useAuth();
   const { unread } = useNotif();
 
-  const [checkedIn, setCheckedIn] = useState(true);
-  const [checkingIn, setCheckingIn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
@@ -48,11 +43,6 @@ const Navbar = () => {
   ]
 
   useEffect(() => {
-    if (!userProfile) return;
-    setCheckedIn(userProfile.daily_check_in);
-  }, [userProfile]);
-
-  useEffect(() => {
     const handleClickOutside = (event: PointerEvent) => {
       if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
         setShowPopup(false);
@@ -61,22 +51,6 @@ const Navbar = () => {
     document.addEventListener("pointerdown", handleClickOutside);
     return () => document.removeEventListener("pointerdown", handleClickOutside);
   }, []);
-
-  const checkIn = async () => {
-    if (!user) return;
-    setCheckingIn(true);
-    const { error } = await supabase.rpc('daily_check_in', {
-      p_user_id: user.id
-    });
-    if (error) {
-      toast.error("Could not check in, please try again later");
-      console.error(error.message);
-      return;
-    }
-    toast.success("You have checked in! +50xp");
-    setCheckedIn(true);
-    setCheckingIn(false);
-  };
 
   return (
     <nav className="bg-surface-primary w-full h-12 flex justify-between sticky top-0 px-6 z-50 border-b-2 border-b-surface-secondary">
@@ -101,16 +75,11 @@ const Navbar = () => {
 
         <div className="h-7/12 border-l-2 border-surface-tertiary" />
 
-        {!checkedIn && (
-          <Button
-            disabled={checkingIn}
-            onClick={checkIn}
-          >
-            Claim your daily check-in!
-          </Button>
-        )}
       </div>
       <div className="flex items-center gap-4">
+
+        <div className="h-7/12 border-l-2 border-surface-tertiary" />
+
         <div className="raise rounded-lg">
           <Tooltip text="Leaderboards" position="bottom" offset={8}>
             <Link to="/leaderboards">
@@ -122,6 +91,12 @@ const Navbar = () => {
           <Tooltip text="Progression" position="bottom" offset={8}>
             <Link to="/progression">
               <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
+              {!userProfile?.daily_check_in && 
+                <>
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping" />
+                </>
+              }
             </Link>
           </Tooltip>
         </div>
