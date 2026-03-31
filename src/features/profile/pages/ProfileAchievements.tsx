@@ -37,6 +37,7 @@ const ProfileAchievements = () => {
               xp={achievement.xp}
               unlocked
               dateUnlocked={achievement.created_at}
+              percentage={achievement.percentage}
             />
           ))}
         </div>
