@@ -9,6 +9,12 @@ export type StatisticsWithUser = Statistics & {
   user: User
 };
 export type UserPrivacy = Database['public']['Tables']['user_privacy']['Row'];
+export type UserWithPrivacy = {
+  user: User & {
+    user_privacy: UserPrivacy | null;
+  }
+}
+export type StatisticsWithUserAndPrivacy = Statistics & UserWithPrivacy
 export type UserPrivacySettings = Omit<UserPrivacy, 'user_id' | 'created_at'>;
 export type UserPrivacyBoolean = {
   [K in keyof UserPrivacySettings]: boolean;

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { RiCheckboxBlankLine } from "react-icons/ri";
 import { RiCheckboxLine } from "react-icons/ri";
 import StatisticsDB from "@lib/db/userStatistics";
-import type { StatisticsWithUser } from "@models/tables";
+import type { StatisticsWithUserAndPrivacy } from "@models/tables";
 import { useAuth } from "@providers/AuthProvider";
 import { wordsToSnakeCase, snakeCaseToWords } from "@utils/stringManip";
 import { MdLeaderboard } from "react-icons/md";
@@ -17,7 +17,7 @@ const Leaderboards = () => {
   const [myUsername, setMyUsername] = useState<string>();
   const [friendsEnabled, setFriendsEnabled] = useState(false);
   const { showLoading, hideLoading } = useLoading();
-  const [allStatistics, setAllStatistics] = useState<StatisticsWithUser[] | undefined>();
+  const [allStatistics, setAllStatistics] = useState<StatisticsWithUserAndPrivacy[] | undefined>();
   const [leaderboard, setLeaderboard] = useState<LeaderboardUser[]>();
   const [statOptions, setStatOptions] = useState<string[]>([]);
   const [selectedStat, setSelectedStat] = useState<string>("Days Studied");
@@ -70,7 +70,8 @@ const Leaderboards = () => {
         username: u.user.username,
         level: u.user.level,
         stat: u[stat],
-        profilePicture: u.user.profile_picture
+        profilePicture: u.user.profile_picture,
+        levelPrivacy: u.user.user_privacy?.level
       }));
     leaderboardItems.sort((a, b) => {
       const primarySort = b.stat - a.stat;

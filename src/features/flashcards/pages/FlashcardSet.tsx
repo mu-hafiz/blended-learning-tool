@@ -138,7 +138,7 @@ const FlashcardSet = () => {
             to={`/profile/${creator?.username}`}
           >
             <Avatar
-              filePath={creator?.profile_picture ?? "defaultProfilePicture.png"}
+              filePath={creator?.profile_picture}
               size={30}
             />
             <h2>{creator?.username}</h2>

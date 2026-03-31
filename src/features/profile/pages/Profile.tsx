@@ -17,7 +17,6 @@ import { FaPencil } from "react-icons/fa6";
 import { addFriend, cancelRequest } from "@lib/friends";
 
 const routeNames = ["statistics", "achievements", "friends"];
-const defaultProfilePicture = "defaultProfilePicture.png";
 
 const Profile = () => {
   const { user, userProfile } = useAuth();

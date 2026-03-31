@@ -18,7 +18,12 @@ async function getStatistics(userId: string) {
 // Only used for leaderboards
 async function getLeaderboardStatisticsAllUsers(userId: string) {
   const { data, error } = await supabase.from('user_statistics')
-    .select('*, user:user_id(*)');
+    .select(`*,
+      user:user_id(
+        *,
+        user_privacy(*)
+      )`
+    );
 
   if (error) {
     console.error('Could not get user statistics: ', error);
