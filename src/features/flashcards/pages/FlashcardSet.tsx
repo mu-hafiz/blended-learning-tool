@@ -133,16 +133,29 @@ const FlashcardSet = () => {
     <PageContainer>
       <div className="flex items-center justify-between gap-10">
         <div className="flex flex-col">
-          <Link
-            className="flex flex-row gap-2 w-fit"
-            to={`/profile/${creator?.username}`}
-          >
-            <Avatar
-              filePath={creator?.profile_picture}
-              size={30}
-            />
-            <h2>{creator?.username}</h2>
-          </Link>
+          <div className="flex flex-row gap-5 items-center">
+            <Tooltip
+              position="bottom"
+              text="Back to flashcards"
+            >
+              <Link to="/flashcards">
+                <FaArrowLeftLong
+                  size={50}
+                  className="cursor-pointer transition-transform duration-250 hover:-translate-x-1"
+                />
+              </Link>
+            </Tooltip>
+            <Link
+              className="flex flex-row gap-2 w-fit"
+              to={`/profile/${creator?.username}`}
+            >
+              <Avatar
+                filePath={creator?.profile_picture}
+                size={30}
+              />
+              <h2>{creator?.username}</h2>
+            </Link>
+          </div>
           <div className="flex flex-row gap-2 items-center">
             <h1>{flashcardSetInfo?.title}</h1>
             {flashcardSetInfo?.private && 
