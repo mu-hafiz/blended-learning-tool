@@ -2,23 +2,36 @@ import { corsHeaders, jsonResponse } from "../_shared/cors.ts";
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import type { Statistics } from "../../../src/types/tables.ts";
 
-// interface AchievementCheck {
-//   type: AchievementType,
-//   user_id: string,
-// };
-
 const supabaseAdmin = createClient(
   Deno.env.get('SUPABASE_URL') ?? Deno.env.get('LOCAL_SUPABASE_URL') ?? '',
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? Deno.env.get('LOCAL_SUPABASE_SERVICE_ROLE_KEY') ?? ''
 );
 
-const getUserStats = async (user_id: string): Statistics => {
+const getUserStats = async (userId: string): Statistics => {
   const { data, error } = await supabaseAdmin.from('user_statistics')
     .select()
-    .eq('user_id', user_id)
+    .eq('user_id', userId)
     .single();
   if (error) throw new Error(error.message || JSON.stringify(error));
   return data;
+}
+
+const getFriendCount = async (userId: string) => {
+  const { count, error } = await supabaseAdmin.from('friends')
+    .select('*', { count: 'exact', head: true })
+    .or(`user_id_1.eq.${userId}, user_id_2.eq.${userId}`);
+  if (error) throw new Error(error.message || JSON.stringify(error));
+  return count;
+}
+
+const getMaxFlashcardAttempts = async (userId: string) => {
+  const { data, error } = await supabaseAdmin.from('flashcard_set_counts')
+    .select('*')
+    .eq('user_id', userId)
+    .order('count', { ascending: false })
+    .limit(1);
+  if (error) throw new Error(error.message || JSON.stringify(error));
+  return data[0]?.count ?? 0;
 }
 
 Deno.serve(async (req) => {
@@ -33,114 +46,122 @@ Deno.serve(async (req) => {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    // Get variables
     const { new_row, updated_table } = await req.json();
-    const toBeUnlocked: {
-      achievement_id: string,
-      title: string,
-      description: string,
-      xp: number
-    }[] = []
 
-    // Set User ID
-    let user_id = "";
+    // The friend rows have 2 user_ids, so need to check for both users
+    const user_ids = [];
     if (updated_table === 'user_statistics') {
-      user_id = new_row.user_id;
-    } else {
-      // Handle friend update
+      user_ids.push(new_row.user_id);
+    } else if (updated_table === 'friends') {
+      user_ids.push(new_row.user_id_1, new_row.user_id_2);
     }
 
-    // Get Unlocked Achievements
-    const userAchievements = await supabaseAdmin.from('unlocked_achievements')
-      .select('achievement_id')
-      .eq('user_id', user_id)
+    for (const user_id of user_ids) {
+      const toBeUnlocked: {
+        achievement_id: string,
+        title: string,
+        description: string,
+        xp: number
+      }[] = [];
 
-    if (userAchievements.error) throw new Error(userAchievements.error.message || JSON.stringify(userAchievements.error));
+      // Get Unlocked Achievements
+      const userAchievements = await supabaseAdmin.from('unlocked_achievements')
+        .select('achievement_id')
+        .eq('user_id', user_id)
 
-    const unlocked: string[] = userAchievements.data.map(a => a.achievement_id);
-    console.log(unlocked);
+      if (userAchievements.error) throw new Error(userAchievements.error.message || JSON.stringify(userAchievements.error));
 
-    // Get Achievements that haven't been unlocked
-    const achievements = await supabaseAdmin.from('achievements')
-      .select()
-      .not('id', 'in', `(${unlocked.join(",")})`)
+      const unlocked: string[] = userAchievements.data.map(a => a.achievement_id);
+      console.log(unlocked);
 
-    if (achievements.error) throw new Error(achievements.error.message || JSON.stringify(achievements.error));
-    if (achievements.data.length <= 0) {
-      console.log("Already has all achievements");
-      return jsonResponse({ success: true }, 200);
-    }
+      // Get Achievements that haven't been unlocked
+      const achievements = await supabaseAdmin.from('achievements')
+        .select()
+        .not('id', 'in', `(${unlocked.join(",")})`)
 
-    console.log(achievements.data);
-
-    // Fetch statistics
-    const statistics = await getUserStats(user_id);
-
-    // Run checks for each type of achievement
-    for (const achievement of achievements.data) {
-      let unlocked = false;
-      switch (achievement.type) {
-        case 'flashcard_sets_completed':
-          unlocked = statistics.flashcard_sets_completed >= achievement.unlock_criteria.completed;
-          break;
-        case 'flashcard_sets_created':
-          unlocked = statistics.flashcard_sets_created >= achievement.unlock_criteria.created;
-          break;
-        case 'flashcards_used':
-          unlocked = statistics.flashcards_used >= achievement.unlock_criteria.used;
-          break;
-        case 'flashcards_correct':
-          unlocked = statistics.flashcards_correct >= achievement.unlock_criteria.correct;
+      if (achievements.error) throw new Error(achievements.error.message || JSON.stringify(achievements.error));
+      if (achievements.data.length <= 0) {
+        console.log("Already has all achievements");
+        return jsonResponse({ success: true }, 200);
       }
 
-      console.log(`Achievement: ${achievement.title}, Unlocked: ${unlocked}`)
+      console.log(achievements.data);
 
-      if (unlocked) {
-        toBeUnlocked.push({
-          achievement_id: achievement.id,
-          title: `'${achievement.title}' achievement unlocked!`,
-          description: `You gained ${achievement.xp}XP`,
-          xp: achievement.xp
-        })
-      }
-    }
+      // Fetch statistics
+      const statistics = await getUserStats(user_id);
+      const friendCount = await getFriendCount(user_id);
+      const maxFlashcardAttempts = await getMaxFlashcardAttempts(user_id);
 
-    // Unlock required achievements
-    const { error: achievementError } = await supabaseAdmin
-      .from('unlocked_achievements')
-      .upsert(
-        toBeUnlocked.map((a) => ({
-          user_id,
-          achievement_id: a.achievement_id,
-        })),
-        {
-          onConflict: 'user_id,achievement_id',
-          ignoreDuplicates: true,
+      // Run checks for each type of achievement
+      for (const achievement of achievements.data) {
+        let unlocked = false;
+        switch (achievement.type) {
+          case 'flashcard_sets_completed':
+            unlocked = statistics.flashcard_sets_completed >= achievement.unlock_criteria.completed;
+            break;
+          case 'flashcard_sets_created':
+            unlocked = statistics.flashcard_sets_created >= achievement.unlock_criteria.created;
+            break;
+          case 'flashcards_used':
+            unlocked = statistics.flashcards_used >= achievement.unlock_criteria.used;
+            break;
+          case 'flashcards_correct':
+            unlocked = statistics.flashcards_correct >= achievement.unlock_criteria.correct;
+            break;
+          case 'friends_made':
+            unlocked = friendCount >= achievement.unlock_criteria.friends_made;
+            break;
+          case 'flashcard_set_repeats':
+            unlocked = maxFlashcardAttempts >= achievement.unlock_criteria.repeats;
+            break;
         }
-      );
-    
-    if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
+        console.log(`Achievement: ${achievement.title}, Unlocked: ${unlocked}`)
+        if (unlocked) {
+          toBeUnlocked.push({
+            achievement_id: achievement.id,
+            title: `'${achievement.title}' achievement unlocked!`,
+            description: `You gained ${achievement.xp}XP`,
+            xp: achievement.xp
+          })
+        }
+      }
 
-    // Send notifications
-    const { error: notifError } = await supabaseAdmin.from('notifications')
-      .insert(
-        toBeUnlocked.map(a => ({
-          user_id,
-          title: a.title,
-          description: a.description,
-          type: 'achievement_unlocked'
-        })))
-      .select();
-    
-    if (notifError) throw new Error(notifError.message || JSON.stringify(notifError));
+      // Unlock required achievements
+      const { error: achievementError } = await supabaseAdmin
+        .from('unlocked_achievements')
+        .upsert(
+          toBeUnlocked.map((a) => ({
+            user_id,
+            achievement_id: a.achievement_id,
+          })),
+          {
+            onConflict: 'user_id,achievement_id',
+            ignoreDuplicates: true,
+          }
+        );
+      if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
 
-    // Add XP
-    await supabaseAdmin.rpc('add_to_user_xp', {
-      p_user_id: user_id,
-      p_amount: toBeUnlocked.reduce((acc, current) => {
-        return acc + current.xp;
-      }, 0)
-    });
+      // Send notifications
+      const { error: notifError } = await supabaseAdmin.from('notifications')
+        .insert(
+          toBeUnlocked.map(a => ({
+            user_id,
+            title: a.title,
+            description: a.description,
+            type: 'achievement_unlocked'
+          })))
+        .select();
+      if (notifError) throw new Error(notifError.message || JSON.stringify(notifError));
+
+      // Add XP
+      const { error: xpError } = await supabaseAdmin.rpc('add_to_user_xp', {
+        p_user_id: user_id,
+        p_amount: toBeUnlocked.reduce((acc, current) => {
+          return acc + current.xp;
+        }, 0)
+      });
+      if (xpError) throw new Error(xpError.message || JSON.stringify(xpError));
+    }
 
     return jsonResponse({ success: true }, 200);
 

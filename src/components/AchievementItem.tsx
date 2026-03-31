@@ -1,5 +1,6 @@
 import { FaTrophy } from "react-icons/fa";
 import Tooltip from "./Tooltip";
+import formatDate from "@features/flashcards/utils/formatDate";
 
 type AchievementProps = {
   title: string,
@@ -18,7 +19,7 @@ const AchievementItem = (props: AchievementProps) => {
   const { title, description, xp, unlocked } = props;
   let date = "";
   if (unlocked) {
-    date = new Date(props.dateUnlocked).toLocaleDateString();
+    date = formatDate(props.dateUnlocked);
   }
   
   return (
