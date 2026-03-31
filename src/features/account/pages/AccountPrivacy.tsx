@@ -10,7 +10,6 @@ const options = {
   leaderboards: ["Public", "Friends Only"],
   level: ["Public", "Friends Only"],
   name: ["Public", "Friends Only", "Private"],
-  profile_picture: ["Public", "Friends Only"],
   statistics: ["Public", "Friends Only"]
 }
 

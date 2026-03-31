@@ -176,7 +176,7 @@ const Profile = () => {
       <div className="flex flex-col h-[calc(100vh-100px)]">
         <div className="flex flex-row items-center gap-5 mt-2 mb-6">
           <Avatar
-            filePath={myProfile || privacySettings?.profile_picture ? userInfo?.profile_picture : defaultProfilePicture}
+            filePath={userInfo?.profile_picture}
             size={100}
             className="cursor-pointer"
             onClick={() => setShowProfilePopup(true)}
