@@ -6,6 +6,7 @@ import { tryCatch } from "@utils/tryCatch";
 import { toast } from "@lib/toast";
 import UserDB from "@lib/db/users";
 import { useAuth } from "@providers/AuthProvider";
+import heic2any from "heic2any";
 
 const allowedFileTypes = ["image/png", "image/jpeg", "image/webp", "image/heic"];
 
@@ -22,10 +23,21 @@ const ProfilePicture = () => {
       return;
     }
 
-    const file = event.target.files?.[0];
+    let file = event.target.files?.[0];
     if (!file) return;
 
     const toastId = toast.loading("Uploading profile picture...");
+
+    if (file.type === "image/heic" || file.name.toLowerCase().endsWith(".heic")) {
+      try {
+        const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.9 }) as Blob;
+        file = new File([convertedBlob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" });
+      } catch (err) {
+        toast.error("Could not convert HEIC image. Please try a different image.", { id: toastId });
+        console.error("HEIC conversion error:", err);
+        return;
+      }
+    }
 
     if (!allowedFileTypes.includes(file.type)) {
       toast.error("File type is unsupported, please try another image", {
