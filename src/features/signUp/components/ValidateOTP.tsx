@@ -2,8 +2,7 @@ import { useAuth } from "@providers/AuthProvider";
 import { toast } from "@lib/toast";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@lib/supabaseClient";
-import { OTPInput, type SlotProps } from "input-otp";
-import { Button } from "@components";
+import { Button, TextInput } from "@components";
 import { useState } from "react";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 
@@ -19,7 +18,14 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
 
-  const handleSignUp = async () => {
+  const handleChange = (value: string) => {
+    setOtp(value);
+    if (value.length >= 6) {
+      handleSignUp(value);
+    }
+  }
+
+  const handleSignUp = async (otp: string) => {
     setLoading(true);
     const toastId = toast.loading("Checking OTP...");
 
@@ -52,7 +58,7 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
             id: toastId,
             action: {
               label: "Login",
-              onClick: () => navigate('/login')
+              onClick: () => navigate('/account/login')
             }
           });
         } else {
@@ -68,27 +74,16 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
   }
 
   return (
-    <form onSubmit={handleSignUp}>
+    <form onSubmit={() => handleSignUp(otp)}>
       <h2 className="text-center text-primary-text mb-2">One-Time Password</h2>
       <p className="text-center text-secondary-text">An OTP has been sent to your email, please enter below:</p>
-      <p className="text-center text-secondary-text mb-8">(Check your junk folder!)</p>
-      <OTPInput
+      <p className="text-center text-error mb-8">PLEASE CHECK YOUR JUNK FOLDER! (it's most likely in there...)</p>
+      <TextInput
         value={otp}
-        onChange={(value) => {setOtp(value)}}
-        maxLength={6}
-        onComplete={handleSignUp}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder="CLGVDI"
         disabled={loading}
-        render={({ slots }) => (
-          <div className="flex space-x-2 justify-center">
-            {slots.map((slot, idx) => (
-              <input
-                key={idx}
-                {...slot}
-                className="w-12 h-12 text-center text-xl border rounded"
-              />
-            ))}
-          </div>
-        )}
+        maxLength={6}
       />
       <div className="flex flex-col justify-center">
         <Button

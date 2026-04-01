@@ -13,6 +13,8 @@ type RHFTextInputProps<T extends FieldValues = FieldValues> = {
   multiline?: boolean;
   className?: string;
   containerClassName?: string;
+  disabled?: boolean;
+  maxLength?: number;
 }
 
 function RHFTextInput<T extends FieldValues = FieldValues>({

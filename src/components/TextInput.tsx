@@ -14,6 +14,8 @@ type TextInputProps = {
   className?: string;
   rhfMode?: boolean;
   containerClassName?: string;
+  disabled?: boolean;
+  maxLength?: number;
 }
 
 const TextInput = ({
@@ -27,7 +29,9 @@ const TextInput = ({
   multiline,
   className,
   rhfMode,
-  containerClassName
+  containerClassName,
+  disabled,
+  maxLength
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
@@ -49,6 +53,8 @@ const TextInput = ({
             onChange={onChange}
             required={required && !rhfMode}
             value={value ?? ""}
+            disabled={disabled}
+            maxLength={maxLength}
           />
           {type === "password" && (
             <button
@@ -70,6 +76,7 @@ const TextInput = ({
           onChange={onChange}
           required={required && !rhfMode}
           value={value ?? ""}
+          disabled={disabled}
         />
       )}
     </div>
