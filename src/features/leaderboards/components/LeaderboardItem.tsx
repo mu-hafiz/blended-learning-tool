@@ -38,7 +38,7 @@ const LeaderboardItem = (
         />
         <div className="flex flex-col">
           <h3>{username}</h3>
-          {(levelPrivacy !== "public" || myEntry) && <p>Level {level}</p>}
+          {(levelPrivacy === "public" || myEntry) && <p>Level {level}</p>}
         </div>
       </div>
       <h2>{stat}</h2>
