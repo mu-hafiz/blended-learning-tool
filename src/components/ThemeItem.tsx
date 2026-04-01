@@ -31,7 +31,7 @@ const ThemeItem = ({ theme, locked = false }: { theme: Theme, locked?: boolean }
         { locked && (
           <>
             <hr/>
-            <p className="subtitle text-xs">{theme.unlock_criteria}</p>
+            <p className="subtitle text-xs">{theme.description}</p>
           </>
         )}
       </div>

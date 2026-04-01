@@ -112,6 +112,13 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
             navigate: () => navigate("/friends/incoming")
           });
           break;
+        case 'theme_unlocked':
+          toast.theme({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate("/account/preferences")
+          })
+          break;
         default:
           toast.notification(payload.new.title, payload.new.description);
           break;

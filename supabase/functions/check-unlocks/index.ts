@@ -24,6 +24,14 @@ const getFriendCount = async (userId: string) => {
   return count;
 }
 
+const getLikesCount = async (userId: string) => {
+  const { count, error } = await supabaseAdmin.from('flashcard_likes')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId);
+  if (error) throw new Error(error.message || JSON.stringify(error));
+  return count;
+}
+
 const getMaxFlashcardAttempts = async (userId: string) => {
   const { data, error } = await supabaseAdmin.from('flashcard_set_counts')
     .select('*')
@@ -57,45 +65,65 @@ Deno.serve(async (req) => {
     }
 
     for (const user_id of user_ids) {
-      const toBeUnlocked: {
+      const achievementsToBeUnlocked: {
         achievement_id: string,
         title: string,
         description: string,
         xp: number
       }[] = [];
 
+      const themesToBeUnlocked: {
+        theme_id: string,
+        title: string,
+        description: string
+      }[] = [];
+
       // Get Unlocked Achievements
       const userAchievements = await supabaseAdmin.from('unlocked_achievements')
         .select('achievement_id')
-        .eq('user_id', user_id)
-
+        .eq('user_id', user_id);
       if (userAchievements.error) throw new Error(userAchievements.error.message || JSON.stringify(userAchievements.error));
-
-      const unlocked: string[] = userAchievements.data.map(a => a.achievement_id);
-      console.log(unlocked);
+      const unlockedAchievements: string[] = userAchievements.data.map(a => a.achievement_id);
+      console.log(unlockedAchievements);
 
       // Get Achievements that haven't been unlocked
       const achievements = await supabaseAdmin.from('achievements')
         .select()
-        .not('id', 'in', `(${unlocked.join(",")})`)
-
+        .not('id', 'in', `(${unlockedAchievements.join(",")})`);
       if (achievements.error) throw new Error(achievements.error.message || JSON.stringify(achievements.error));
-      if (achievements.data.length <= 0) {
-        console.log("Already has all achievements");
-        return jsonResponse({ success: true }, 200);
-      }
-
       console.log(achievements.data);
 
+      // Get Unlocked Themes
+      const userThemes = await supabaseAdmin.from('unlocked_themes')
+        .select('theme_id')
+        .eq('user_id', user_id);
+      if (userThemes.error) throw new Error(userThemes.error.message || JSON.stringify(userThemes.error));
+      const unlockedThemes: string[] = userThemes.data.map(t => t.theme_id);
+      console.log(unlockedThemes);
+
+      // Get Achievements that haven't been unlocked
+      const themes = await supabaseAdmin.from('themes')
+        .select()
+        .not('id', 'in', `(${unlockedThemes.join(",")})`);
+      if (themes.error) throw new Error(themes.error.message || JSON.stringify(themes.error));
+      console.log(themes.data);
+
       // Fetch statistics
-      const statistics = await getUserStats(user_id);
-      const friendCount = await getFriendCount(user_id);
-      const maxFlashcardAttempts = await getMaxFlashcardAttempts(user_id);
+      let statistics;
+      let friendCount;
+      let maxFlashcardAttempts;
+      let likeCount;
+      if (achievements.data.length > 0 || themes.data.length > 0) {
+        statistics = await getUserStats(user_id);
+        friendCount = await getFriendCount(user_id);
+        maxFlashcardAttempts = await getMaxFlashcardAttempts(user_id);
+        likeCount = await getLikesCount(user_id);
+      }
 
       // Run checks for each type of achievement
       for (const achievement of achievements.data) {
         let unlocked = false;
-        switch (achievement.type) {
+        switch (achievement.unlock_type) {
           case 'flashcard_sets_completed':
             unlocked = statistics.flashcard_sets_completed >= achievement.unlock_criteria.completed;
             break;
@@ -114,10 +142,13 @@ Deno.serve(async (req) => {
           case 'flashcard_set_repeats':
             unlocked = maxFlashcardAttempts >= achievement.unlock_criteria.repeats;
             break;
+          case 'likes_given':
+            unlocked = likeCount >= achievement.unlock_criteria.given;
+            break;
         }
         console.log(`Achievement: ${achievement.title}, Unlocked: ${unlocked}`)
         if (unlocked) {
-          toBeUnlocked.push({
+          achievementsToBeUnlocked.push({
             achievement_id: achievement.id,
             title: `'${achievement.title}' achievement unlocked!`,
             description: `You gained ${achievement.xp}XP`,
@@ -126,11 +157,47 @@ Deno.serve(async (req) => {
         }
       }
 
+      // Run checks for each type of theme
+      for (const theme of themes.data) {
+        let unlocked = false;
+        switch (theme.unlock_type) {
+          case 'flashcard_sets_completed':
+            unlocked = statistics.flashcard_sets_completed >= theme.unlock_criteria.completed;
+            break;
+          case 'flashcard_sets_created':
+            unlocked = statistics.flashcard_sets_created >= theme.unlock_criteria.created;
+            break;
+          case 'flashcards_used':
+            unlocked = statistics.flashcards_used >= theme.unlock_criteria.used;
+            break;
+          case 'flashcards_correct':
+            unlocked = statistics.flashcards_correct >= theme.unlock_criteria.correct;
+            break;
+          case 'friends_made':
+            unlocked = friendCount >= theme.unlock_criteria.friends_made;
+            break;
+          case 'flashcard_set_repeats':
+            unlocked = maxFlashcardAttempts >= theme.unlock_criteria.repeats;
+            break;
+          case 'likes_given':
+            unlocked = likeCount >= theme.unlock_criteria.given;
+            break;
+        }
+        console.log(`Theme: ${theme.title}, Unlocked: ${unlocked}`)
+        if (unlocked) {
+          themesToBeUnlocked.push({
+            theme_id: theme.id,
+            title: `'${theme.title}' theme unlocked!`,
+            description: `Check it out in 'account preferences'`
+          })
+        }
+      }
+
       // Unlock required achievements
       const { error: achievementError } = await supabaseAdmin
         .from('unlocked_achievements')
         .upsert(
-          toBeUnlocked.map((a) => ({
+          achievementsToBeUnlocked.map((a) => ({
             user_id,
             achievement_id: a.achievement_id,
           })),
@@ -141,22 +208,44 @@ Deno.serve(async (req) => {
         );
       if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
 
+      // Unlock required themes
+      const { error: themeError } = await supabaseAdmin
+        .from('unlocked_themes')
+        .upsert(
+          themesToBeUnlocked.map((a) => ({
+            user_id,
+            theme_id: a.theme_id,
+          })),
+          {
+            onConflict: 'user_id,theme_id',
+            ignoreDuplicates: true,
+          }
+        );
+      if (themeError) throw new Error(themeError.message || JSON.stringify(themeError));
+
       // Send notifications
       const { error: notifError } = await supabaseAdmin.from('notifications')
-        .insert(
-          toBeUnlocked.map(a => ({
+        .insert([
+          ...achievementsToBeUnlocked.map(a => ({
             user_id,
             title: a.title,
             description: a.description,
             type: 'achievement_unlocked'
-          })))
+          })),
+          ...themesToBeUnlocked.map(t => ({
+            user_id,
+            title: t.title,
+            description: t.description,
+            type: 'theme_unlocked'
+          }))
+        ])
         .select();
       if (notifError) throw new Error(notifError.message || JSON.stringify(notifError));
 
       // Add XP
       const { error: xpError } = await supabaseAdmin.rpc('add_to_user_xp', {
         p_user_id: user_id,
-        p_amount: toBeUnlocked.reduce((acc, current) => {
+        p_amount: achievementsToBeUnlocked.reduce((acc, current) => {
           return acc + current.xp;
         }, 0)
       });
