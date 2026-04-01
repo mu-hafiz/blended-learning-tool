@@ -1,10 +1,8 @@
 import { toast as sonnerToast } from "sonner";
-import { FaTrophy, FaUserFriends, FaHeart } from "react-icons/fa";
+import { FaTrophy, FaUserFriends, FaHeart, FaPaintBrush } from "react-icons/fa";
 import { TbBellRingingFilled } from "react-icons/tb";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 import { Button } from "@components";
-import React from "react";
-import { GrPaint } from "react-icons/gr";
 
 type customToastProps = {
   title: string,
@@ -13,7 +11,7 @@ type customToastProps = {
 }
 
 const AchievementIcon = () => <FaTrophy size={30} className='text-yellow-500' />;
-const ThemeIcon = () => <GrPaint size={30} />;
+const ThemeIcon = () => <FaPaintBrush size={30} className='text-yellow-500' />;
 const LevelIcon = () => <HiArrowTrendingUp size={30} className='text-yellow-500' />;
 const FriendIcon = () => <FaUserFriends size={30} className='text-pink-600' />;
 const LikeIcon = () => <FaHeart size={30} className='text-pink-600' />;

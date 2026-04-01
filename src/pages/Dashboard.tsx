@@ -66,6 +66,15 @@ const Dashboard = () => {
         >
           Test Regular Notif
         </Button>
+        <Button
+          onClick={() => toast.theme({
+            title: "'Berry' theme unlocked!",
+            description: `Go check it out at 'account preferences'`,
+            navigate: () => navigate("/account/preferences")
+          })}
+        >
+          Test Theme Notif
+        </Button>
       </div>
     </PageContainer>
     
