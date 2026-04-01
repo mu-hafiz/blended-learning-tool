@@ -17,6 +17,7 @@ const OnboardingProfile = () => {
       if (!formIsValid) return;
 
       // Check username
+      profileForm.setValue("username", profileForm.getValues().username.toLowerCase());
       const { data: usernameNotTaken, error } = await tryCatch(UserDB.checkUsername(profileForm.getValues().username));
       if (error) {
         toast.error("Could not check username, please try again later");
@@ -43,27 +44,31 @@ const OnboardingProfile = () => {
       <RHFTextInput
         name="username"
         control={profileForm.control}
-        description="Maximum 30 characters"
+        description="4–30 characters using letters, numbers, or underscores. Uppercase letters will be converted to lowercase automatically"
         placeholder="MyCoolUsername"
         title="Username"
+        maxLength={30}
       />
       <RHFTextInput
         name="firstName"
         control={profileForm.control}
         title="First Name"
         placeholder="John"
+        maxLength={50}
       />
       <RHFTextInput
         name="middleName"
         control={profileForm.control}
         title="Middle Name"
         required={false}
+        maxLength={50}
       />
       <RHFTextInput
         name="lastName"
         control={profileForm.control}
         title="Last Name"
         placeholder="Doe"
+        maxLength={50}
       />
       <RHFTextInput
         name="aboutMe"
