@@ -48,8 +48,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(session?.user === undefined ? null : session.user);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user === undefined ? null : session.user);
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "TOKEN_REFRESHED") return;
+      setUser(prev => {
+        const newUser = session?.user ?? null;
+        if (prev?.id === newUser?.id) return prev;
+        return newUser;
+      });
     });
 
     return () => {
@@ -58,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user?.id) return;
 
     const fetchUser = async () => {
       const { data, error } = await tryCatch(UserDB.getUser(user.id));
@@ -70,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     fetchUser();    
-  }, [user])
+  }, [user?.id])
 
   const signUp = async ({ email, password }: SignUpInfo): Promise<SupabaseResult> => {
     const { error } = await supabase.auth.signUp({
