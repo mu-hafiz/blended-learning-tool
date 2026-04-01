@@ -28,7 +28,7 @@ const ProfileAchievements = () => {
     return (
       <>
         {header}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {achievements?.map(achievement => (
             <AchievementItem
               key={achievement.id}
