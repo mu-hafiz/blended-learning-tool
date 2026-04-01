@@ -6,7 +6,7 @@ import { toast } from "@lib/toast";
 import { Button } from "@components";
 
 const ProgressionLevel = () => {
-  const { user } = useAuth();
+  const { user, setUserProfile } = useAuth();
   const { statistics, level, xp, checkedIn, checkingIn, setCheckedIn, setCheckingIn } = useOutletContext<ProgressionOutletContext>();
 
   const handleCheckIn = async () => {
@@ -20,6 +20,13 @@ const ProgressionLevel = () => {
       console.error(error.message);
       return;
     }
+    setUserProfile(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        daily_check_in: true
+      }
+    });
     toast.success("You have checked in! +100xp");
     setCheckedIn(true);
     setCheckingIn(false);
