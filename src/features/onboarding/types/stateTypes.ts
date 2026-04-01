@@ -9,4 +9,6 @@ export type OnboardingOutletContext = {
   profileForm: UseFormReturn<ProfileValues>;
   privacySettings: UserPrivacySettings | null;
   setPrivacySettings: React.Dispatch<React.SetStateAction<UserPrivacySettings | null>>;
+  handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  uploading: boolean;
 }

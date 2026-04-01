@@ -9,15 +9,20 @@ import { useAuth } from "@providers/AuthProvider";
 import { toast } from "@lib/toast";
 import type { UserPrivacySettings } from "@models/tables";
 import UserPrivacyDB from '@lib/db/userPrivacy';
+import UserDB from "@lib/db/users";
 import { tryCatch } from "@utils/tryCatch";
+import { supabase } from "@lib/supabaseClient";
+import imageCompression from 'browser-image-compression';
 
-const routes = ["profile", "privacy", "preferences"]
+const routes = ["profile", "profilePicture", "privacy", "preferences"]
+const pageTitles = ["Basic Info", "Profile Picture", "Privacy Settings", "Preferences"]
+const allowedFileTypes = ["image/png", "image/jpeg", "image/webp", "image/heic"];
 
 const Onboarding = () => {
-  const { user, signOut, finishOnboarding } = useAuth();
+  const { user, signOut, finishOnboarding, setUserProfile } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const step = routes.findIndex((route) => location.pathname.includes(route)) + 1;
+  const step = routes.findIndex((route) => location.pathname.endsWith(route)) + 1;
   const [maxStep, setMaxStep] = useState(1);
   const [buttonClicked, setButtonClicked] = useState(false);
   const profileForm = useForm<ProfileValues>({
@@ -31,6 +36,7 @@ const Onboarding = () => {
     }
   });
   const [privacySettings, setPrivacySettings] = useState<UserPrivacySettings | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -93,6 +99,73 @@ const Onboarding = () => {
     }
   }
 
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!user) {
+      toast.error("Could not update profile picture, please try again later");
+      console.error("User ID is undefined/null");
+      return;
+    }
+
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const toastId = toast.loading("Uploading profile picture...");
+
+    if (!allowedFileTypes.includes(file.type)) {
+      toast.error("File type is unsupported, please try another image", {
+        id: toastId
+      });
+      return;
+    }
+
+    setUploading(true);
+
+    const compressed = await imageCompression(file, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 512,
+      useWebWorker: true,
+      fileType: "image/jpeg"
+    });
+
+    const { error: uploadError } = await supabase.storage
+      .from('profilePictures')
+      .upload(`${user.id}/profilePicture.jpg`, compressed, {
+        upsert: true
+      });
+
+    if (uploadError) {
+      toast.error("Could not update profile picture, please try again later.", {
+        id: toastId
+      });
+      console.log("Could not update profile picture: ", uploadError);
+      setUploading(false);
+      return;
+    }
+
+    const { error: updateError } = await tryCatch(UserDB.updateProfilePicture(user.id, `${user.id}/profilePicture.jpg`));
+    if (updateError) {
+      toast.error("Could not update profile picture, please try again later.", {
+        id: toastId
+      });
+      setUploading(false);
+      return;
+    }
+
+    setUserProfile((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        profile_picture: `${user.id}/profilePicture.jpg`,
+        profile_picture_updated_at: new Date().toISOString()
+      };
+    });
+
+    toast.success("Profile picture updated!", {
+      id: toastId
+    })
+    setUploading(false);
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="flex mb-3">Create your account!</h1>
@@ -107,8 +180,8 @@ const Onboarding = () => {
             </Button>
           </div>
 
-          <h1 className="text-center capitalize">
-            {routes[step - 1]}
+          <h1 className="col-span-3 text-center capitalize">
+            {pageTitles[step - 1]}
           </h1>
 
           <div />
@@ -120,7 +193,9 @@ const Onboarding = () => {
             goToNextStep,
             profileForm,
             privacySettings,
-            setPrivacySettings
+            setPrivacySettings,
+            handleFileUpload,
+            uploading
           }}
         />
         <div className="grid grid-cols-3 mt-6">

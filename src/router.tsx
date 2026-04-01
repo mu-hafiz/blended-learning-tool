@@ -4,6 +4,7 @@ import Homepage from "@pages/Homepage";
 import SignUp from "@features/signUp/pages/SignUp";
 import Onboarding from "@features/onboarding/pages/Onboarding";
 import OnboardingProfile from "@features/onboarding/components/OnboardingProfile";
+import OnboardingProfilePicture from "@features/onboarding/components/OnboardingProfilePicture";
 import OnboardingPrivacy from "@features/onboarding/components/OnboardingPrivacy";
 import OnboardingPreferences from "@features/onboarding/components/OnboardingPreferences";
 import { ProtectedRoutes, AnonymousRoutes, OnboardingRoutes } from "@components";
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
       { path: "/account/onboarding", element: <Onboarding />, children: [
         { index: true, element: <Navigate to="profile" replace /> },
         { path: "profile", element: <OnboardingProfile /> },
+        { path: "profilePicture", element: <OnboardingProfilePicture /> },
         { path: "privacy", element: <OnboardingPrivacy /> },
         { path: "preferences", element: <OnboardingPreferences /> },
       ]},
