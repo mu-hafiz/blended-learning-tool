@@ -21,7 +21,13 @@ const AnonymousRoutes = () => {
     return null;
   }
 
-  return !user ? <Outlet/> : <Navigate to="/dashboard"/>;
+  return !user ? (
+    <div className="min-h-dvh">
+      <div className="container">
+        <Outlet/>
+      </div>
+    </div>
+  ): <Navigate to="/dashboard"/>;
 }
 
 export default AnonymousRoutes;

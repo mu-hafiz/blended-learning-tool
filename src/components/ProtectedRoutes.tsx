@@ -1,12 +1,12 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@providers/AuthProvider";
-import { Navbar } from "@components";
+import { BreakpointLayout } from "@components";
 
 const ProtectedRoutes = () => {
   const { user } = useAuth();
 
   if (user === undefined) {
-    return <p className="flex">Loading...</p>
+    return <p className="flex">Loading...</p>;
   }
 
   if (!user) {
@@ -17,14 +17,7 @@ const ProtectedRoutes = () => {
     return <Navigate to="/account/onboarding" replace/>;
   }
 
-  return (
-    <>
-      <Navbar/>
-      <div className="max-w-7xl mx-auto pt-4">
-        <Outlet/>
-      </div>
-    </>
-  );
+  return <BreakpointLayout />;
 }
 
 export default ProtectedRoutes;
