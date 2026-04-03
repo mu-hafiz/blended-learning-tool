@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { FaCaretDown } from "react-icons/fa6";
+import { twMerge } from "tailwind-merge";
 
 type DropdownProps = {
   placeholder?: string;
@@ -7,6 +8,7 @@ type DropdownProps = {
   value?: string;
   onChange: (value: string) => void;
   disabled?: boolean;
+  containerClassName?: string;
 }
 
 type DropdownItemProps = {
@@ -16,14 +18,14 @@ type DropdownItemProps = {
 
 const DropdownItem = ({ value, onChange }: DropdownItemProps) => (
   <div
-    className="px-2.5 py-1.5 bg-secondary-button hover:bg-secondary-button-hover cursor-pointer"
+    className="w-full px-2.5 py-1.5 bg-secondary-button hover:bg-secondary-button-hover cursor-pointer flex"
     onPointerDown={() => onChange(value)}
   >
-    <p>{value}</p>
+    <p className="truncate min-w-0">{value}</p>
   </div>
 );
 
-const Dropdown = ({ placeholder, options, value, onChange, disabled = false }: DropdownProps) => {
+const Dropdown = ({ placeholder, options, value, onChange, disabled = false, containerClassName }: DropdownProps) => {
   const [clicked, setClicked] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +40,7 @@ const Dropdown = ({ placeholder, options, value, onChange, disabled = false }: D
   }, []);
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div className={twMerge("relative inline-block", containerClassName)} ref={dropdownRef}>
       <div
         className={
           `
@@ -52,7 +54,7 @@ const Dropdown = ({ placeholder, options, value, onChange, disabled = false }: D
         <FaCaretDown />
       </div>
       {clicked &&
-        <div className="w-max max-w-[20rem] max-h-40 absolute overflow-y-auto overscroll-none rounded-b-lg z-50 shadow-lg">
+        <div className="inline-block min-w-full max-h-40 absolute overflow-y-auto overscroll-none rounded-b-lg z-50 shadow-lg border sm:border-2 border-surface-tertiary">
           {options.map(option => (
             <DropdownItem
               key={option}

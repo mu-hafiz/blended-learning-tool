@@ -8,8 +8,8 @@ type PasswordValidatorProps = {
 const PasswordValidator = ({boolValue, message}: PasswordValidatorProps) => (
   <div className="flex flex-row items-center">
     {boolValue
-      ? <TiTickOutline fontSize={32} className="text-success" />
-      : <TiTimesOutline fontSize={32} className="text-error" />}
+      ? <TiTickOutline className="text-success size-7 sm:size-8" />
+      : <TiTimesOutline className="text-error size-7 sm:size-8" />}
     <p>{message}</p>
   </div>
 );
