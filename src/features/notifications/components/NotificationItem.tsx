@@ -1,16 +1,18 @@
 import type { Notification } from "@models/tables";
 import type { JSX } from "react";
-import { FaUserPlus, FaUserCheck, FaHeart, FaUnlock } from "react-icons/fa";
+import { FaUserPlus, FaUserCheck, FaHeart, FaUnlock, FaPaintBrush } from "react-icons/fa";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 import { useNotif } from "@providers/NotifProvider";
-import { Button } from "@components";
+import { Button, Tooltip } from "@components";
+import { twMerge } from "tailwind-merge";
 
 const notifIcons: Record<string, JSX.Element> = {
-  achievement_unlocked: <FaUnlock size={40}/>,
-  friend_request_received: <FaUserPlus size={40}/>,
-  friend_request_accepted: <FaUserCheck size={40}/>,
-  like_received: <FaHeart size={40}/>,
-  level_up: <HiArrowTrendingUp size={40}/>
+  achievement_unlocked: <FaUnlock className="size-6 sm:size-10 shrink-0"/>,
+  friend_request_received: <FaUserPlus className="size-6 sm:size-10 shrink-0"/>,
+  friend_request_accepted: <FaUserCheck className="size-6 sm:size-10 shrink-0"/>,
+  like_received: <FaHeart className="size-6 sm:size-10 shrink-0"/>,
+  level_up: <HiArrowTrendingUp className="size-6 sm:size-10 shrink-0"/>,
+  theme_unlocked: <FaPaintBrush className="size-6 sm:size-10 shrink-0"/>
 }
 
 const NotificationItem = ({ notif }: { notif: Notification }) => {
@@ -20,38 +22,47 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
   const notifTime = date.toLocaleTimeString("en-GB");
 
   const icon = notifIcons[notif.type] ?? <div>Test</div>
-  const style = notif.read
-    ? "bg-surface-secondary text-neutral-400 py-3 px-3 flex flex-row justify-between rounded-2xl shadow-md raise"
-    : "bg-surface-secondary py-3 px-3 flex flex-row justify-between rounded-2xl shadow-md raise"
-
+  
   return (
-    <li className={style}>
-      <div className="flex flex-row gap-3 items-center relative">
+    <Tooltip
+      position="top"
+      text={`${notifDate} ${notifTime}`}
+      className="block md:hidden"
+    >
+      <li 
+        className={twMerge(
+          "flex flex-row justify-between py-2 md:py-3 px-3 bg-surface-secondary rounded-2xl shadow-md raise relative",
+          notif.read ? "text-secondary-text" : ""
+        )}
+      >
         {!notif.read && (
           <>
-            <div className="absolute w-4 h-4 bg-red-500 rounded-full"/>
-            <div className="w-4 h-4 bg-red-500 rounded-full animate-ping"/>
+            <div className="absolute -top-1 -left-1 size-4 bg-red-500 rounded-full shrink-0"/>
+            <div className="absolute -top-1 -left-1 size-4 bg-red-500 rounded-full animate-ping shrink-0"/>
           </>
         )}
-        {icon}
-        <div>
-          <h3>{notif.title}</h3>
-          <p>{notif.description}</p>
+        <div className="flex flex-row gap-3 items-center relative min-w-0 flex-1">
+          {icon}
+          <div className="min-w-0 flex-1">
+            <h3 className="line-clamp-2">{notif.title}</h3>
+            <p className="line-clamp-2">{notif.description}</p>
+          </div>
         </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <div className="flex flex-col items-center">
-          <p className="subtitle">{notifDate}</p>
-          <p className="subtitle">{notifTime}</p>
+        <div className="flex md:flex-row items-center md:gap-4 ml-3">
+          <div className="hidden md:flex flex-row md:flex-col items-center gap-1 md:gap-0">
+            <p className="subtitle">{notifDate}</p>
+            <p className="subtitle">{notifTime}</p>
+          </div>
+          <Button
+            variant="secondary"
+            onClick={() => updateRead({ notifId: notif.id, read: !notif.read })}
+            className="whitespace-nowrap"
+          >
+            {notif.read ? "Mark as unread" : "Mark as read"}
+          </Button>
         </div>
-        <Button
-          variant="secondary"
-          onClick={() => updateRead({ notifId: notif.id, read: !notif.read })}
-        >
-          {notif.read ? "Mark as unread" : "Mark as read"}
-        </Button>
-      </div>
-    </li>
+      </li>
+    </Tooltip>
   );
 };
 
