@@ -11,7 +11,7 @@ const getAchivementIcon = (type: string, className: string) => {
     case "flashcard_sets_completed":
     case "flashcard_sets_created":
     case "flashcards_used":
-    case "flashcard_correct":
+    case "flashcards_correct":
     case "flashcard_set_repeats":
       return <TbCardsFilled className={className} />
     case "friends_made":
