@@ -13,7 +13,7 @@ const FriendsOutgoing = () => {
     <>
       {outgoingRequests.length > 0 ?
         (
-          <ul className="grid grid-cols-3 gap-4">
+          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4">
             {outgoingRequests.map((request) => (
               <FriendOutgoingItem
                 username={request.username}
@@ -24,7 +24,7 @@ const FriendsOutgoing = () => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col flex-1 items-center justify-center pb-15">
+          <div className="flex flex-col flex-1 items-center justify-center">
             <MdPersonAdd size={100}/>
             <h1 className="mt-5">No requests sent.</h1>
             <h2>Start building your community!</h2>

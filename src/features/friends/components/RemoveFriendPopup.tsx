@@ -11,7 +11,7 @@ type RemoveFriendProps = {
 
 const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) => {
   return (
-    <div className="w-100 h-100 flex flex-col">
+    <>
       <h2 className="text-center mb-3">Remove Friend</h2>
       <hr className="divider mt-5"/>
       {friendsList.length === 0 ? (
@@ -27,12 +27,12 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
                 className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
                 key={friend.user_id}
               >
-                <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-row items-center gap-2 min-w-0">
                   <Avatar
                     filePath={friend.profile_picture}
                     size={40}
                   />
-                  <p>{friend.username}</p>
+                  <h3 className="truncate">{friend.username}</h3>
                 </div>
                 <Button
                   variant="danger"
@@ -40,6 +40,7 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
                     onClose()
                     removeFriend(userId, friend.user_id, friend.username)
                   }}
+                  className="shrink-0"
                 >
                   Remove
                 </Button>
@@ -48,7 +49,7 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
           })}
         </ul>
       )}
-    </div>
+    </>
   )
 };
 

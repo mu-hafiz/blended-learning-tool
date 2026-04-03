@@ -33,7 +33,7 @@ const FriendsList = () => {
       <hr className="divider"/>
       {friendsList.length > 0 ?
         (
-          <ul className="grid grid-cols-4 gap-4">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
             {friendsList.map((friend) => (
               <FriendItem
                 friend={friend.friend}
@@ -43,7 +43,7 @@ const FriendsList = () => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col flex-1 items-center justify-center pb-15">
+          <div className="flex flex-col flex-1 items-center justify-center">
             <MdPersonAddDisabled size={100}/>
             <h1 className="mt-5">No one's around...</h1>
             <h2>Get out there and make some friends!</h2>
