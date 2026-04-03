@@ -2,19 +2,13 @@ import AchievementItem from "@components/AchievementItem";
 import { useOutletContext } from "react-router-dom";
 import type { ProfileOutletContext } from "../types/stateTypes";
 import { TbTrophyOff } from "react-icons/tb";
-import { FaLock } from "react-icons/fa";
+import PrivatePlaceholder from "../components/PrivatePlaceholder";
 
 const ProfileAchievements = () => {
   const { achievements, privacySettings, myProfile } = useOutletContext<ProfileOutletContext>();
 
   if (!myProfile && !privacySettings?.achievements) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <FaLock size={100} className="mb-5"/>
-        <h1>Private</h1>
-        <h2>You are not permitted to view...</h2>
-      </div>
-    );
+    return <PrivatePlaceholder />;
   }
 
   const header = (
@@ -28,7 +22,7 @@ const ProfileAchievements = () => {
     return (
       <>
         {header}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {achievements?.map(achievement => (
             <AchievementItem
               key={achievement.id}

@@ -179,9 +179,9 @@ const Onboarding = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="flex mb-3">Create your account!</h1>
-      <div className="bg-surface-primary rounded-2xl w-130 p-6">
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="mb-3">Create your account!</h1>
+      <div className="bg-surface-primary rounded-2xl w-full sm:w-130 p-6">
         <div className="grid grid-cols-3 items-center mb-4">
           <div>
             <Button

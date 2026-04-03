@@ -20,9 +20,11 @@ export const profileSchema = z.object({
     .regex(/^[a-zA-Z0-9_.]+$/, "Only letters, numbers, and underscores allowed"),
   firstName: z.string()
     .min(1, "Please enter your first name")
+    .max(50, "First name can't be more than 50 characters")
     .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ]+([\- '][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/, "Names can only have letters, hyphens, apostrophes and spaces"),
   middleName: z
     .string()
+    .max(50, "Middle name can't be more than 50 characters")
     .optional()
     .refine(
       (val) => !val || /^[A-Za-zÀ-ÖØ-öø-ÿ]+([\- '][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(val),
@@ -30,6 +32,7 @@ export const profileSchema = z.object({
     ),
   lastName: z.string()
     .min(1, "Please enter your last name")
+    .max(50, "Last name can't be more than 50 characters")
     .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ]+([\- '][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/, "Names can only have letters, hyphens, apostrophes and spaces"),
   aboutMe: z.string().optional()
 })

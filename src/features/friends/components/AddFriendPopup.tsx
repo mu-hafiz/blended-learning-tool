@@ -53,7 +53,7 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
   }, [debouncedUsername.ready, debouncedUsername.value])
 
   return (
-    <div className="w-100 h-100 flex flex-col">
+    <>
       <h2 className="text-center mb-3">Add Friend</h2>
       <TextInput
         title="Username"
@@ -113,7 +113,7 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
           })}
         </ul>
       )}
-    </div>
+    </>
   );
 }
 

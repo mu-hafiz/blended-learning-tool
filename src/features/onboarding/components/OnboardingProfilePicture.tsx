@@ -19,7 +19,7 @@ const OnboardingProfilePicture = () => {
     <>
       <h3>Express yourself with a picture!</h3>
       <hr className="divider"/>
-      <div className="flex items-center justify-center gap-5">
+      <div className="flex flex-col items-center justify-center gap-5">
         <Avatar
           filePath={userProfile?.profile_picture}
           size={100}

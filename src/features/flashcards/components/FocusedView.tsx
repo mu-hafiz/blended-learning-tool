@@ -17,29 +17,36 @@ type FocusedViewProps = {
 
 const FocusedView = ({ flashcardNumber, totalFlashcards, currentFlashcard, handleNextCard, handleUndo, handleShuffle }: FocusedViewProps) => {
   return (
-    <>
-      <h2>{flashcardNumber}/{totalFlashcards}</h2>
-      <div className="flex gap-5 items-center">
-        <Button
-          variant="danger"
-          className="w-20 h-20 rounded-full"
-          onClick={() => handleNextCard({ correct: false })}
-        >
-          <RxCross2 size={50} />
-        </Button>
-        <FlashcardItem
-          flashcard={currentFlashcard}
-          key={currentFlashcard.id}
-        />
-        <Button
-          variant="success"
-          className="w-20 h-20 rounded-full"
-          onClick={() => handleNextCard({ correct: true })}
-        >
-          <FaCheck size={40} />
-        </Button>
+    <div className="flex flex-col items-center gap-3 w-full">
+
+      <h1>{flashcardNumber}/{totalFlashcards}</h1>
+
+      <div className="flex flex-col md:flex-row gap-4 sm:gap-10 items-center justify-center w-full">
+        <div className="flex justify-center w-full max-w-3xl md:order-2">
+          <FlashcardItem
+            flashcard={currentFlashcard}
+            key={currentFlashcard.id}
+          />
+        </div>
+        <div className="flex flex-row md:contents gap-4">
+          <Button
+            variant="danger"
+            className="w-20 h-20 rounded-full shrink-0 md:order-1"
+            onClick={() => handleNextCard({ correct: false })}
+          >
+            <RxCross2 size={50} />
+          </Button>
+          <Button
+            variant="success"
+            className="w-20 h-20 rounded-full shrink-0 md:order-3"
+            onClick={() => handleNextCard({ correct: true })}
+          >
+            <FaCheck size={40} />
+          </Button>
+        </div>
       </div>
-      <div className="flex flex-row gap-2">
+
+      <div className="flex flex-row gap-2 mt-4">
         <Button
           variant="secondary"
           className="gap-2"
@@ -58,7 +65,8 @@ const FocusedView = ({ flashcardNumber, totalFlashcards, currentFlashcard, handl
           Shuffle
         </Button>
       </div>
-    </>
+
+    </div>
   )
 };
 

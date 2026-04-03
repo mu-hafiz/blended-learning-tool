@@ -26,30 +26,32 @@ type CommentProps = {
 }
 
 const ReplyWrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex flex-row gap-2">
-    <div className="border-surface-tertiary border-l-2 border-b-2 w-10 h-10 rounded-bl-2xl"/>
-    {children}
+  <div className="flex flex-row gap-2 w-full min-w-0">
+    <div className="border-surface-tertiary border-l-2 border-b-2 w-10 h-10 rounded-bl-2xl shrink-0"/>
+    <div className="flex-1 min-w-0">
+      {children}
+    </div>
   </div>
 );
 
 const CommentBase = ({ user, replyToUser, date, comment, replyAction, ownsComment, deleteAction, deleted }: CommentProps ) => {
   const formattedDate = formatDate(date);
   return (
-    <div className="bg-surface-primary rounded-2xl min-w-150 w-fit h-fit p-4">
+    <div className="bg-surface-primary rounded-2xl w-full md:w-fit md:max-w-[100%] h-fit p-4">
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row items-center gap-3">
+        <div className="flex flex-row items-center gap-3 min-w-0">
           <Link
-            className="flex flex-row items-center gap-2"
+            className="flex flex-row items-center gap-2 min-w-0"
             to={`/profile/${user.username}`}
           >
             <Avatar
               filePath={user.profile_picture}
               size={20}
             />
-            <h3>{user.username}</h3>
+            <h3 className="truncate">{user.username}</h3>
           </Link>
         </div>
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-2 ml-1 shrink-0">
           <p className="subtitle">{formattedDate}</p>
           {!deleted && (
             <Tooltip
@@ -67,6 +69,7 @@ const CommentBase = ({ user, replyToUser, date, comment, replyAction, ownsCommen
             <Tooltip
               position="bottom"
               text="Delete Comment"
+              align="left"
             >
               <RxCross2
                 size={20}
@@ -78,21 +81,24 @@ const CommentBase = ({ user, replyToUser, date, comment, replyAction, ownsCommen
         </div>
       </div>
       {replyToUser && (
-        <div className="flex flex-row gap-1.5">
-          <p className="subtitle">Replying to</p>
+        <div className="flex flex-row gap-1.5 mt-1">
+          <p className="subtitle text-nowrap">Replying to</p>
           <Link
-            className="flex flex-row items-center gap-1"
+            className="flex flex-row items-center gap-1 min-w-0"
             to={`/profile/${replyToUser.username}`}
           >
             <Avatar
               filePath={replyToUser.profile_picture}
               size={15}
             />
-            <p className="subtitle">{replyToUser.username}</p>
+            <p className="subtitle truncate">{replyToUser.username}</p>
           </Link>
         </div>
       )}
-      {!deleted ? <p className="mt-2">{comment}</p> : <p className="mt-2 italic">This comment has been deleted</p>}
+      {!deleted
+        ? <p className="mt-2 break-words whitespace-pre-wrap">{comment}</p>
+        : <p className="mt-2 italic">This comment has been deleted</p>
+      }
     </div>
   );
 };

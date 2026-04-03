@@ -1,12 +1,22 @@
 import type { Flashcard } from "@models/tables";
 import { useState } from "react";
 
+const FlashcardText = ({ text }: { text: string }) => {
+  if (text.length >= 200) {
+    return <h3 className="text-center max-h-full overflow-y-auto">{text}</h3>;
+  } else if (text.length >= 100) {
+    return <h2 className="text-center">{text}</h2>;
+  } else {
+    return <h1 className="text-center leading-8">{text}</h1>;
+  }
+}
+
 const FlashcardItem = ({ flashcard }: { flashcard: Flashcard }) => {
   const [showFront, setShowFront] = useState(true);
 
   return (
     <div
-      className="aspect-[9/5] h-100 perspective cursor-pointer"
+      className="aspect-[7/5] sm:aspect-[9/5] w-full max-w-120 sm:max-w-none perspective cursor-pointer"
       onClick={() => setShowFront(prev => !prev)}
     >
       <div
@@ -15,11 +25,11 @@ const FlashcardItem = ({ flashcard }: { flashcard: Flashcard }) => {
           transition-transform duration-500 [transform-style:preserve-3d] ${!showFront ? "[transform:rotateY(180deg)]" : ""}
         `}
       >
-        <div className="absolute w-full h-full bg-surface-primary rounded-4xl flex items-center justify-center [backface-visibility:hidden]">
-          <h1>{flashcard.front}</h1>
+        <div className="absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [backface-visibility:hidden]">
+          <FlashcardText text={flashcard.front} />
         </div>
-        <div className="absolute w-full h-full bg-surface-primary rounded-4xl flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]">
-          <h1>{flashcard.back}</h1>
+        <div className="absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]">
+          <FlashcardText text={flashcard.back} />
         </div>
       </div>
     </div>

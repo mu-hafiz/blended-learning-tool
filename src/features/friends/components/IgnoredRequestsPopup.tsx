@@ -33,7 +33,7 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
   };
 
   return (
-    <div className="w-100 h-100 flex flex-col">
+    <>
       <h2 className="text-center mb-3">Ignored Friend Requests</h2>
       <hr className="divider mt-5"/>
       {ignoredUsers.length === 0 ? (
@@ -46,22 +46,23 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
           {ignoredUsers.map(({user_id: senderId, username, profile_picture: profilePicture}) => {
             return (
               <div
-                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between cursor-pointer"
+                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
                 key={senderId}
               >
                 <Link
-                  className="flex flex-row items-center gap-2 cursor-pointer"
+                  className="flex flex-row items-center gap-2 cursor-pointer min-w-0"
                   to={`/profile/${username}`}
                 >
                   <Avatar
                     filePath={profilePicture}
                     size={40}
                   />
-                  <p>{username}</p>
+                  <h3 className="truncate">{username}</h3>
                 </Link>
                 <Button
                   variant="primary"
                   onClick={() => stopIgnoring(senderId, userId)}
+                  className="shrink-0"
                 >
                   Remove from ignored
                 </Button>
@@ -70,7 +71,7 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
           })}
         </ul>
       )}
-    </div>
+    </>
   );
 };
 

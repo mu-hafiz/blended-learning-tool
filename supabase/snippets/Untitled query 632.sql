@@ -1,6 +1,7 @@
 create or replace function recalculate_achievement_percentages()
 returns trigger
 language plpgsql
+security definer
 as $$
 declare
   user_count int;

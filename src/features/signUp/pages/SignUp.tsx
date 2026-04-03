@@ -9,21 +9,19 @@ const SignUp = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-surface-primary rounded-2xl w-130 p-6 pb-10">
-        {step === 1 && (
-          <SignUpDetails
-            setStep={setStep}
-            setData={setData}
-          />
-        )}
-        {step === 2 && (
-          <ValidateOTP
-            email={data?.email}
-            password={data?.password}
-          />
-        )}
-      </div>
+    <div className="bg-surface-primary rounded-2xl w-full sm:w-130 p-6 pb-10">
+      {step === 1 && (
+        <SignUpDetails
+          setStep={setStep}
+          setData={setData}
+        />
+      )}
+      {step === 2 && (
+        <ValidateOTP
+          email={data?.email}
+          password={data?.password}
+        />
+      )}
     </div>
   )
 }

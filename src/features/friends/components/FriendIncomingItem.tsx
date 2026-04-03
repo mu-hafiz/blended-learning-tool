@@ -9,18 +9,18 @@ type FriendIncomingProps = {
 }
 
 const FriendIncomingItem = ({ username, profilePicture, accept, ignore }: FriendIncomingProps) => (
-  <div className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between cursor-pointer">
+  <div className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between">
     <Link
-      className="flex flex-row items-center gap-2 cursor-pointer"
+      className="flex flex-row items-center min-w-0 gap-2 cursor-pointer"
       to={`/profile/${username}`}
     >
       <Avatar
         filePath={profilePicture}
         size={40}
       />
-      <p>{username}</p>
+      <h3 className="truncate">{username}</h3>
     </Link>
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 shrink-0 ml-3">
       <Button
         variant="success"
         onClick={accept}

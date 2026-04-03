@@ -17,16 +17,16 @@ const FlashcardCreateItem = ({ index, control, handleRemove, handleReorder, tota
   return (
     <div className="flex flex-col gap-2">
       <h2>Flashcard #{friendlyIndex}</h2>
-      <div className="flex flex-row items-center gap-3">
+      <div className="flex flex-row flex-wrap lg:flex-nowrap items-center justify-center gap-3">
         <Button
           variant="danger"
-          className="aspect-square h-fit"
+          className="aspect-square h-fit order-2 lg:order-1"
           onClick={handleRemove}
           disabled={totalFlashcards <= 1}
         >
-          <FaMinus size={20} />
+          <FaMinus className="size-3 sm:size-5" />
         </Button>
-        <div className="grid grid-cols-2 w-full gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-3 order-1 lg:order-2 min-w-0">
           <RHFTextInput
             name={`flashcards.${index}.front`}
             control={control}
@@ -42,14 +42,14 @@ const FlashcardCreateItem = ({ index, control, handleRemove, handleReorder, tota
             multiline
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-row lg:flex-col gap-2 order-3">
           <Button
             variant="secondary"
             className="aspect-square h-fit"
             onClick={() => handleReorder({ up: true })}
             disabled={friendlyIndex <= 1}
           >
-            <FaArrowUp size={20} />
+            <FaArrowUp className="size-3 sm:size-5" />
           </Button>
           <Button
             variant="secondary"
@@ -57,7 +57,7 @@ const FlashcardCreateItem = ({ index, control, handleRemove, handleReorder, tota
             onClick={() => handleReorder({ up: false })}
             disabled={friendlyIndex >= totalFlashcards}
           >
-            <FaArrowDown size={20} />
+            <FaArrowDown className="size-3 sm:size-5" />
           </Button>
         </div>
       </div>

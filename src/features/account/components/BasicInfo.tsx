@@ -24,8 +24,8 @@ const BasicInfo = () => {
     let cancelled = false;
 
     const checkUsername = async () => {
-      if (debouncedUsername.value.length < 6) {
-        setError('username', {type: 'minLength', message: '6 characters min'});
+      if (debouncedUsername.value.length < 4) {
+        setError('username', {type: 'minLength', message: '4 characters min'});
       } else if (debouncedUsername.value.length > 30) {
         setError('username', {type: 'maxLength', message: '30 characters max'});
       } else {
@@ -59,8 +59,13 @@ const BasicInfo = () => {
       return;
     }
 
+    const sanitisedData = {
+      ...data,
+      username: data.username.toLowerCase()
+    }
+
     const toastId = toast.loading("Updating profile...");
-    const { error } = await tryCatch(UsersDB.updateUser(user.id, data));
+    const { error } = await tryCatch(UsersDB.updateUser(user.id, sanitisedData));
 
     if (error) {
       toast.error("Could not update profile, please try again later.", {
@@ -74,7 +79,7 @@ const BasicInfo = () => {
 
       return {
         ...prev,
-        username: data.username,
+        username: data.username.toLowerCase(),
         first_name: data.firstName,
         middle_name: data.middleName ?? null,
         last_name: data.lastName,
@@ -101,7 +106,7 @@ const BasicInfo = () => {
         maxLength={30}
       />
       <div className="flex flex-row items-center">
-        {dirtyFields.username && !(debouncedUsername.value.length < 6) && !(debouncedUsername.value.length > 30) && (
+        {dirtyFields.username && !(debouncedUsername.value.length < 4) && !(debouncedUsername.value.length > 30) && (
           !debouncedUsername.ready || validUsername === undefined ? (
             <p className="text-secondary-text mt-2">Checking if username is free...</p>
           ) : validUsername ? (
@@ -117,12 +122,13 @@ const BasicInfo = () => {
           )
         )}
       </div>
-      <div className="flex flex-row justify-between gap-6 my-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 my-3">
         <RHFTextInput
           name="firstName"
           control={control}
           title="First Name"
           containerClassName="flex-1"
+          maxLength={50}
         />
         <RHFTextInput
           name="middleName"
@@ -130,12 +136,14 @@ const BasicInfo = () => {
           title="Middle Name"
           required={false}
           containerClassName="flex-1"
+          maxLength={50}
         />
         <RHFTextInput
           name="lastName"
           control={control}
           title="Last Name"
           containerClassName="flex-1"
+          maxLength={50}
         />
       </div>
       <RHFTextInput

@@ -3,7 +3,7 @@
 /* THEMES */
 @theme inline {
   /* SURFACES */
-  --color-base: var(--base);
+  --color-base-bg: var(--base-bg);
   --color-surface-primary: var(--surface-primary);
   --color-surface-primary-hover: var(--surface-primary-hover);
   --color-surface-secondary: var(--surface-secondary);
@@ -37,7 +37,7 @@
 
 [data-theme='light-brand'] {
   /* SURFACES */
-  --base: #ffdd9d;
+  --base-bg: #ffdd9d;
   --surface-primary: #bea575;
   --surface-primary-hover: #bea575;
   --surface-secondary: #a18c65;
@@ -71,7 +71,7 @@
 
 [data-theme='dark-brand'] {
   /* SURFACES */
-  --base: #41392b;
+  --base-bg: #41392b;
   --surface-primary: #524837;
   --surface-primary-hover: #4e4535;
   --surface-secondary: #796542;
@@ -108,7 +108,7 @@
 }
 
 @utility subtitle {
-  @apply text-secondary-text text-sm
+  @apply text-secondary-text
 }
 
 @utility link {
@@ -116,7 +116,7 @@
 }
 
 @utility basic-container {
-  @apply bg-surface-primary rounded-2xl flex flex-1 flex-col text-left p-4 mb-10
+  @apply bg-surface-primary rounded-2xl flex flex-1 flex-col text-left p-4
 }
 
 @utility divider {
@@ -131,22 +131,28 @@ html, body {
 
 @layer base {
   body {
-    @apply bg-base text-primary-text transition-colors duration-700
+    @apply bg-base-bg text-primary-text transition-colors duration-700
   }
   h1 {
-    @apply font-bold text-3xl leading-13
+    @apply font-bold text-2xl sm:text-3xl leading-10 sm:leading-13
   }
   h2 {
-    @apply text-xl font-bold
+    @apply text-lg sm:text-xl font-bold
   }
   h3 {
-    @apply font-medium
+    @apply text-sm sm:text-base font-medium
   }
   p {
-    @apply text-sm
+    @apply text-xs sm:text-sm
   }
   hr {
     @apply border-surface-tertiary bg-surface-tertiary
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto pt-4 pb-6 px-5;
   }
 }
 

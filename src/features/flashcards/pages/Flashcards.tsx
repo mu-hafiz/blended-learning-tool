@@ -94,70 +94,73 @@ const Flashcards = () => {
   return (
     <>
       <PageContainer title="Flashcards">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 lg:gap-0">
           <div className="flex flex-row items-center gap-2">
             <TextInput
-              className="w-50"
+              className="w-full sm:w-70"
               placeholder="Search Flashcard Sets"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button
-              className="whitespace-nowrap align-middle"
-              onClick={() => setShowTagsPopup(true)}
-            >
-                Select Tags{selectedTags.length > 0 && ` (${selectedTags.length})`}
+            <Button variant="success">
+              <Link
+                to="/flashcards/create"
+                className="flex flex-row items-center gap-2 whitespace-nowrap"
+              >
+                Create Set
+                <FaPlus />
+              </Link>
             </Button>
           </div>
-          <Button variant="success">
-            <Link
-              to="/flashcards/create"
-              className="flex flex-row items-center gap-2"
-            >
-              Create
-              <FaPlus />
-            </Link>
-          </Button>
-          <div className="flex flex-row gap-2">
-            <Button
-              className="flex flex-row items-center text-nowrap"
-              variant={showCreated ? "success" : "danger"}
-              onClick={() => setShowCreated(!showCreated)}
-            >
-              Created By You
-              {showCreated
-                ? <LuPencil size={20} className="ml-2" />
-                : <LuPencilOff size={20} className="ml-2" />
-              }
-              
-            </Button>
-            <Button
-              className="flex flex-row items-center text-nowrap"
-              variant={showBookmarks ? "success" : "danger"}
-              onClick={() => setShowBookmarks(!showBookmarks)}
-            >
-              Bookmarked
-              {showBookmarks
-                ? <FaBookmark size={15} className="ml-2" />
-                : <FaRegBookmark size={15} className="ml-2" />
-              }
-            </Button>
-            <Button
-              className="flex flex-row items-center text-nowrap"
-              variant={showLikes ? "success" : "danger"}
-              onClick={() => setShowLikes(!showLikes)}
-            >
-              Liked
-              {showLikes
-                ? <FaHeart size={15} className="ml-2" />
-                : <FaRegHeart size={15} className="ml-2" />
-              }
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+            <h3>Filters:</h3>
+            <div className="flex gap-2 flex-wrap justify-center">
+              <Button
+                className="whitespace-nowrap align-middle"
+                onClick={() => setShowTagsPopup(true)}
+              >
+                  Set Search Tags{selectedTags.length > 0 && ` (${selectedTags.length})`}
+              </Button>
+              <Button
+                className="flex flex-row items-center text-nowrap gap-2"
+                variant={showCreated ? "success" : "danger"}
+                onClick={() => setShowCreated(!showCreated)}
+              >
+                Created By You
+                {showCreated
+                  ? <LuPencil className="size-4" />
+                  : <LuPencilOff className="size-4" />
+                }
+                
+              </Button>
+              <Button
+                className="flex flex-row items-center text-nowrap gap-2"
+                variant={showBookmarks ? "success" : "danger"}
+                onClick={() => setShowBookmarks(!showBookmarks)}
+              >
+                Bookmarked
+                {showBookmarks
+                  ? <FaBookmark className="size-4" />
+                  : <FaRegBookmark className="size-4" />
+                }
+              </Button>
+              <Button
+                className="flex flex-row items-center text-nowrap gap-2"
+                variant={showLikes ? "success" : "danger"}
+                onClick={() => setShowLikes(!showLikes)}
+              >
+                Liked
+                {showLikes
+                  ? <FaHeart className="size-4" />
+                  : <FaRegHeart className="size-4" />
+                }
+              </Button>
+            </div>
           </div>
         </div>
         <hr className="divider" />
         {displayedFlashcardSets.length > 0 ?
-          <ul className="grid grid-cols-3 gap-5">
+          <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {displayedFlashcardSets.map(flashcardSet => {
               const liked = likedFlashcards.includes(flashcardSet.id);
               const bookmarked = bookmarkedFlashcards.includes(flashcardSet.id);
@@ -183,6 +186,7 @@ const Flashcards = () => {
       <PopupContainer
         open={showTagsPopup}
         onClose={() => setShowTagsPopup(false)}
+        sizeClassName="h-80"
       >
         <TagsPopup
           setTags={setSelectedTags}

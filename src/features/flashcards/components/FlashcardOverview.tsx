@@ -21,16 +21,16 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
 
       <div className="flex justify-between">
         <Link
-          className="flex items-center gap-2 w-fit"
+          className="flex items-center gap-2 w-fit min-w-0"
           to={`/profile/${flashcardSet.creator.username}`}
         >
           <Avatar
             filePath={flashcardSet.creator.profile_picture}
             size={25}
           />
-          <h3>{flashcardSet.creator.username}</h3>
+          <h3 className="truncate">wwwwwwwwwwwwwww{flashcardSet.creator.username}</h3>
         </Link>
-        <div className="flex gap-1">
+        <div className="flex gap-1 ml-3">
           {flashcardSet.private && 
             <Tooltip
               position="top"
@@ -50,8 +50,8 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
       </div>
 
       <div className="pr-12">
-        <h2 className="line-clamp-2 break-words mt-2">{flashcardSet.title}</h2>
-        <p className="mt-1 line-clamp-2 break-words">{flashcardSet.description}</p>
+        <h2 className="truncate mt-2">{flashcardSet.title}</h2>
+        <p className="mt-1 line-clamp-2">{flashcardSet.description}</p>
       </div>
       
       <div className="absolute bottom-3 left-3 right-50">
@@ -77,15 +77,15 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
       <div className="absolute flex flex-col bottom-3 right-3">
         <div className="flex flex-row justify-evenly">
           <div className="flex flex-row items-center gap-1">
-            <TbCardsFilled size={20} />
+            <TbCardsFilled className="size-5 sm:size-6" />
             <h3>{flashcardSet.num_of_flashcards}</h3>
           </div>
           <div className="flex flex-row items-center gap-1">
-            <FaBookmark size={20} />
+            <FaBookmark className="size-4 sm:size-5" />
             <h3>{flashcardSet.bookmarks}</h3>
           </div>
           <div className="flex flex-row items-center gap-1">
-            <FaHeart size={20} color="red" />
+            <FaHeart className="size-4 sm:size-5" color="red" />
             <h3>{flashcardSet.likes}</h3>
           </div>
         </div>

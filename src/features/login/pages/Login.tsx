@@ -48,41 +48,38 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-surface-primary rounded-2xl w-130 p-6 pb-10">
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <h1 className="text-center pb-4">Log In</h1>
-          <div className="flex flex-col gap-2">
-            <RHFTextInput
-              name="email"
-              control={control}
-              type="email"
-              placeholder="example@student.manchester.ac.uk"
-              title="University Email"
-            />
-            <RHFTextInput
-              name="password"
-              control={control}
-              type="password"
-              placeholder="**********"
-              title="Password"
-            />
-            <h3 className="my-3 text-left">
-              Don't have an account? <Link to="/account/signup" className="link">Sign up!</Link>
-            </h3>
-            <Button
-              type="submit"
-              loading={isSubmitting}
-              loadingMessage="Signing in..."
-            >
-              Log In
-            </Button>
-          </div>
-        </form>
-      </div>
+    <div className="bg-surface-primary rounded-2xl w-full sm:w-130 p-6 pb-10">
+      <form onSubmit={handleSubmit(handleLogin)}>
+        <h1 className="text-center pb-4">Log In</h1>
+        <div className="flex flex-col gap-2">
+          <RHFTextInput
+            name="email"
+            control={control}
+            type="email"
+            placeholder="example@student.manchester.ac.uk"
+            title="University Email"
+          />
+          <RHFTextInput
+            name="password"
+            control={control}
+            type="password"
+            placeholder="**********"
+            title="Password"
+          />
+          <h3 className="my-3 text-left">
+            Don't have an account? <Link to="/account/signup" className="link">Sign up!</Link>
+          </h3>
+          <Button
+            type="submit"
+            loading={isSubmitting}
+            loadingMessage="Signing in..."
+          >
+            Log In
+          </Button>
+        </div>
+      </form>
     </div>
-    
-  )
+  );
 }
 
 export default Login;

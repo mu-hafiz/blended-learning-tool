@@ -130,21 +130,22 @@ const FlashcardSetFocused = () => {
   return (
     <>
       <PageContainer>
-        <div className="flex items-center w-full">
-          <Tooltip
-            position="bottom"
-            text="Back to overview"
-          >
-            <Link to={`/flashcards/${flashcardSetId}`}>
-              <FaArrowLeftLong
-                size={50}
-                className="cursor-pointer transition-transform duration-250 hover:-translate-x-1"
-              />
-            </Link>
-          </Tooltip>
-          <h1 className="absolute left-1/2 transform -translate-x-1/2">
+        <div className="grid grid-cols-[auto_1fr_auto] items-center w-full gap-4 pt-4">
+          <div className="flex justify-start">
+            <Tooltip position="bottom" text="Back to overview">
+              <Link to={`/flashcards/${flashcardSetId}`}>
+                <FaArrowLeftLong
+                  className="cursor-pointer transition-transform duration-250 hover:-translate-x-1 size-8 lg:size-12"
+                />
+              </Link>
+            </Tooltip>
+          </div>
+
+          <h1 className="text-center leading-tight line-clamp-2">
             {flashcardSetInfo?.title}
           </h1>
+
+          <div className="size-8 lg:size-12 invisible" />
         </div>
         <div className="flex flex-col flex-1 items-center justify-center gap-5">
           {currentFlashcard && !showResults && (
@@ -170,6 +171,7 @@ const FlashcardSetFocused = () => {
       <PopupContainer
         open={showShufflePopup}
         onClose={() => setShowShufflePopup(false)}
+        sizeClassName="h-45 sm:h-45"
       >
         <ShufflePopup
           handleShuffle={() => handleShuffle(true)}

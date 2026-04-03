@@ -2,7 +2,7 @@ import { Button, PopupContainer, TextInput } from "@components";
 import Comment from "./Comment";
 import type { FlashcardCommentWithUser } from "@models/tables";
 import { FaCommentSlash } from "react-icons/fa";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { toast } from "@lib/toast";
 import FlashcardCommentsDB from "@lib/db/flashcardComments";
 import { tryCatch } from "@utils/tryCatch";
@@ -21,6 +21,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
   const [replyComment, setReplyComment] = useState<FlashcardCommentWithUser | null>(null);
   const [commentIdToDelete, setCommentIdToDelete] = useState("");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
 
   const sortedComments = useMemo(() => {
     if (!comments) return [];
@@ -41,6 +42,13 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
 
     return result;
   }, [comments]);
+
+  const startReply = (comment: FlashcardCommentWithUser) => {
+    setReplyComment(comment);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  }
 
   const handleSubmit = async () => {
     if (!user) {
@@ -106,6 +114,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
         <h2>Comments</h2>
         <div className="flex flex-row items-center gap-2">
           <TextInput
+            ref={inputRef}
             title={`Enter a comment${replyComment ? ` (replying to ${replyComment.user.username})` : ""}:`}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
@@ -135,7 +144,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
                 replyToUser={comment.reply_to_user}
                 date={comment.created_at}
                 comment={comment.comment}
-                replyAction={() => setReplyComment(comment)}
+                replyAction={() => startReply(comment)}
                 ownsComment={user?.id === comment.user.user_id}
                 deleteAction={() => handleDeleteWarning(comment.id)}
                 deleted={comment.deleted}
@@ -153,6 +162,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
       <PopupContainer
         open={showDeletePopup}
         onClose={() => setShowDeletePopup(false)}
+        sizeClassName="h-55 sm:h-55"
       >
         <DeleteCommentPopup
           handleDelete={handleDelete}

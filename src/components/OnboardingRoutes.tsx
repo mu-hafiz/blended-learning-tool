@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@providers/AuthProvider";
+import BreakpointLayout from "./BreakpointLayout";
 
 const OnboardingRoutes = () => {
   const { user } = useAuth();
@@ -16,7 +17,11 @@ const OnboardingRoutes = () => {
     return <Navigate to="/dashboard" replace/>
   }
 
-  return <Outlet/>
+  return (
+    <BreakpointLayout protectedRoutes={false}>
+      <Outlet/>
+    </BreakpointLayout>
+  )
 }
 
 export default OnboardingRoutes;

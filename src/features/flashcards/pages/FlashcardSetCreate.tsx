@@ -1,5 +1,5 @@
-import { Button, PageContainer, RHFTextInput } from "@components";
-import { useParams } from "react-router-dom";
+import { Button, PageContainer, RHFTextInput, Tooltip } from "@components";
+import { Link, useParams } from "react-router-dom";
 import { flashcardSetSchema, type FlashcardSetValues } from "../types/formSchemas";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import FlashcardSetDB from "@lib/db/flashcardSets";
 import { tryCatch } from "@utils/tryCatch";
 import { useLoading } from "@providers/LoadingProvider";
 import NotFound from "@pages/NotFound";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const FlashcardSetCreate = () => {
   const { user } = useAuth();
@@ -43,12 +44,14 @@ const FlashcardSetCreate = () => {
   const [showTagsPopup, setShowTagsPopup] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [originalFlashcardTitle, setOriginalFlashcardTitle] = useState("");
+  const [creatorId, setCreatorId] = useState("");
 
   const isEditing = !!flashcardSetId;
+  const notPermitted = user && creatorId && user.id !== creatorId;
   const isPrivate = watch("private");
   const tags = watch("tags");
 
-  if (notFound) return <NotFound />
+  if (notFound || notPermitted) return <NotFound />
 
   useEffect(() => {
     if (!isEditing) return;
@@ -72,6 +75,7 @@ const FlashcardSetCreate = () => {
           back: f.back
         }))
       });
+      setCreatorId(data.creator_id);
       setOriginalFlashcardTitle(data.title);
       hideLoading();
     };
@@ -141,11 +145,24 @@ const FlashcardSetCreate = () => {
 
   return (
     <>
-      <PageContainer title={`${isEditing ? "Update" : "Create"} Flashcard Set`}>
+      <PageContainer>
+        <div className="flex flex-row items-center gap-3 md:gap-4 mb-2">
+          <Tooltip
+            position="bottom"
+            text="Back to flashcards"
+          >
+            <Link to="/flashcards">
+              <FaArrowLeftLong
+                className="cursor-pointer transition-transform duration-250 hover:-translate-x-1 size-8 md:size-12"
+              />
+            </Link>
+          </Tooltip>
+          <h1 className="text-left">{`${isEditing ? "Update" : "Create"} Flashcard Set`}</h1>
+        </div>
         {isEditing && <h2 className="mb-5">Editing: {originalFlashcardTitle}</h2>}
         <form onSubmit={handleSubmit(handleSubmitSet)}>
           <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               <RHFTextInput
                 name="title"
                 control={control}
@@ -162,19 +179,21 @@ const FlashcardSetCreate = () => {
                 required={false}
                 containerClassName="col-span-2"
               />
-              <div className="flex flex-col items-center justify-center gap-3">
-                <h3>Visibility</h3>
+              <div className="flex flex-col items-center justify-center lg:col-span-2">
+                <h2>Visibility</h2>
+                <p className="subtitle text-center mb-2">Contribute to the community! (pretty please 🥹)</p>
                 <Button
                   variant={!isPrivate ? "success" : "danger"}
                   className="gap-2 w-fit"
                   onClick={() => setValue("private", !isPrivate)}
                 >
                   {!isPrivate ? "Public" : "Private"}
-                  {!isPrivate ? <FaEye size={20}/> : <FaEyeSlash size={20} />}
+                  {!isPrivate ? <FaEye className="size-4 sm:size-5" /> : <FaEyeSlash className="size-4 sm:size-5" />}
                 </Button>
               </div>
-              <div className="flex flex-col items-center justify-center gap-3">
-                <h3>Tags</h3>
+              <div className="flex flex-col items-center justify-center lg:col-span-2">
+                <h2>Tags</h2>
+                <p className="subtitle text-center mb-2">Choose tags that help others discover your set (max 5)</p>
                 <Button
                   className="gap-2 w-fit"
                   onClick={() => setShowTagsPopup(true)}

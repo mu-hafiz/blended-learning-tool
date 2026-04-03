@@ -1,4 +1,4 @@
-import { Avatar, Button, PopupContainer, Tabs, Tooltip } from "@components";
+import { Avatar, Button, PageContainer, PopupContainer, Tabs, Tooltip } from "@components";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@providers/AuthProvider";
 import { useEffect, useState } from "react";
@@ -172,42 +172,44 @@ const Profile = () => {
 
   return (
     <>
-      <div className="flex flex-col h-[calc(100vh-100px)]">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row items-center gap-5 mt-2 mb-6">
-            <Avatar
-              filePath={userInfo?.profile_picture}
-              size={100}
-              className="cursor-pointer"
-              onClick={() => setShowProfilePopup(true)}
-            />
-            <div className="flex flex-col">
-              <h1>{userInfo?.username}</h1>
-              {(myProfile || privacySettings?.name) &&
-                <h2>{userInfo?.first_name} {userInfo?.middle_name} {userInfo?.last_name}</h2>
-              }
+      <PageContainer>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+          <div className="flex flex-col items-center sm:items-start mt-2 mb-4">
+            <div className="flex flex-row items-center gap-5">
+              <Avatar
+                filePath={userInfo?.profile_picture}
+                classNameSize="size-22 md:25"
+                className="cursor-pointer"
+                onClick={() => setShowProfilePopup(true)}
+              />
+              <div className="flex flex-col justify-center min-w-0">
+                <h1 className="line-clamp-2 break-all leading-7 sm:leading-8 mb-1">{userInfo?.username}</h1>
+                {(myProfile || privacySettings?.name) &&
+                  <h2 className="truncate">{userInfo?.first_name} {userInfo?.middle_name} {userInfo?.last_name}</h2>
+                }
+              </div>
             </div>
-            {(myProfile || privacySettings?.level) && 
-              <Tooltip
-                text={`XP: ${userInfo?.xp}`}
-                position="top"
-                offset={5}
-              >
-                <div className="w-18 h-10 flex flex-row items-center justify-center gap-1 rounded-full bg-surface-secondary">
-                  <PiStarFill size={25} color="yellow"/>
-                  <h2>{userInfo?.level}</h2>
-                </div>
-              </Tooltip>
-            }
-            {renderFriendButton()}
+            <div className="flex flex-row items-center gap-6 mt-4 ml-3 md:ml-4">
+              {(myProfile || privacySettings?.level) && 
+                <Tooltip
+                  text={`XP: ${userInfo?.xp}`}
+                  position="top"
+                  offset={5}
+                >
+                  <div className="w-18 h-10 flex flex-row items-center justify-center gap-1 rounded-full bg-surface-secondary">
+                    <PiStarFill size={25} color="yellow"/>
+                    <h2>{userInfo?.level}</h2>
+                  </div>
+                </Tooltip>
+              }
+              {renderFriendButton()}
+            </div>
           </div>
           {userInfo?.about_me && (
-            <>
-              <div className="flex flex-col gap-4 max-w-100 pr-10">
-                <h2>About Me:</h2>
-                <p className="line-clamp-4">{userInfo?.about_me}</p>
-              </div>
-            </>
+            <div className="flex flex-row lg:flex-col h-fit items-center justify-center gap-4 lg:max-w-100 mb-5 lg:mb-0 bg-surface-primary rounded-2xl p-3">
+              <h2 className="whitespace-nowrap">About Me:</h2>
+              <p className="line-clamp-4 text-ellipsis">{userInfo?.about_me}</p>
+            </div>
           )}
         </div>
         <Tabs routes={routeNames} />
@@ -222,7 +224,7 @@ const Profile = () => {
             }}
           />
         </div>
-      </div>
+      </PageContainer>
       <PopupContainer
         open={showProfilePopup}
         onClose={() => setShowProfilePopup(false)}

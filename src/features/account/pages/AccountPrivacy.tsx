@@ -35,18 +35,19 @@ const AccountPrivacy = () => {
       <p className="subtitle">Tailor your account privacy and visibility</p>
       <hr className="divider"/>
       {privacySettings && (
-        <ul className="grid grid-cols-3 gap-4 mb-5">
+        <ul className="grid lg:grid-cols-2 gap-4 lg:gap-x-20 mb-5 mx-15 md:mx-30 lg:mx-20">
           {(Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
             ([key, value]) => (
-              <div className="flex w-full justify-evenly items-center">
+              <li key={key} className="grid grid-cols-3 items-center gap-10 sm:gap-0">
                 <h3 className="capitalize">{snakeCaseToWords(key)}</h3>
                 <Dropdown
                   options={options[key]}
                   onChange={(chosenValue) => handlePrivacyChange(key, chosenValue)}
                   value={snakeCaseToWords(value)}
                   disabled={privacySubmitting}
+                  containerClassName="col-span-2"
                 />
-              </div>
+              </li>
           ))}
         </ul>
       )}
