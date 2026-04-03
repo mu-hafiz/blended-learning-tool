@@ -41,30 +41,10 @@ const ProgressionAchievements = () => {
       <h2 className="mt-5">Locked</h2>
       <p className="subtitle">What will you unlock next?</p>
       <hr className="divider"/>
-      {/* {lockedAchievements && lockedAchievements.length > 0
-        ?
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {lockedAchievements.map(achievement => (
-              <AchievementItem
-                key={achievement.id}
-                title={achievement.title}
-                description={achievement.description}
-                xp={achievement.xp}
-                percentage={achievement.percentage}
-                type={achievement.unlock_type}
-              />
-            ))}
-          </div>
-        :
-          <div className="flex flex-col items-center justify-center gap-2">
-            <TbTrophy size={100} />
-            <h2>Wow, you've unlocked everything!</h2>
-          </div>
-      } */}
       {lockedFlashcardAchievements && lockedFlashcardAchievements.length > 0 && (
         <>
-          <h2 className="mb-3">Flashcards:</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <h2>Flashcards:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
             {lockedFlashcardAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
@@ -80,8 +60,8 @@ const ProgressionAchievements = () => {
       )}
       {lockedFriendAchievements && lockedFriendAchievements.length > 0 && (
         <>
-          <h2 className="mb-3">Friends:</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <h2>Friends:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
             {lockedFriendAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
@@ -97,8 +77,8 @@ const ProgressionAchievements = () => {
       )}
       {lockedLikeAchievements && lockedLikeAchievements.length > 0 && (
         <>
-          <h2 className="mb-3">Likes:</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <h2>Likes:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
             {lockedLikeAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
