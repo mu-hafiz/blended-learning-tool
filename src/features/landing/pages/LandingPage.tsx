@@ -50,16 +50,16 @@ const LandingPage = () => {
               <div className='flex flex-col w-full gap-3'>
                 <AchievementItem
                   title="The Start of Something New"
-                  description="Use 100 flashcards"
+                  description="Go through 100 flashcards"
                   percentage="75"
-                  xp={100}
+                  xp={50}
                   type="flashcards_used"
                 />
                 <AchievementItem
-                  title="A Bustling Community"
+                  title="Close-Knit Circle"
                   description="Befriend 5 people"
                   percentage="20"
-                  xp={500}
+                  xp={100}
                   type="friends_made"
                 />
               </div>
