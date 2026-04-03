@@ -28,7 +28,7 @@ const TagsPopup = ({ setTags, currentTags }: TagsPopupProps) => {
 
   return (
     <form
-      className="w-100 h-50 flex flex-col"
+      className="flex flex-col"
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           e.preventDefault();
@@ -41,6 +41,7 @@ const TagsPopup = ({ setTags, currentTags }: TagsPopupProps) => {
         <TextInput
           value={tag}
           onChange={(e) => setTag(e.target.value)}
+          maxLength={20}
         />
         <Button
           onClick={handleAdd}
@@ -48,7 +49,8 @@ const TagsPopup = ({ setTags, currentTags }: TagsPopupProps) => {
           Add
         </Button>
       </div>
-      <div className="flex flex-wrap gap-1 overflow-y-auto mt-5">
+      <hr className="divider mt-5"/>
+      <div className="flex flex-wrap gap-1 overflow-y-auto">
         {currentTags.map(tag => (
           <div
             className="bg-surface-tertiary px-2 py-1 rounded-full flex gap-1 items-center cursor-pointer"

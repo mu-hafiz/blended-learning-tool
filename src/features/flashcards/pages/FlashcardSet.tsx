@@ -19,6 +19,7 @@ import { useLoading } from "@providers/LoadingProvider";
 import CommentSection from "../components/CommentSection";
 import HistorySection from "../components/HistorySection";
 import NotFound from "@pages/NotFound";
+import formatDate from "../utils/formatDate";
 
 const FlashcardSet = () => {
   const { user } = useAuth();
@@ -33,6 +34,8 @@ const FlashcardSet = () => {
   const [flashcardNumber, setFlashcardNumber] = useState(1);
   const [bookmarked, setBookmarked] = useState(false);
   const [liked, setLiked] = useState(false);
+
+  const mySet = user && flashcardSetInfo && user?.id === flashcardSetInfo?.creator_id;
 
   if (flashcardSetInfo === null) return <NotFound />;
 
@@ -131,29 +134,28 @@ const FlashcardSet = () => {
 
   return (
     <PageContainer>
-      <div className="flex items-center justify-between gap-10">
-        <div className="flex flex-col">
-          <div className="flex flex-row gap-5 items-center">
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between lg:gap-10 mb-5 lg:mb-2">
+        <div className="flex flex-col min-w-0 flex-1">
+          <div className="flex flex-row gap-3 items-center">
             <Tooltip
               position="bottom"
               text="Back to flashcards"
             >
               <Link to="/flashcards">
                 <FaArrowLeftLong
-                  size={50}
-                  className="cursor-pointer transition-transform duration-250 hover:-translate-x-1"
+                  className="cursor-pointer transition-transform duration-250 hover:-translate-x-1 size-8 lg:size-12"
                 />
               </Link>
             </Tooltip>
             <Link
-              className="flex flex-row gap-2 w-fit"
+              className="flex flex-row gap-2 w-fit min-w-0"
               to={`/profile/${creator?.username}`}
             >
               <Avatar
                 filePath={creator?.profile_picture}
                 size={30}
               />
-              <h2>{creator?.username}</h2>
+              <h2 className="truncate">{creator?.username}</h2>
             </Link>
           </div>
           <div className="flex flex-row gap-2 items-center">
@@ -169,20 +171,7 @@ const FlashcardSet = () => {
             }
           </div>
           <h3 className="line-clamp-3">{flashcardSetInfo?.description}</h3>
-          <p className="my-1 subtitle">Last Updated: {flashcardSetInfo?.updated_at && new Date(flashcardSetInfo.updated_at).toLocaleDateString()}</p>
-          <div className="flex gap-2 max-w-200 overflow-x-auto overflow-y-hidden mt-2 mb-4 pb-2">
-            {flashcardSetInfo?.tags.map(tag => (
-              <p
-                key={tag}
-                className="bg-surface-tertiary px-2 py-1 rounded-full"
-              >
-                #{tag}
-              </p>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row justify-evenly gap-3">
+          <div className="flex flex-row gap-3 mt-2 mb-1">
             <div className="flex flex-row items-center gap-1">
               <TbCardsFilled size={25} />
               <h2>{flashcardSetInfo?.num_of_flashcards}</h2>
@@ -196,6 +185,19 @@ const FlashcardSet = () => {
               <h2>{flashcardSetInfo?.likes}</h2>
             </div>
           </div>
+          <div className="flex gap-2 max-w-200 overflow-x-auto overflow-y-hidden mt-2 pb-2">
+            {flashcardSetInfo?.tags.map(tag => (
+              <p
+                key={tag}
+                className="bg-surface-tertiary px-2 py-1 rounded-full"
+              >
+                #{tag}
+              </p>
+            ))}
+          </div>
+          <p className="subtitle">Last Updated: {flashcardSetInfo?.updated_at && formatDate(flashcardSetInfo.updated_at)}</p>
+        </div>
+        <div className="flex flex-row flex-wrap justify-center lg:flex-col gap-6 lg:gap-4 mt-5">
           <div className="flex flex-row gap-2 justify-center">
             <div
               className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
@@ -210,28 +212,33 @@ const FlashcardSet = () => {
               {liked ? <FaHeart size={35} color="red" /> : <FaRegHeart size={35} />}
             </div>
           </div>
-          <Button>
-            <Link
-              to={`/flashcards/${flashcardSetId}/focused`}
-              className="flex gap-2"
-            >
-              <FaBookReader size={20} />
-              Study with this set!
-            </Link>
-          </Button>
-          <Button variant="secondary">
-            <Link
-              to={`/flashcards/${flashcardSetId}/edit`}
-              className="flex gap-2"
-            >
-              <FaPencil size={20} />
-              Edit Flashcard Set
-            </Link>
-          </Button>
+          <div className="flex flex-row lg:flex-col gap-2">
+            <Button>
+              <Link
+                to={`/flashcards/${flashcardSetId}/focused`}
+                className="flex gap-2 text-nowrap"
+              >
+                <FaBookReader className="size-4 sm:size-5" />
+                Study with this set!
+              </Link>
+            </Button>
+            {mySet && (
+              <Button variant="secondary">
+                <Link
+                  to={`/flashcards/${flashcardSetId}/edit`}
+                  className="flex gap-2 text-nowrap"
+                >
+                  <FaPencil className="size-4 sm:size-5" />
+                  Edit Flashcard Set
+                </Link>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-3">
-        <div className="flex flex-col gap-3 col-span-2 mx-10">
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 mt-3">
+        <div className="flex flex-col gap-3 col-span-1 lg:col-span-2 lg:mx-6 xl:mx-10 items-center">
           {currentFlashcard && (
             <FlashcardItem
               flashcard={currentFlashcard}
@@ -252,7 +259,9 @@ const FlashcardSet = () => {
             />
           </div>
         </div>
+        <hr className="divider lg:col-span-3 lg:hidden" />
         <HistorySection flashcardHistory={flashcardHistory} />
+        <hr className="divider lg:col-span-3" />
       </div>
       <CommentSection
         comments={comments}

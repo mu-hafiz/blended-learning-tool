@@ -153,6 +153,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
       <PopupContainer
         open={showDeletePopup}
         onClose={() => setShowDeletePopup(false)}
+        sizeClassName="h-55 sm:h-55"
       >
         <DeleteCommentPopup
           handleDelete={handleDelete}

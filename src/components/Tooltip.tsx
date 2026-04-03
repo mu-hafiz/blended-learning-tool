@@ -9,9 +9,10 @@ type TooltipProps = {
   offset?: number;
   disabled?: boolean;
   className?: string;
+  align?: "center" | "left" | "right";
 }
 
-const Tooltip = ({ text, children, position, offset = 5, disabled=false, description, className }: TooltipProps) => {
+const Tooltip = ({ text, children, position, offset = 5, disabled=false, description, className, align }: TooltipProps) => {
   const [show, setShow] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +50,10 @@ const Tooltip = ({ text, children, position, offset = 5, disabled=false, descrip
           transition-all duration-300 z-10 pointer-events-none
           whitespace-normal w-max max-w-80`,
           show ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-1",
-          className
+          className,
+          align === "center" ? "left-1/2 -translate-x-1/2" : "",
+          align === "right" ? "-right-10" : "",
+          align === "left" ? "-left-10" : "",
         )}
         style={{
           [position === 'bottom' ? 'top' : 'bottom']: `calc(100% + ${offset ?? 0}px)`

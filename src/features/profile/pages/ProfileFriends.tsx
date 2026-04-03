@@ -2,19 +2,13 @@ import FriendItem from "@components/FriendItem";
 import { useOutletContext } from "react-router-dom";
 import type { ProfileOutletContext } from "../types/stateTypes";
 import { MdPersonAddDisabled } from "react-icons/md";
-import { FaLock } from "react-icons/fa";
+import PrivatePlaceholder from "../components/PrivatePlaceholder";
 
 const ProfileFriends = () => {
   const { friends, privacySettings, myProfile } = useOutletContext<ProfileOutletContext>();
 
   if (!myProfile && !privacySettings?.friends) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <FaLock size={100} className="mb-5"/>
-        <h1>Private</h1>
-        <h2>You are not permitted to view...</h2>
-      </div>
-    );
+    return <PrivatePlaceholder />;
   }
 
   return (
@@ -23,7 +17,7 @@ const ProfileFriends = () => {
       <hr className="divider" />
       {friends && friends.length > 0 ?
         (
-          <ul className="grid grid-cols-4 gap-4">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
             {friends.map((friend) => (
               <FriendItem
                 friend={friend.friend}
