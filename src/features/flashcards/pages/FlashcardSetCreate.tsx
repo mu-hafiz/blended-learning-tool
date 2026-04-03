@@ -1,5 +1,5 @@
-import { Button, PageContainer, RHFTextInput } from "@components";
-import { useParams } from "react-router-dom";
+import { Button, PageContainer, RHFTextInput, Tooltip } from "@components";
+import { Link, useParams } from "react-router-dom";
 import { flashcardSetSchema, type FlashcardSetValues } from "../types/formSchemas";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import FlashcardSetDB from "@lib/db/flashcardSets";
 import { tryCatch } from "@utils/tryCatch";
 import { useLoading } from "@providers/LoadingProvider";
 import NotFound from "@pages/NotFound";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const FlashcardSetCreate = () => {
   const { user } = useAuth();
@@ -144,7 +145,20 @@ const FlashcardSetCreate = () => {
 
   return (
     <>
-      <PageContainer title={`${isEditing ? "Update" : "Create"} Flashcard Set`}>
+      <PageContainer>
+        <div className="flex flex-row items-center gap-3 md:gap-4 mb-2">
+          <Tooltip
+            position="bottom"
+            text="Back to flashcards"
+          >
+            <Link to="/flashcards">
+              <FaArrowLeftLong
+                className="cursor-pointer transition-transform duration-250 hover:-translate-x-1 size-8 md:size-12"
+              />
+            </Link>
+          </Tooltip>
+          <h1 className="text-left">{`${isEditing ? "Update" : "Create"} Flashcard Set`}</h1>
+        </div>
         {isEditing && <h2 className="mb-5">Editing: {originalFlashcardTitle}</h2>}
         <form onSubmit={handleSubmit(handleSubmitSet)}>
           <div className="flex flex-col gap-5">

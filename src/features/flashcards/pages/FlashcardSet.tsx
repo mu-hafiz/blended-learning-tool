@@ -197,7 +197,7 @@ const FlashcardSet = () => {
           </div>
           <p className="subtitle">Last Updated: {flashcardSetInfo?.updated_at && formatDate(flashcardSetInfo.updated_at)}</p>
         </div>
-        <div className="flex flex-row flex-wrap justify-center lg:flex-col gap-6 lg:gap-4 mt-5">
+        <div className="flex flex-row flex-wrap justify-center lg:flex-col gap-4 lg:gap-4 mt-5">
           <div className="flex flex-row gap-2 justify-center">
             <div
               className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
@@ -229,7 +229,7 @@ const FlashcardSet = () => {
                   className="flex gap-2 text-nowrap"
                 >
                   <FaPencil className="size-4 sm:size-5" />
-                  Edit Flashcard Set
+                  Edit Set
                 </Link>
               </Button>
             )}
