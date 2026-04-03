@@ -13,7 +13,7 @@ const ProgressionAchievements = () => {
       <hr className="divider"/>
       {unlockedAchievements && unlockedAchievements.length > 0
         ?
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {unlockedAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
@@ -39,7 +39,7 @@ const ProgressionAchievements = () => {
       <hr className="divider"/>
       {lockedAchievements && lockedAchievements.length > 0
         ?
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {lockedAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
