@@ -49,7 +49,10 @@ const TextInput = ({
           <input
             type={inputType}
             placeholder={placeholder}
-            className={`w-full p-2 h-10 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder`}
+            className={twMerge(
+              "w-full p-2 bg-input text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder",
+              type === "password" ? "pr-12" : ""
+            )}
             onChange={onChange}
             required={required && !rhfMode}
             value={value ?? ""}
@@ -70,7 +73,7 @@ const TextInput = ({
         <textarea
           placeholder={placeholder}
           className={twMerge(`
-            mt-1.5 p-3 bg-input text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
+            mt-1.5 p-3 bg-input text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
             className
           )}
           onChange={onChange}

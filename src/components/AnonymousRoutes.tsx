@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@providers/AuthProvider";
 import { useLoading } from "@providers/LoadingProvider";
 import { useEffect } from "react";
+import BreakpointLayout from "./BreakpointLayout";
 
 const AnonymousRoutes = () => {
   const { user } = useAuth();
@@ -22,11 +23,9 @@ const AnonymousRoutes = () => {
   }
 
   return !user ? (
-    <div className="min-h-dvh">
-      <div className="container">
-        <Outlet/>
-      </div>
-    </div>
+    <BreakpointLayout protectedRoutes={false}>
+      <Outlet/>
+    </BreakpointLayout>
   ): <Navigate to="/dashboard"/>;
 }
 

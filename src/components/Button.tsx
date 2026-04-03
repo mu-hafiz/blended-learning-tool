@@ -37,7 +37,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     disabled={loading || disabled}
     className={twMerge(`
       inline-flex items-center justify-center
-      px-2.5 py-1.5 text-sm font-medium border border-transparent select-none
+      px-2.5 py-1.5 text-xs sm:text-sm font-medium border border-transparent select-none
       rounded-lg transition-colors duration-200 cursor-pointer
       disabled:opacity-50 disabled:cursor-default`,
       variantStyles[variant],
