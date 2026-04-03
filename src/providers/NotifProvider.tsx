@@ -88,35 +88,56 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
           toast.achievement({
             title: payload.new.title,
             description: payload.new.description,
-            navigate: () => navigate("/progression/achievements")
+            navigate: () => navigate(payload.new.link ?? "/progression/achievements")
           });
           break;
         case 'level_up':
           toast.level({
             title: payload.new.title,
             description: payload.new.description,
-            navigate: () => navigate("/progression/level")
+            navigate: () => navigate(payload.new.link ?? "/progression/level")
           });
           break;
         case 'friend_request_accepted':
           toast.friend({
             title: payload.new.title,
             description: payload.new.description,
-            navigate: () => navigate("/friends/list")
+            navigate: () => navigate(payload.new.link ?? "/friends/list")
           });
           break;
         case 'friend_request_received':
           toast.friend({
             title: payload.new.title,
             description: payload.new.description,
-            navigate: () => navigate("/friends/incoming")
+            navigate: () => navigate(payload.new.link ?? "/friends/incoming")
           });
           break;
         case 'theme_unlocked':
           toast.theme({
             title: payload.new.title,
             description: payload.new.description,
-            navigate: () => navigate("/account/preferences")
+            navigate: () => navigate(payload.new.link ?? "/account/preferences")
+          })
+          break;
+        case 'comment_received':
+          toast.comment({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate(payload.new.link ?? "/flashcards")
+          })
+          break;
+        case 'like_received':
+          toast.like({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate(payload.new.link ?? "/flashcards")
+          })
+          break;
+        case 'bookmark_received':
+          toast.bookmark({
+            title: payload.new.title,
+            description: payload.new.description,
+            navigate: () => navigate(payload.new.link ?? "/flashcards")
           })
           break;
         default:

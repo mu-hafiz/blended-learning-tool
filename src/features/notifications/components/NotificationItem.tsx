@@ -1,10 +1,11 @@
 import type { Notification } from "@models/tables";
 import type { JSX } from "react";
-import { FaUserPlus, FaUserCheck, FaHeart, FaUnlock, FaPaintBrush } from "react-icons/fa";
+import { FaUserPlus, FaUserCheck, FaHeart, FaUnlock, FaPaintBrush, FaComment } from "react-icons/fa";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 import { useNotif } from "@providers/NotifProvider";
 import { Button, Tooltip } from "@components";
 import { twMerge } from "tailwind-merge";
+import { MdBookmarkAdd } from "react-icons/md";
 
 const notifIcons: Record<string, JSX.Element> = {
   achievement_unlocked: <FaUnlock className="size-6 sm:size-10 shrink-0"/>,
@@ -12,7 +13,9 @@ const notifIcons: Record<string, JSX.Element> = {
   friend_request_accepted: <FaUserCheck className="size-6 sm:size-10 shrink-0"/>,
   like_received: <FaHeart className="size-6 sm:size-10 shrink-0"/>,
   level_up: <HiArrowTrendingUp className="size-6 sm:size-10 shrink-0"/>,
-  theme_unlocked: <FaPaintBrush className="size-6 sm:size-10 shrink-0"/>
+  theme_unlocked: <FaPaintBrush className="size-6 sm:size-10 shrink-0"/>,
+  bookmark_received: <MdBookmarkAdd className="size-6 sm:size-10 shrink-0"/>,
+  comment_received: <FaComment className="size-6 sm:size-10 shrink-0"/>
 }
 
 const NotificationItem = ({ notif }: { notif: Notification }) => {

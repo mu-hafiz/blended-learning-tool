@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 
@@ -18,21 +18,24 @@ type TextInputProps = {
   maxLength?: number;
 }
 
-const TextInput = ({
-  type,
-  title,
-  description,
-  value,
-  placeholder,
-  onChange,
-  required = true,
-  multiline,
-  className,
-  rhfMode,
-  containerClassName,
-  disabled,
-  maxLength
-}: TextInputProps) => {
+const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputProps>((
+  {
+    type,
+    title,
+    description,
+    value,
+    placeholder,
+    onChange,
+    required = true,
+    multiline,
+    className,
+    rhfMode,
+    containerClassName,
+    disabled,
+    maxLength,
+  },
+  ref
+) => {
   const [showPassword, setShowPassword] = useState(false);
   const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
 
@@ -47,6 +50,7 @@ const TextInput = ({
       {!multiline ? (
         <div className={twMerge("relative", title ? "mt-1.5" : "", className)}>
           <input
+            ref={ref as React.RefObject<HTMLInputElement>}
             type={inputType}
             placeholder={placeholder}
             className={twMerge(
@@ -71,6 +75,7 @@ const TextInput = ({
         </div>
       ) : (
         <textarea
+          ref={ref as React.RefObject<HTMLTextAreaElement>}
           placeholder={placeholder}
           className={twMerge(`
             mt-1.5 p-3 bg-input text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
@@ -84,6 +89,6 @@ const TextInput = ({
       )}
     </div>
   )
-};
+});
 
 export default TextInput;

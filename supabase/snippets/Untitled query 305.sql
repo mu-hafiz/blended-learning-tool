@@ -1,6 +1,7 @@
 create or replace function handle_flashcard_bookmark()
 returns trigger
 language plpgsql
+security definer
 as $$
 begin
   if (tg_op = 'INSERT') then
@@ -17,6 +18,8 @@ begin
   return null;
 end;
 $$;
+
+drop trigger if exists flashcard_bookmark_trigger on flashcard_bookmarks;
 
 create trigger flashcard_bookmark_trigger
 after insert or delete on flashcard_bookmarks
