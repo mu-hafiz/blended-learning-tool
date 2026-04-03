@@ -13,7 +13,7 @@ const ProgressionAchievements = () => {
       <hr className="divider"/>
       {unlockedAchievements && unlockedAchievements.length > 0
         ?
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {unlockedAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
@@ -23,6 +23,7 @@ const ProgressionAchievements = () => {
                 unlocked
                 dateUnlocked={achievement.created_at}
                 percentage={achievement.percentage}
+                type={achievement.unlock_type}
               />
             ))}
           </div>
@@ -39,7 +40,7 @@ const ProgressionAchievements = () => {
       <hr className="divider"/>
       {lockedAchievements && lockedAchievements.length > 0
         ?
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {lockedAchievements.map(achievement => (
               <AchievementItem
                 key={achievement.id}
@@ -47,6 +48,7 @@ const ProgressionAchievements = () => {
                 description={achievement.description}
                 xp={achievement.xp}
                 percentage={achievement.percentage}
+                type={achievement.unlock_type}
               />
             ))}
           </div>

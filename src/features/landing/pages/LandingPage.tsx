@@ -53,12 +53,14 @@ const LandingPage = () => {
                   description="Use 100 flashcards"
                   percentage="75"
                   xp={100}
+                  type="flashcards_used"
                 />
                 <AchievementItem
                   title="A Bustling Community"
                   description="Befriend 5 people"
                   percentage="20"
                   xp={500}
+                  type="friends_made"
                 />
               </div>
             </div>
