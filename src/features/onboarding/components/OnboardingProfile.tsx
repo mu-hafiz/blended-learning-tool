@@ -43,7 +43,7 @@ const OnboardingProfile = () => {
       <RHFTextInput
         name="username"
         control={profileForm.control}
-        description="Maximum 30 characters"
+        description="4–30 characters using letters, numbers, underscores and full stops. Uppercase letters will be converted to lowercase automatically"
         placeholder="MyCoolUsername"
         title="Username"
       />

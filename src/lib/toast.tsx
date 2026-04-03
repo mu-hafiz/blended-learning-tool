@@ -28,17 +28,24 @@ export const toast = {
         description,
         duration: 6000,
         style: {
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#fdf0be",
         },
         position: "bottom-right",
-        action: <Button className="ml-auto whitespace-nowrap" onClick={() => {
-          navigate()
-          sonnerToast.dismiss(id)
-        }}>Check it out!</Button>
+        action: (
+          <Button
+            className="col-start-1 col-end-3 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            See your achievements
+          </Button>
+        ),
       }
     )
   },
@@ -49,17 +56,24 @@ export const toast = {
         description,
         duration: 6000,
         style: {
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#fdf0be",
         },
         position: "bottom-right",
-        action: <Button className="ml-auto whitespace-nowrap" onClick={() => {
-          navigate()
-          sonnerToast.dismiss(id)
-        }}>Check it out!</Button>
+        action: (
+          <Button
+            className="col-start-1 col-end-3 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            Customise your theme
+          </Button>
+        ),
       }
     )
   },
@@ -70,17 +84,24 @@ export const toast = {
         description,
         duration: 6000,
         style: {
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#fdf0be",
         },
         position: "bottom-right",
-        action: <Button className="ml-auto whitespace-nowrap" onClick={() => {
-          navigate()
-          sonnerToast.dismiss(id)
-        }}>See your progress</Button>
+        action: (
+          <Button
+            className="col-start-1 col-end-3 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            See your progress
+          </Button>
+        ),
       }
     )
   },
@@ -91,17 +112,24 @@ export const toast = {
         description,
         duration: 6000,
         style: {
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#efd0e8",
         },
         position: "bottom-right",
-        action: <Button className="ml-auto whitespace-nowrap" onClick={() => {
-          navigate()
-          sonnerToast.dismiss(id)
-        }}>See your friends</Button>
+        action: (
+          <Button
+            className="col-start-1 col-end-3 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            See your friends
+          </Button>
+        ),
       }
     )
   },
@@ -112,19 +140,80 @@ export const toast = {
         description,
         duration: 6000,
         style: {
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#efd0e8",
         },
-        position: "bottom-right"
-        // action: <Button className="ml-auto whitespace-nowrap" onClick={() => {
-        //   navigate()
-        //   sonnerToast.dismiss(id)
-        // }}>Check it out</Button>
+        position: "bottom-right",
+        action: (
+          <Button
+            className="col-start-1 col-end-3 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            Check your flashcard set
+          </Button>
+        ),
       }
     )
+  },
+  bookmark: ({title, description, navigate}: customToastProps) => {
+    const id = sonnerToast(title,
+      {
+        icon: <BookmarkIcon />,
+        description,
+        duration: 6000,
+        style: {
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: "0.5rem 1rem",
+          padding: "1rem",
+          backgroundColor: "#efd0e8",
+        },
+        position: "bottom-right",
+        action: (
+          <Button
+            className="col-start-1 col-end-3 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            Check your flashcard set
+          </Button>
+        ),
+      }
+    )
+  },
+  comment: ({ title, description, navigate }: customToastProps) => {
+    const id = sonnerToast(title, {
+      icon: <CommentIcon />,
+      description,
+      duration: 6000,
+      style: {
+        display: "grid",
+        gridTemplateColumns: "auto 1fr",
+        gap: "0.5rem 1rem",
+        padding: "1rem",
+        backgroundColor: "#efd0e8",
+      },
+      position: "bottom-right",
+      action: (
+        <Button
+          className="col-start-1 col-end-3 w-full mt-2" 
+          onClick={() => {
+            navigate();
+            sonnerToast.dismiss(id);
+          }}
+        >
+          See what they're saying
+        </Button>
+      ),
+    });
   },
   notification: (title: string, description: string) => {
     return sonnerToast(title,

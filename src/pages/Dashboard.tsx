@@ -51,20 +51,47 @@ const Dashboard = () => {
           })}
         >
           Test Friend Notif
-        </Button>
-        <Button
-          onClick={() => toast.like({
-            title: "You received a like!",
-            description: 'Someone liked your quiz',
-            navigate: () => navigate("/")
-          })}
-        >
-          Test Like Notif
-        </Button>      
+        </Button>   
         <Button
           onClick={() => toast.notification('Quiz Novice', 'Test')}
         >
           Test Regular Notif
+        </Button>
+        <Button
+          onClick={() => toast.theme({
+            title: "'Berry' theme unlocked!",
+            description: `Go check it out at 'account preferences'`,
+            navigate: () => navigate("/account/preferences")
+          })}
+        >
+          Test Theme Notif
+        </Button>
+        <Button
+          onClick={() => toast.like({
+            title: "'Berry' theme unlocked!",
+            description: `Go check it out at 'account preferences'`,
+            navigate: () => navigate("/account/preferences")
+          })}
+        >
+          Test Like Notif
+        </Button>
+        <Button
+          onClick={() => toast.comment({
+            title: "uzidude bookmarked your flashcard set!",
+            description: `You have a new bookmark on "Example Flashcard Set"`,
+            navigate: () => navigate("/account/preferences")
+          })}
+        >
+          Test Comment Notif
+        </Button>
+        <Button
+          onClick={() => toast.bookmark({
+            title: "uzidude bookmarked your flashcard set!",
+            description: `You have a new bookmark on "Example Flashcard Set"`,
+            navigate: () => navigate("/account/preferences")
+          })}
+        >
+          Test Bookmark Notif
         </Button>
       </div>
     </PageContainer>

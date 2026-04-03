@@ -97,7 +97,8 @@ const BasicInfo = () => {
         name="username"
         control={control}
         title="Username"
-        description="This needs to be 6-30 characters long"
+        description="4–30 characters using letters, numbers, underscores and full stops. Uppercase letters will be converted to lowercase automatically"
+        maxLength={30}
       />
       <div className="flex flex-row items-center">
         {dirtyFields.username && !(debouncedUsername.value.length < 6) && !(debouncedUsername.value.length > 30) && (
