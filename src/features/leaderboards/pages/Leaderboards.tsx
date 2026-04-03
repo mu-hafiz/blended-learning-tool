@@ -113,12 +113,12 @@ const Leaderboards = () => {
         </div>
         <hr className="divider"/>
         {!allStatistics || allStatistics.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full pb-15">
+          <div className="flex flex-col flex-1 items-center justify-center">
             <MdLeaderboard size={100}/>
             <h1 className="mt-5">No users to compare to...</h1>
           </div>
         ) : (
-          <ul className="grid grid-cols-3 gap-2">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {leaderboard?.map((u, idx) => (
               <LeaderboardItem
                 username={u.username}

@@ -1,6 +1,7 @@
 import type { LeaderboardUser } from "../types/stateTypes";
 import { Avatar } from "@components";
 import { useNavigate } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 const defaultProfilePicture = "defaultProfilePicture.png";
 
@@ -21,27 +22,32 @@ const LeaderboardItem = (
 
   return (
     <div
-      className={`
-        flex items-center bg-surface-tertiary rounded-2xl h-15 raise px-4 justify-between cursor-pointer
-        ${myEntry ? "animate-pulse" : ""}
-      `}
+      className={twMerge(
+        "flex items-center justify-between h-13 sm:h-15 px-4 bg-surface-tertiary rounded-2xl raise cursor-pointer",
+        myEntry ? "animate-pulse" : ""
+      )}
       onClick={() => navigate(`/profile/${username}`)}
     >
-      <div className="flex flex-row items-center">
-        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${positionColour}`}>
+      <div className="flex flex-row items-center min-w-0">
+        <div 
+          className={twMerge(
+            "flex items-center justify-center size-7 sm:size-8 rounded-full shrink-0",
+            positionColour
+          )}
+        >
           <h2>{position}</h2>
         </div>
         <Avatar
           filePath={profilePicture || defaultProfilePicture}
-          size={40}
-          className="mx-3"
+          classNameSize="size-9 sm:size-10"
+          className="mx-3 shrink-0"
         />
-        <div className="flex flex-col">
-          <h3>{username}</h3>
+        <div className="flex flex-col min-w-0">
+          <h3 className="truncate">{username}</h3>
           {(levelPrivacy === "public" || myEntry) && <p>Level {level}</p>}
         </div>
       </div>
-      <h2>{stat}</h2>
+      <h2 className="ml-3 shrink-0">{stat}</h2>
     </div>
   );
 }
