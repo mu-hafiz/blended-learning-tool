@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import RootLayout from "@components/RootLayout";
-import Homepage from "@pages/Homepage";
+import LandingPage from "@features/landing/pages/LandingPage";
 import SignUp from "@features/signUp/pages/SignUp";
 import Onboarding from "@features/onboarding/pages/Onboarding";
 import OnboardingProfile from "@features/onboarding/components/OnboardingProfile";
@@ -38,7 +38,7 @@ import FlashcardSetCreate from "@features/flashcards/pages/FlashcardSetCreate";
 export const router = createBrowserRouter([
   { path: "/", element: <RootLayout />, errorElement: <NotFound />, children: [
 
-    { path: "/", element: <Homepage /> },
+    { path: "/", element: <LandingPage /> },
 
     { element: <AnonymousRoutes />, children: [
       { path: "/account/signup", element: <SignUp /> },

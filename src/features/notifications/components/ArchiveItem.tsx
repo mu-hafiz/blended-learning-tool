@@ -2,17 +2,14 @@ import type { Notification } from "@models/tables";
 import { useNotif } from "@providers/NotifProvider";
 import { Button, Tooltip } from "@components";
 import { twMerge } from "tailwind-merge";
-import { MdBookmarkAdd } from "react-icons/md";
-import { FaBoxArchive, FaEnvelope, FaEnvelopeOpenText, FaRightLong } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import { notifDefaultLinks, notifIcons } from "../constants/notifications";
+import { notifIcons } from "../constants/notifications";
+import { RiInboxUnarchiveFill } from "react-icons/ri";
 
-const NotificationItem = ({ notif }: { notif: Notification }) => {
-  const { updateRead, updateArchived } = useNotif();
+const ArchiveItem = ({ notif }: { notif: Notification }) => {
+  const { updateArchived } = useNotif();
   const date = new Date(notif.created_at);
   const notifDate = date.toLocaleDateString("en-GB");
   const notifTime = date.toLocaleTimeString("en-GB");
-  const navigate = useNavigate();
 
   const icon = notifIcons[notif.type] ?? <div>Test</div>
   
@@ -48,40 +45,14 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
           </div>
           <Tooltip
             position="top"
-            text="Check it out!"
-          >
-            <Button
-              className="whitespace-nowrap"
-              onClick={() => navigate(notif.link ?? notifDefaultLinks[notif.type])}
-            >
-              <FaRightLong className="size-4" />
-            </Button>
-          </Tooltip>
-          <Tooltip
-            position="top"
-            text="Archive"
+            text="Unarchive"
           >
             <Button
               variant="danger"
               onClick={() => updateArchived({ notifId: notif.id, archived: !notif.archived })}
               className="whitespace-nowrap"
             >
-              <FaBoxArchive className="size-4"/>
-            </Button>
-          </Tooltip>
-          <Tooltip
-            position="top"
-            text={notif.read ? "Mark as unread" : "Mark as read"}
-          >
-            <Button
-              variant="secondary"
-              onClick={() => updateRead({ notifId: notif.id, read: !notif.read })}
-              className="whitespace-nowrap"
-            >
-              {notif.read
-                ? <FaEnvelopeOpenText className="size-4" />
-                : <FaEnvelope className="size-4" />
-              }
+              <RiInboxUnarchiveFill className="size-4"/>
             </Button>
           </Tooltip>
         </div>
@@ -90,4 +61,4 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
   );
 };
 
-export default NotificationItem;
+export default ArchiveItem;

@@ -1,6 +1,6 @@
 import { Avatar, Button, PageContainer, Tooltip } from "@components";
 import { useEffect, useState } from "react";
-import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart, FaBookReader, FaEyeSlash } from "react-icons/fa";
+import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart, FaBookReader, FaEyeSlash, FaShareAlt } from "react-icons/fa";
 import { TbCardsFilled } from "react-icons/tb";
 import FlashcardItem from "../components/FlashcardItem";
 import { FaArrowLeftLong, FaArrowRightLong, FaPencil } from "react-icons/fa6";
@@ -132,6 +132,18 @@ const FlashcardSet = () => {
     setFlashcardNumber(prev => prev - 1);
   }
 
+  const handleShare = async () => {
+    const message = `Check out this flashcard set '${flashcardSetInfo?.title}' by ${creator?.username}\n\nwww.blendedlearningtool.app/flashcards/${flashcardSetId}`;
+    try {
+      await navigator.clipboard.writeText(message);
+      console.log('Text copied to clipboard');
+      toast.info("Copied to clipboard!");
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      toast.info("Could not share, please try again later");
+    }
+  };
+  
   return (
     <PageContainer>
       <div className="flex flex-col lg:flex-row lg:items-start justify-between lg:gap-10 mb-5 lg:mb-2">
@@ -199,18 +211,42 @@ const FlashcardSet = () => {
         </div>
         <div className="flex flex-row flex-wrap justify-center lg:flex-col gap-4 lg:gap-4 mt-5">
           <div className="flex flex-row gap-2 justify-center">
-            <div
-              className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
-              onClick={() => handleBookmarkSingle(!bookmarked, flashcardSetId!, user, setBookmarked)}
+            <Tooltip
+              position="top"
+              text="Share"
+              offset={10}
             >
-              {bookmarked ? <FaBookmark size={35} /> : <FaRegBookmark size={35} />}
-            </div>
-            <div
-              className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
-              onClick={() => handleLikeSingle(!liked, flashcardSetId!, user, setLiked)}
+              <div
+                className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
+                onClick={() => handleShare()}
+              >
+                <FaShareAlt size={35} />
+              </div>
+            </Tooltip>
+            <Tooltip
+              position="top"
+              text={bookmarked ? "Remove Bookmark" : "Bookmark Set"}
+              offset={10}
             >
-              {liked ? <FaHeart size={35} color="red" /> : <FaRegHeart size={35} />}
-            </div>
+              <div
+                className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
+                onClick={() => handleBookmarkSingle(!bookmarked, flashcardSetId!, user, setBookmarked)}
+              >
+                {bookmarked ? <FaBookmark size={35} /> : <FaRegBookmark size={35} />}
+              </div>
+            </Tooltip>
+            <Tooltip
+              position="top"
+              text={liked ? "Remove Like" : "Like Set"}
+              offset={10}
+            >
+              <div
+                className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5"
+                onClick={() => handleLikeSingle(!liked, flashcardSetId!, user, setLiked)}
+              >
+                {liked ? <FaHeart size={35} color="red" /> : <FaRegHeart size={35} />}
+              </div>
+            </Tooltip>
           </div>
           <div className="flex flex-row lg:flex-col gap-2">
             <Button>

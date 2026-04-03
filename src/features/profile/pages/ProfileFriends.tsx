@@ -27,7 +27,7 @@ const ProfileFriends = () => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full gap-5">
+          <div className="flex flex-col flex-1 items-center justify-center gap-5">
             <MdPersonAddDisabled size={100}/>
             <h1>No one's around...</h1>
           </div>

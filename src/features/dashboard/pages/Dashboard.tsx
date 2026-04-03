@@ -66,7 +66,10 @@ const Dashboard = () => {
     <PageContainer title="Dashboard">
       <hr className="divider" />
       <div className="flex flex-col">
-        <h2 className="mb-4">Last Used Flashcard Sets:</h2>
+        <div className="flex flex-row gap-3 items-center mb-4">
+          <TbCards className="size-8 sm:size-10"/>
+          <h2>Last Used Flashcard Sets:</h2>
+        </div>
         {lastUsedSets.length > 0 ?
           <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {lastUsedSets.map(flashcardSet => {
@@ -91,7 +94,10 @@ const Dashboard = () => {
           </div>
         }
         <hr className="divider" />
-        <h2 className="mb-4">Discover New Flashcard Sets:</h2>
+        <div className="flex flex-row gap-3 items-center mb-4">
+          <TbCards className="size-8 sm:size-10"/>
+          <h2>Discover New Flashcard Sets:</h2>
+        </div>
         {latestSets.length > 0 ?
           <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {latestSets.map(flashcardSet => {

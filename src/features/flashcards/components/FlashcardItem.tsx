@@ -1,5 +1,6 @@
 import type { Flashcard } from "@models/tables";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 const FlashcardText = ({ text }: { text: string }) => {
   if (text.length >= 200) {
@@ -11,7 +12,7 @@ const FlashcardText = ({ text }: { text: string }) => {
   }
 }
 
-const FlashcardItem = ({ flashcard }: { flashcard: Flashcard }) => {
+const FlashcardItem = ({ flashcard, className }: { flashcard: Flashcard, className?: string }) => {
   const [showFront, setShowFront] = useState(true);
 
   return (
@@ -20,15 +21,17 @@ const FlashcardItem = ({ flashcard }: { flashcard: Flashcard }) => {
       onClick={() => setShowFront(prev => !prev)}
     >
       <div
-        className={`
+        className={twMerge(`
           relative w-full h-full bg-surface-primary rounded-4xl flex items-center justify-center align-middle
-          transition-transform duration-500 [transform-style:preserve-3d] ${!showFront ? "[transform:rotateY(180deg)]" : ""}
-        `}
+          transition-transform duration-500 [transform-style:preserve-3d]`,
+          !showFront ? "[transform:rotateY(180deg)]" : "",
+          className
+        )}
       >
-        <div className="absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [backface-visibility:hidden]">
+        <div className={twMerge("absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [backface-visibility:hidden]", className)}>
           <FlashcardText text={flashcard.front} />
         </div>
-        <div className="absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]">
+        <div className={twMerge("absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]", className)}>
           <FlashcardText text={flashcard.back} />
         </div>
       </div>

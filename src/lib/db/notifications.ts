@@ -59,4 +59,17 @@ async function markAllAsRead() {
   return true;
 }
 
-export default { createNotifications, getNotifications, updateReadStatus, markAllAsRead };
+async function updateArchivedStatus(notifId: string, archived: boolean) {
+  const { error } = await supabase.from('notifications')
+    .update({ archived })
+    .eq('id', notifId);
+
+  if (error) {
+    console.log("Error marking notification as read: ", error);
+    throw new Error("Error marking notification as read: ", error);
+  }
+
+  return true;
+}
+
+export default { createNotifications, getNotifications, updateReadStatus, markAllAsRead, updateArchivedStatus };

@@ -10,14 +10,22 @@ import { tryCatch } from "@utils/tryCatch";
 
 type NotifContextType = {
   notifications: Notification[];
+  archived: Notification[];
+  unarchived: Notification[];
   unread: boolean;
   updateRead: ({ notifId, read }: UpdateReadArgs) => void;
   markAllRead: () => void;
+  updateArchived: ({ notifId, archived }: UpdateArchivedArgs) => void;
 }
 
 type UpdateReadArgs = {
   notifId: string;
   read: boolean;
+}
+
+type UpdateArchivedArgs = {
+  notifId: string;
+  archived: boolean;
 }
 
 const NotifContext = createContext<NotifContextType | undefined>(undefined);
@@ -29,7 +37,15 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
 
   const unread = useMemo(() => {
     return notifications.some((notif) => !notif.read);
-  }, [notifications])
+  }, [notifications]);
+
+  const archived = useMemo(() => {
+    return notifications.filter((notif) => notif.archived);
+  }, [notifications]);
+
+  const unarchived = useMemo(() => {
+    return notifications.filter((notif) => !notif.archived);
+  }, [notifications]);
 
   useEffect(() => {
     if (!user) return;
@@ -163,8 +179,15 @@ export const NotifProvider = ({ children }: { children: React.ReactNode }) => {
     setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
   }
 
+  const updateArchived = async ({ notifId, archived }: UpdateArchivedArgs) => {
+    const { error } = await tryCatch(notifDB.updateArchivedStatus(notifId, archived));
+    if (error) {
+      toast.error("Could not update notification, please try again later.");
+    }
+  }
+
   return (
-    <NotifContext.Provider value={{ notifications, unread, updateRead, markAllRead }}>
+    <NotifContext.Provider value={{ notifications, archived, unarchived, unread, updateRead, markAllRead, updateArchived }}>
       {children}
     </NotifContext.Provider>
   );
