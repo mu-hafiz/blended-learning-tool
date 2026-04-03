@@ -28,7 +28,7 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
             filePath={flashcardSet.creator.profile_picture}
             size={25}
           />
-          <h3 className="truncate">wwwwwwwwwwwwwww{flashcardSet.creator.username}</h3>
+          <h3 className="truncate">{flashcardSet.creator.username}</h3>
         </Link>
         <div className="flex gap-1 ml-3">
           {flashcardSet.private && 
