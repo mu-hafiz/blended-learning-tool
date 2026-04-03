@@ -8,7 +8,7 @@ import OnboardingProfilePicture from "@features/onboarding/components/Onboarding
 import OnboardingPrivacy from "@features/onboarding/components/OnboardingPrivacy";
 import OnboardingPreferences from "@features/onboarding/components/OnboardingPreferences";
 import { ProtectedRoutes, AnonymousRoutes, OnboardingRoutes } from "@components";
-import Dashboard from "@pages/Dashboard";
+import Dashboard from "@features/dashboard/pages/Dashboard";
 import Login from "@features/login/pages/Login";
 import NotFound from "@pages/NotFound";
 import Notifications from "@features/notifications/pages/Notifications";

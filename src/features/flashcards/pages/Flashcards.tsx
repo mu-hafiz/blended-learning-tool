@@ -1,5 +1,5 @@
 import { TextInput, PageContainer, Button, PopupContainer } from "@components";
-import FlashcardOverview from "../components/FlashcardOverview";
+import { FlashcardOverview } from "@components";
 import { useEffect, useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { LuPencil, LuPencilOff } from "react-icons/lu";
