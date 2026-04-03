@@ -64,7 +64,7 @@ const DeleteAccount = () => {
   };
 
   return (
-    <section>
+    <section className="mt-5">
       <form onSubmit={handleDeleteAccount}>
         <h2>DANGER ZONE (Delete Account)</h2>
         <p className="subtitle">This will wipe your achievements, stats, and other data</p>

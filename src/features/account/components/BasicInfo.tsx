@@ -122,12 +122,13 @@ const BasicInfo = () => {
           )
         )}
       </div>
-      <div className="flex flex-row justify-between gap-6 my-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 my-3">
         <RHFTextInput
           name="firstName"
           control={control}
           title="First Name"
           containerClassName="flex-1"
+          maxLength={50}
         />
         <RHFTextInput
           name="middleName"
@@ -135,12 +136,14 @@ const BasicInfo = () => {
           title="Middle Name"
           required={false}
           containerClassName="flex-1"
+          maxLength={50}
         />
         <RHFTextInput
           name="lastName"
           control={control}
           title="Last Name"
           containerClassName="flex-1"
+          maxLength={50}
         />
       </div>
       <RHFTextInput

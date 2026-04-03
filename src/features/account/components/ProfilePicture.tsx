@@ -102,7 +102,7 @@ const ProfilePicture = () => {
       <div className="flex items-center justify-center gap-5">
         <Avatar
           filePath={userProfile?.profile_picture}
-          size={100}
+          classNameSize="size-20 sm:size-25"
         />
         <div className="flex flex-col items-center justify-center gap-3">
           <h3>Must be JPG, JPEG, PNG, or WEBP</h3>

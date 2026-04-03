@@ -51,6 +51,20 @@ const ChangePassword = () => {
     }
   };
 
+  const MatchingStatus = ({ desktop = false }) => (
+    <div className={`flex items-center ${desktop ? 'flex-row justify-between hidden md:flex' : 'flex flex-row md:hidden justify-center gap-2 mb-2'}`}>
+      {desktop && <TiArrowLeftThick size={35}/>}
+      <div className="flex flex-row md:flex-col items-center gap-1">
+        {desktop && <h3>Passwords Match?</h3>}
+        {passwordsMatch 
+          ? <TiTickOutline className="text-success size-7 sm:size-8" /> 
+          : <TiTimesOutline className="text-error size-7 sm:size-8"/>}
+        {!desktop && <h3>Passwords Match?</h3>}
+      </div>
+      {desktop && <TiArrowRightThick size={35}/>}
+    </div>
+  );
+
   return (
     <section>
       <form onSubmit={handleSubmit(handlePasswordChange)}>
@@ -64,7 +78,7 @@ const ChangePassword = () => {
           title="Old Password"
           placeholder="**********"
         />
-        <div className="flex flex-row justify-between items-center gap-6 my-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-3 md:gap-6 my-3">
           <RHFTextInput
             name="newPassword"
             control={control}
@@ -73,14 +87,7 @@ const ChangePassword = () => {
             placeholder="**********"
             containerClassName="flex-1"
           />
-          <TiArrowLeftThick size={35}/>
-          <div className="flex flex-col items-center">
-            <h3>Matching?</h3>
-            { passwordsMatch
-              ? <TiTickOutline size={40} className="text-success" />
-              : <TiTimesOutline size={40} className="text-error"/> }
-          </div>
-          <TiArrowRightThick size={35}/>
+          <MatchingStatus desktop />
           <RHFTextInput
             name="confirmPassword"
             control={control}
@@ -91,6 +98,7 @@ const ChangePassword = () => {
           />
         </div>
         <div className="flex flex-col bg-surface-secondary rounded-2xl w-fit mx-auto p-4">
+          <MatchingStatus />
           {passwordChecks.map(({check, message}, idx) => (
             <PasswordValidator key={idx} boolValue={check} message={message} />
           ))}
