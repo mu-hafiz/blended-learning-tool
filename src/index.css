@@ -31,8 +31,11 @@
 
   /* MISC */
   --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
   --color-error: var(--error);
+  --color-error-hover: var(--error-hover);
   --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
 }
 
 [data-theme='light-brand'] {
@@ -65,79 +68,84 @@
 
   /* MISC */
   --success: #14ad00;
-  --error: #a50000;
+  --success-hover: #129700;
+  --error: #c20000;
+  --error-hover: #a50000;
   --warning: #f59e0b;
+  --warning-hover: #ce860a;
 }
 
-[data-theme='dark-purple'] {
+[data-theme='dark-brand'] {
   /* SURFACES */
-  --base-bg: #41392b;
-  --surface-primary: #524837;
-  --surface-primary-hover: #4e4535;
-  --surface-secondary: #796542;
-  --surface-secondary-hover: #6e5c3c;
-  --surface-tertiary: #8f7852;
-  --surface-tertiary-hover: #86714e;
+  --base-bg: #1b1913;
+  --surface-primary: #2f2920;
+  --surface-primary-hover: #423a2c;
+  --surface-secondary: #56472e;
+  --surface-secondary-hover: #655537;
+  --surface-tertiary: #6a573d;
+  --surface-tertiary-hover: #7b6948;
 
   /* TEXT */
   --primary-text: #fff6e8;
-  --secondary-text: #c0b6a5;
-  --success-text: #14ad00;
-  --error-text: #a50000;
+  --secondary-text: #cec5b7;
+  --success-text: #1ecf5f;
+  --error-text: #ff2949;
 
   /* BUTTONS */
-  --primary-button: #ffffff;
-  --primary-button-hover: #b3b3b3;
+  --primary-button: #ffeacb;
+  --primary-button-hover: #c6b79f;
   --primary-button-text: #000000;
   --secondary-button: #363636;
-  --secondary-button-hover: #5e5e5e;
+  --secondary-button-hover: #474747;
   --secondary-button-text: #ffffff;
 
   /* INPUTS */
-  --input: #524e49;
+  --input: #373330;
   --placeholder: #99a1a7;
 
   /* MISC */
   --success: #14ad00;
+  --success-hover: #129700;
   --error: #cc0000;
+  --error-hover: #aa0101;
   --warning: #f59e0b;
+  --warning-hover: #ce860a;
 }
 
-[data-theme='dark-brand'] {
-  /* SURFACES - Moving from "Deep Space" to "Amethyst" */
-  --base-bg: #0f0d1a;            /* The "Floor" (Deepest midnight) */
-  --surface-primary: #1c192b;    /* Main surface (Cards/Sections) */
+[data-theme='dark-midnight-purple'] {
+  --base-bg: #0f0d1a;
+  --surface-primary: #1c192b;
   --surface-primary-hover: #25213a;
-  
-  --surface-secondary: #2d2945;  /* Elevated containers */
+  --surface-secondary: #2d2945;
   --surface-secondary-hover: #373254;
-  
-  --surface-tertiary: #443e69;   /* Borders or high-elevation popups */
+  --surface-tertiary: #443e69;
   --surface-tertiary-hover: #514a7d;
 
   /* TEXT - Crisp and legible */
-  --primary-text: #f3f0ff;       /* Soft white with a purple tint */
-  --secondary-text: #9d96bd;     /* Muted lavender */
-  --success-text: #4ade80;       /* Bright Mint (compounds well with purple) */
-  --error-text: #fb7185;         /* Soft Watermelon red */
+  --primary-text: #f3f0ff;
+  --secondary-text: #9d96bd;
+  --success-text: #4ade80;
+  --error-text: #fb7185;
 
-  /* BUTTONS - The "Brand" Pop */
-  --primary-button: #9d7cff;      /* Vibrant Violet */
+  --primary-button: #9d7cff;
   --primary-button-hover: #b399ff;
   --primary-button-text: #0f0d1a;
   
-  --secondary-button: #2d2945;    /* Matches surface-secondary */
+  --secondary-button: #2d2945;
   --secondary-button-hover: #373254;
   --secondary-button-text: #f3f0ff;
 
   /* INPUTS */
-  --input: #151321;               /* Inset look (slightly darker than surface) */
+  --input: #151321;
   --placeholder: #5e5a7a;
 
   /* MISC */
-  --success: #22c55e;
-  --error: #ef4444;
+  --success: #0bc14e;
+  --success-hover: #0d923e;
+  --error: #db2d2d;
+  --error-hover: #aa2828;
   --warning: #f59e0b;
+  --warning-hover: #ce860a;
 }
 
 @utility raise {

@@ -112,6 +112,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         return [...prev, theme.theme_id];
       });
     }
+    setUnlockedThemeIds(prev => {
+      if (prev.includes(theme.theme_id)) {
+        return prev;
+      }
+      return [...prev, theme.theme_id];
+    });
   }
 
   const setTheme = async (theme: Theme) => {

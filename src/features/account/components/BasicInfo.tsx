@@ -111,13 +111,13 @@ const BasicInfo = () => {
             <p className="text-secondary-text mt-2">Checking if username is free...</p>
           ) : validUsername ? (
             <div className="flex flex-row items-center mt-1">
-              <TiTickOutline size={40} className="text-success"/>
-              <p className="text-success">Hurray! That username is available!</p>
+              <TiTickOutline size={40} className="text-success-text"/>
+              <p className="text-success-text">Hurray! That username is available!</p>
             </div>
           ) : (
             <div className="flex flex-row items-center mt-1">
-              <TiTimesOutline size={40} className="text-error"/>
-              <p className="text-error">Sorry, that username is taken.</p>
+              <TiTimesOutline size={40} className="text-error-text"/>
+              <p className="text-error-text">Sorry, that username is taken.</p>
             </div>
           )
         )}

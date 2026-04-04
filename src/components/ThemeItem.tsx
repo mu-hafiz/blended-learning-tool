@@ -25,7 +25,7 @@ const ThemeItem = ({ theme, locked = false }: ThemeProps) => {
         data-theme={theme.data_theme}
         className={twMerge(`
           rounded-2xl size-20 sm:size-25 relative group raise border-4`,
-          locked ? "bg-base-bg/50 border-base-bg/50" : "bg-base-bg border-base-bg cursor-pointer",
+          locked ? "bg-base-bg/50 border-base-bg/0" : "bg-base-bg border-base-bg cursor-pointer",
           currentTheme === theme.data_theme && "border-4 border-neutral-50"
         )}
         onClick={locked ? undefined : () => setTheme(theme)}

@@ -77,7 +77,7 @@ const ValidateOTP = ({ email, password }: OTPInputProps) => {
     <form onSubmit={() => handleSignUp(otp)}>
       <h1 className="text-center mb-2">One-Time Password</h1>
       <h3 className="text-center mb-1">An OTP has been sent to your email, please enter below:</h3>
-      <h3 className="text-center text-error mb-8">PLEASE CHECK YOUR JUNK FOLDER! (it's most likely in there...)</h3>
+      <h3 className="text-center text-error-text mb-8">PLEASE CHECK YOUR JUNK FOLDER! (it's most likely in there...)</h3>
       <TextInput
         value={otp}
         onChange={(e) => handleChange(e.target.value)}

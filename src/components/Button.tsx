@@ -17,8 +17,8 @@ type ButtonProps = {
 const variantStyles: Record<ButtonVariant, string> = {
   primary: 'bg-primary-button not-disabled:hover:bg-primary-button-hover text-primary-button-text',
   secondary: 'bg-secondary-button not-disabled:hover:bg-secondary-button-hover text-secondary-button-text',
-  danger: 'bg-red-800 not-disabled:hover:bg-red-900 text-white',
-  success: 'bg-green-600 not-disabled:hover:bg-green-700 text-white'
+  danger: 'bg-error not-disabled:hover:bg-error-hover text-white',
+  success: 'bg-success not-disabled:hover:bg-success-hover text-white'
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({

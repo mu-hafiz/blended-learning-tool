@@ -31,7 +31,7 @@ function RHFTextInput<T extends FieldValues = FieldValues>({
         <div className={twMerge("flex flex-col gap-1", containerClassName)}>
           <TextInput {...field} {...rest} rhfMode={true} />
           {fieldState.error && (
-            <p className="text-left text-red-500">{fieldState.error.message}</p>
+            <p className="text-left text-error-text">{fieldState.error.message}</p>
           )}
         </div>
       )}

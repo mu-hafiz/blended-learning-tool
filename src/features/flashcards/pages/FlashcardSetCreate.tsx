@@ -201,7 +201,7 @@ const FlashcardSetCreate = () => {
                   Select Tags{tags.length > 0 && ` (${tags.length})`}
                 </Button>
                 {errors.tags && (
-                  <p className="text-red-500">Cannot have more than 5 tags!</p>
+                  <p className="text-error-text">Cannot have more than 5 tags!</p>
                 )}
               </div>
             </div>

@@ -25,7 +25,7 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
       <li
         className={twMerge(
           "flex flex-row justify-between py-2 md:py-3 px-3 bg-surface-secondary rounded-2xl shadow-md raise relative",
-          notif.read ? "text-secondary-text" : ""
+          notif.read ? "text-secondary-text/75" : ""
         )}
       >
         <Ping

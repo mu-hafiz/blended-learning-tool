@@ -54,7 +54,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputPr
             type={inputType}
             placeholder={placeholder}
             className={twMerge(
-              "w-full p-2 bg-input text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder",
+              "w-full p-2 bg-input border border-surface-tertiary text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder",
               type === "password" ? "pr-12" : ""
             )}
             onChange={onChange}
@@ -78,7 +78,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputPr
           ref={ref as React.RefObject<HTMLTextAreaElement>}
           placeholder={placeholder}
           className={twMerge(`
-            mt-1.5 p-3 bg-input text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
+            mt-1.5 p-3 bg-input border border-surface-tertiary text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
             className
           )}
           onChange={onChange}

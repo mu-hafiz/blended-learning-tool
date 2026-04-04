@@ -57,8 +57,8 @@ const ChangePassword = () => {
       <div className="flex flex-row md:flex-col items-center gap-1">
         {desktop && <h3>Passwords Match?</h3>}
         {passwordsMatch 
-          ? <TiTickOutline className="text-success size-7 sm:size-8" /> 
-          : <TiTimesOutline className="text-error size-7 sm:size-8"/>}
+          ? <TiTickOutline className="text-success-text size-7 sm:size-8" /> 
+          : <TiTimesOutline className="text-error-text size-7 sm:size-8"/>}
         {!desktop && <h3>Passwords Match?</h3>}
       </div>
       {desktop && <TiArrowRightThick size={35}/>}
