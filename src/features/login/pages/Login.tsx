@@ -56,8 +56,8 @@ const Login = () => {
             name="email"
             control={control}
             type="email"
-            placeholder="example@student.manchester.ac.uk"
-            title="University Email"
+            placeholder="example@gmail.com"
+            title="Email"
           />
           <RHFTextInput
             name="password"
@@ -66,8 +66,11 @@ const Login = () => {
             placeholder="**********"
             title="Password"
           />
-          <h3 className="my-3 text-left">
+          <h3 className="mt-3 text-left">
             Don't have an account? <Link to="/account/signup" className="link">Sign up!</Link>
+          </h3>
+          <h3 className="mb-3 text-left">
+            Can't remember your password? <Link to="/account/forgot" className="link">Reset it!</Link>
           </h3>
           <Button
             type="submit"

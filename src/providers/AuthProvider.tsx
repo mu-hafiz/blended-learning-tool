@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@lib/supabaseClient";
 import { AuthError } from "@supabase/supabase-js";
 import UserDB from "@lib/db/users";
+import { useLoading } from "./LoadingProvider";
 
 import type { User as UserProfile } from "@models/tables";
 import { FunctionsHttpError, type User as SupabaseUser } from "@supabase/supabase-js";
@@ -36,6 +37,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const { showLoading, hideLoading } = useLoading();
   // We use 'undefined' as the 'loading' state
   const [user, setUser] = useState<SupabaseUser | null | undefined>(undefined);
   const [userProfile, setUserProfile] = useState<UserProfile | null | undefined>(undefined);
@@ -66,12 +68,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user?.id) return;
 
     const fetchUser = async () => {
+      showLoading("Loading...");
       const { data, error } = await tryCatch(UserDB.getUser(user.id));
       if (error) {
         console.log("Could not fetch user profile", error);
         setUserProfile(null);
       }
       setUserProfile(data);
+      hideLoading();
     }
 
     fetchUser();    

@@ -69,8 +69,8 @@ const SignUpDetails = ({ setStep, setData }: SignUpProps) => {
           name="email"
           control={control}
           type="email"
-          placeholder="example@student.manchester.ac.uk"
-          title="University Email"
+          placeholder="example@gmail.com"
+          title="Email"
         />
         <RHFTextInput
           name="password"

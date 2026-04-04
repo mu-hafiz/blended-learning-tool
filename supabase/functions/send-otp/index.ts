@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
   try {
     const sendEmailStart = performance.now();
     const { error } = await resend.emails.send({
-      from: "Blended Learning Tool <support@blendedlearningtool.app>",
+      from: "Blended Learning Tool <otp@blendedlearningtool.app>",
       to: email,
       subject: "Your Blended Learning Tool verification code",
       html: `

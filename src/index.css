@@ -36,6 +36,8 @@
   --color-error-hover: var(--error-hover);
   --color-warning: var(--warning);
   --color-warning-hover: var(--warning-hover);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
 }
 
 [data-theme='light-brand'] {
@@ -73,6 +75,8 @@
   --error-hover: #a50000;
   --warning: #f59e0b;
   --warning-hover: #ce860a;
+  --link: #4a80ff;
+  --link-hover: #1047c6;
 }
 
 [data-theme='dark-brand'] {
@@ -110,6 +114,8 @@
   --error-hover: #aa0101;
   --warning: #f59e0b;
   --warning-hover: #ce860a;
+  --link: #4a80ff;
+  --link-hover: #1047c6;
 }
 
 [data-theme='dark-midnight-purple'] {
@@ -146,6 +152,8 @@
   --error-hover: #aa2828;
   --warning: #f59e0b;
   --warning-hover: #ce860a;
+  --link: #4a80ff;
+  --link-hover: #1047c6;
 }
 
 @utility raise {
@@ -157,7 +165,7 @@
 }
 
 @utility link {
-  @apply text-blue-500 hover:text-blue-700 transition-colors duration-200
+  @apply text-link hover:text-link-hover transition-colors duration-200
 }
 
 @utility basic-container {

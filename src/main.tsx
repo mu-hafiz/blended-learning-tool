@@ -9,12 +9,12 @@ import { LoadingProvider } from '@providers/LoadingProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider>
-      <ThemeProvider>
-        <LoadingProvider>
+    <LoadingProvider>
+      <AuthProvider>
+        <ThemeProvider>
           <RouterProvider router={router} />
-        </LoadingProvider>
-      </ThemeProvider>
-    </AuthProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </LoadingProvider>
   </StrictMode>,
 )

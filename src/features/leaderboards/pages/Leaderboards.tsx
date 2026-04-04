@@ -24,7 +24,7 @@ const Leaderboards = () => {
   const [friendIds, setFriendIds] = useState<string[]>();
   
   useEffect(() => {
-    if (!user || allStatistics === undefined) {
+    if (allStatistics === undefined) {
       showLoading("Fetching all statistics...");
     } else {
       hideLoading();

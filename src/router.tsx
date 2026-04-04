@@ -10,6 +10,8 @@ import OnboardingPreferences from "@features/onboarding/components/OnboardingPre
 import { ProtectedRoutes, AnonymousRoutes, OnboardingRoutes } from "@components";
 import Dashboard from "@features/dashboard/pages/Dashboard";
 import Login from "@features/login/pages/Login";
+import ForgotPassword from "@features/forgotPassword/pages/ForgotPassword";
+import ResetPassword from "@features/forgotPassword/pages/ResetPassword";
 import NotFound from "@pages/NotFound";
 import Notifications from "@features/notifications/pages/Notifications";
 import Account from "@features/account/pages/Account";
@@ -40,9 +42,12 @@ export const router = createBrowserRouter([
 
     { path: "/", element: <LandingPage /> },
 
+    { path: "/account/reset", element: <ResetPassword /> },
+
     { element: <AnonymousRoutes />, children: [
       { path: "/account/signup", element: <SignUp /> },
       { path: "/account/login", element: <Login /> },
+      { path: "/account/forgot", element: <ForgotPassword /> }
     ]},
 
     { element: <OnboardingRoutes />, children: [
