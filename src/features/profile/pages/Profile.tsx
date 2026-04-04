@@ -35,7 +35,14 @@ const Profile = () => {
 
   const myProfile = userProfile?.username === username;
 
-  if (notFound) return <NotFound />
+  if (notFound) {
+    return (
+      <NotFound
+        title="That doesn't seem right..."
+        description="Can't view this profile, please try again later"
+      />
+    )
+  }
 
   useEffect(() => {
     if (

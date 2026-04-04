@@ -78,7 +78,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       hideLoading();
     }
 
-    fetchUser();    
+    const profileChannel = supabase
+      .channel('user_profile')
+      .on('postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'users',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => setUserProfile(payload.new as UserProfile)
+      )
+      .subscribe();
+
+    fetchUser();
+    
+    return () => {
+      supabase.removeChannel(profileChannel);
+    }
   }, [user?.id])
 
   const signUp = async ({ email, password }: SignUpInfo): Promise<SupabaseResult> => {

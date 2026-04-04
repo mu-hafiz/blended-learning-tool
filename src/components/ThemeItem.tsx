@@ -45,12 +45,14 @@ const ThemeItem = ({ theme, locked = false }: ThemeProps) => {
             />
           </>
         )}
-        <Ping
-          show={unused}
-          corner="topRight"
-          size={16}
-          offset={-8}
-        />
+        <div data-theme={currentTheme}>
+          <Ping
+            show={unused}
+            corner="topRight"
+            size={16}
+            offset={-8}
+          />
+        </div>
       </div>
     </Tooltip>
   );

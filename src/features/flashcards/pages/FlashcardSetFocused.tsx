@@ -28,7 +28,14 @@ const FlashcardSetFocused = () => {
   const [xpEarned, setXpEarned] = useState(0);
   const [showShufflePopup, setShowShufflePopup] = useState(false);
 
-  if (flashcardSetInfo === null) return <NotFound />;
+  if (flashcardSetInfo === null) {
+    return (
+      <NotFound
+        title="This flashcard set was too powerful..."
+        description="Something went wrong, please try again later"
+      />
+    );
+  }
 
   useEffect(() => {
     if (flashcardSetInfo !== undefined && flashcards !== undefined) {

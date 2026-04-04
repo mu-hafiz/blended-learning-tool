@@ -37,7 +37,14 @@ const FlashcardSet = () => {
 
   const mySet = user && flashcardSetInfo && user?.id === flashcardSetInfo?.creator_id;
 
-  if (flashcardSetInfo === null) return <NotFound />;
+  if (flashcardSetInfo === null) {
+    return (
+      <NotFound
+        title="This flashcard set was too powerful..."
+        description="Something went wrong, please try again later"
+      />
+    );
+  };
 
   useEffect(() => {
     if (flashcardSetInfo !== undefined && flashcards !== undefined) {

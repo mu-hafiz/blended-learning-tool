@@ -51,7 +51,14 @@ const FlashcardSetCreate = () => {
   const isPrivate = watch("private");
   const tags = watch("tags");
 
-  if (notFound || notPermitted) return <NotFound />
+  if (notFound || notPermitted) {
+    return (
+      <NotFound
+        title="Were you snooping around? 🤔"
+        description="Something seems to have gone wrong"
+      />
+    );
+  }
 
   useEffect(() => {
     if (!isEditing) return;

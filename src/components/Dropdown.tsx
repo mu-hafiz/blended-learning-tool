@@ -19,7 +19,7 @@ type DropdownItemProps = {
 const DropdownItem = ({ value, onChange }: DropdownItemProps) => (
   <div
     className="w-full px-2.5 py-1.5 bg-secondary-button hover:bg-secondary-button-hover cursor-pointer flex"
-    onPointerDown={() => onChange(value)}
+    onClick={() => onChange(value)}
   >
     <p className="truncate min-w-0">{value}</p>
   </div>
