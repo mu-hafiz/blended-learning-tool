@@ -38,3 +38,4 @@ export type FlashcardCommentWithUser = FlashcardComment & {
   user: User,
   reply_to_user: User | null
 }
+export type UnlockedTheme = Database['public']['Tables']['unlocked_themes']['Row'];

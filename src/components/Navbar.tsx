@@ -10,6 +10,8 @@ import { useAuth } from "@providers/AuthProvider";
 import Tooltip from "@components/Tooltip";
 import Avatar from "./Avatar";
 import { TbCardsFilled } from "react-icons/tb";
+import { useTheme } from "@providers/ThemeProvider";
+import Ping from "./Ping";
 
 type PopupItemProps = {
   title: string;
@@ -32,6 +34,7 @@ const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
 const Navbar = () => {
   const { userProfile, signOut } = useAuth();
   const { unread } = useNotif();
+  const { hasUnused } = useTheme();
 
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
@@ -91,12 +94,7 @@ const Navbar = () => {
           <Tooltip text="Progression" position="bottom" offset={8}>
             <Link to="/progression">
               <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
-              {!userProfile?.daily_check_in && 
-                <>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping" />
-                </>
-              }
+              <Ping show={!userProfile?.daily_check_in} offset={-5} />
             </Link>
           </Tooltip>
         </div>
@@ -114,12 +112,7 @@ const Navbar = () => {
           <Tooltip text="Notifications" position="bottom" offset={8}>
             <Link to="/notifications">
               <TbBellFilled size={30} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
-              {unread && 
-                <>
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-ping" />
-                </>
-              }
+              <Ping show={unread} offset={-3} />
             </Link>
           </Tooltip>
         </div>
@@ -127,7 +120,7 @@ const Navbar = () => {
           <div className="raise rounded-lg">
             <Tooltip text="Account" position="bottom" offset={8} disabled={showPopup}>
               <div
-                className="cursor-pointer"
+                className="cursor-pointer relative flex-shrink"
                 onPointerDown={(e) => {
                   e.stopPropagation();
                   setShowPopup(true);
@@ -137,6 +130,7 @@ const Navbar = () => {
                   filePath={userProfile?.profile_picture}
                   size={30}
                 />
+                <Ping show={hasUnused} offset={-3} />
               </div>
             </Tooltip>
           </div>

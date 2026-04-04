@@ -3,7 +3,7 @@ import type { ProgressionOutletContext } from "../types/stateTypes";
 import { useAuth } from "@providers/AuthProvider";
 import { supabase } from "@lib/supabaseClient";
 import { toast } from "@lib/toast";
-import { Button } from "@components";
+import { Button, Ping } from "@components";
 
 const ProgressionLevel = () => {
   const { user, setUserProfile } = useAuth();
@@ -55,12 +55,11 @@ const ProgressionLevel = () => {
         className="relative w-fit mt-5"
       >
         {checkedIn ? "Checked In For Today!" : "Claim your daily check-in!"}
-        {!checkedIn && 
-          <>
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping" />
-          </>
-        }
+        <Ping
+          show={!checkedIn}
+          offset={-4}
+          corner="topRight"
+        />
       </Button>
     </>
   );

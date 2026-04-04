@@ -1,6 +1,6 @@
 import type { Notification } from "@models/tables";
 import { useNotif } from "@providers/NotifProvider";
-import { Button, Tooltip } from "@components";
+import { Button, Ping, Tooltip } from "@components";
 import { twMerge } from "tailwind-merge";
 import { MdBookmarkAdd } from "react-icons/md";
 import { FaBoxArchive, FaEnvelope, FaEnvelopeOpenText, FaRightLong } from "react-icons/fa6";
@@ -28,12 +28,12 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
           notif.read ? "text-secondary-text" : ""
         )}
       >
-        {!notif.read && (
-          <>
-            <div className="absolute -top-1 -left-1 size-4 bg-red-500 rounded-full shrink-0"/>
-            <div className="absolute -top-1 -left-1 size-4 bg-red-500 rounded-full animate-ping shrink-0"/>
-          </>
-        )}
+        <Ping
+          show={!notif.read}
+          size={16}
+          corner="topLeft"
+          offset={-4}
+        />
         <div className="flex flex-row gap-3 items-center relative min-w-0 flex-1">
           {icon}
           <div className="min-w-0 flex-1">

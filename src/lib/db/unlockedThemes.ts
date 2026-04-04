@@ -2,7 +2,7 @@ import { supabase } from "@lib/supabaseClient";
 
 async function getUserUnlockedThemes(userId: string) {
   const { data, error } = await supabase.from('unlocked_themes')
-    .select('theme_id(*)')
+    .select('used, theme_id(*)')
     .eq('user_id', userId);
   
   if (error) {

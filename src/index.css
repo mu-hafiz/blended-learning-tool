@@ -69,7 +69,7 @@
   --warning: #f59e0b;
 }
 
-[data-theme='dark-brand'] {
+[data-theme='dark-purple'] {
   /* SURFACES */
   --base-bg: #41392b;
   --surface-primary: #524837;
@@ -100,6 +100,43 @@
   /* MISC */
   --success: #14ad00;
   --error: #cc0000;
+  --warning: #f59e0b;
+}
+
+[data-theme='dark-brand'] {
+  /* SURFACES - Moving from "Deep Space" to "Amethyst" */
+  --base-bg: #0f0d1a;            /* The "Floor" (Deepest midnight) */
+  --surface-primary: #1c192b;    /* Main surface (Cards/Sections) */
+  --surface-primary-hover: #25213a;
+  
+  --surface-secondary: #2d2945;  /* Elevated containers */
+  --surface-secondary-hover: #373254;
+  
+  --surface-tertiary: #443e69;   /* Borders or high-elevation popups */
+  --surface-tertiary-hover: #514a7d;
+
+  /* TEXT - Crisp and legible */
+  --primary-text: #f3f0ff;       /* Soft white with a purple tint */
+  --secondary-text: #9d96bd;     /* Muted lavender */
+  --success-text: #4ade80;       /* Bright Mint (compounds well with purple) */
+  --error-text: #fb7185;         /* Soft Watermelon red */
+
+  /* BUTTONS - The "Brand" Pop */
+  --primary-button: #9d7cff;      /* Vibrant Violet */
+  --primary-button-hover: #b399ff;
+  --primary-button-text: #0f0d1a;
+  
+  --secondary-button: #2d2945;    /* Matches surface-secondary */
+  --secondary-button-hover: #373254;
+  --secondary-button-text: #f3f0ff;
+
+  /* INPUTS */
+  --input: #151321;               /* Inset look (slightly darker than surface) */
+  --placeholder: #5e5a7a;
+
+  /* MISC */
+  --success: #22c55e;
+  --error: #ef4444;
   --warning: #f59e0b;
 }
 

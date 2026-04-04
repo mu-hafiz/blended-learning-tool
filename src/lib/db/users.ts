@@ -85,13 +85,23 @@ async function getUserTheme(userId: string) {
 }
 
 async function setUserTheme(userId: string, themeId: string) {
-  const { error } = await supabase.from('users')
+  const { error: themeError } = await supabase.from('users')
     .update({ theme_id: themeId })
     .eq('user_id', userId);
 
-  if (error) {
-    console.error("Error setting theme: ", error);
-    throw new Error("Error setting theme: ", error);
+  if (themeError) {
+    console.error("Error setting theme: ", themeError);
+    throw new Error("Error setting theme: ", themeError);
+  }
+
+  const { error: usedError } = await supabase.from('unlocked_themes')
+    .update({ used: true })
+    .eq('user_id', userId)
+    .eq('theme_id', themeId);
+
+  if (usedError) {
+    console.error("Error setting theme used status: ", usedError);
+    throw new Error("Error setting theme used status: ", usedError);
   }
 
   return true;

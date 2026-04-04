@@ -25,12 +25,6 @@ const ArchiveItem = ({ notif }: { notif: Notification }) => {
           notif.read ? "text-secondary-text" : ""
         )}
       >
-        {!notif.read && (
-          <>
-            <div className="absolute -top-1 -left-1 size-4 bg-red-500 rounded-full shrink-0"/>
-            <div className="absolute -top-1 -left-1 size-4 bg-red-500 rounded-full animate-ping shrink-0"/>
-          </>
-        )}
         <div className="flex flex-row gap-3 items-center relative min-w-0 flex-1">
           {icon}
           <div className="min-w-0 flex-1">

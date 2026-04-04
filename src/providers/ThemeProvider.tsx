@@ -1,11 +1,13 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "./AuthProvider";
 import { toast } from "@lib/toast";
-import type { Theme } from "@models/tables";
+import type { Theme, UnlockedTheme } from "@models/tables";
 import usersDB from "@lib/db/users";
 import unlockedThemesDB from "@lib/db/unlockedThemes";
 import themesDB from "@lib/db/themes";
 import { tryCatch } from "@utils/tryCatch";
+import { supabase } from "@lib/supabaseClient";
+import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 
 type ThemeContextType = {
   currentTheme: string | null
@@ -13,6 +15,8 @@ type ThemeContextType = {
   darkThemes: Theme[];
   unlockedThemeIds: string[];
   setTheme: (theme: Theme) => void;
+  unusedThemeIds: string[];
+  hasUnused: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -23,6 +27,9 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [lightThemes, setLightThemes] = useState<Theme[]>([]);
   const [darkThemes, setDarkThemes] = useState<Theme[]>([]);
   const [unlockedThemeIds, setUnlockedThemeIds] = useState<string[]>([]);
+  const [unusedThemeIds, setUnusedThemeIds] = useState<string[]>([]);
+
+  const hasUnused = unusedThemeIds.length > 0;
 
   useEffect(() => {
     const loadAllThemes = async () => {
@@ -60,10 +67,28 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
       setUnlockedThemeIds(themes.map(item => item.theme_id.id));
+      setUnusedThemeIds(themes.filter(t => !t.used).map(t => t.theme_id.id));
     }
 
     loadUserTheme();
     getUserUnlockedThemes();
+
+    const themeChannel = supabase
+      .channel('user_themes')
+      .on('postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'unlocked_themes',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => handleUnlockChange(payload)
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(themeChannel);
+    }
   }, [user])
 
   useEffect(() => {
@@ -73,8 +98,25 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [currentTheme]);
 
+  const handleUnlockChange = (payload: RealtimePostgresChangesPayload<{
+    [key: string]: any;
+  }>) => {
+    const theme = payload.new as UnlockedTheme;
+    if (theme.used) {
+      setUnusedThemeIds(prev => prev.filter(id => id !== theme.theme_id));
+    } else {
+      setUnusedThemeIds(prev => {
+        if (prev.includes(theme.theme_id)) {
+          return prev;
+        }
+        return [...prev, theme.theme_id];
+      });
+    }
+  }
+
   const setTheme = async (theme: Theme) => {
     setCurrentTheme(theme.data_theme);
+    setUnusedThemeIds(prev => prev.filter(id => id !== theme.id));
 
     if (user) {
       const { error } = await tryCatch(usersDB.setUserTheme(user.id, theme.id));
@@ -87,7 +129,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <ThemeContext.Provider value={{ currentTheme, lightThemes, darkThemes, unlockedThemeIds, setTheme}}>
+    <ThemeContext.Provider value={{ currentTheme, lightThemes, darkThemes, unlockedThemeIds, setTheme, unusedThemeIds, hasUnused }}>
       <div data-theme={currentTheme}>
         {children}
       </div>
