@@ -41,10 +41,20 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
             </Tooltip>
           }
           <div className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5" onClick={bookmarkFunction}>
-            {bookmarked ? <FaBookmark size={25} /> : <FaRegBookmark size={25} />}
+            <Tooltip
+              position="top"
+              text={bookmarked ? "Remove Bookmark" : "Bookmark"}
+            >
+              {bookmarked ? <FaBookmark size={25} /> : <FaRegBookmark size={25} />}
+            </Tooltip>
           </div>
           <div className="cursor-pointer transition-transform ease-out duration-200 hover:-translate-y-0.5" onClick={likeFunction}>
-            {liked ? <FaHeart size={25} color="red" /> : <FaRegHeart size={25} />}
+            <Tooltip
+              position="top"
+              text={liked ? "Remove Like" : "Like"}
+            >
+              {liked ? <FaHeart size={25} color="red" /> : <FaRegHeart size={25} />}
+            </Tooltip>
           </div>
         </div>
       </div>
