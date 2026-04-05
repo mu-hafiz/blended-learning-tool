@@ -21,7 +21,8 @@ const SignUpDetails = ({ setStep, setData }: SignUpProps) => {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     }
   });
 
@@ -83,10 +84,18 @@ const SignUpDetails = ({ setStep, setData }: SignUpProps) => {
           {passwordChecks.map(({ check, message }, idx) => (
             <PasswordValidator key={idx} boolValue={check} message={message} />
           ))}
-          <h3 className="my-3">
-            Already have an account? <Link to="/account/login" className="link">Login!</Link>
-          </h3>
         </div>
+        <RHFTextInput
+          name="confirmPassword"
+          control={control}
+          type="password"
+          placeholder="**********"
+          title="Confirm Password"
+          containerClassName="mt-3"
+        />
+        <h3 className="my-3">
+          Already have an account? <Link to="/account/login" className="link">Login!</Link>
+        </h3>
         <Button
           type="submit"
           loading={isSubmitting}
