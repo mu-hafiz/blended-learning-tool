@@ -21,9 +21,10 @@ const ProfileStatistics = () => {
       <h2 className="mt-5">Flashcards</h2>
       <hr className="divider"/>
 
-      <h3>Flashcard Sets Completed: {statistics?.flashcard_sets_completed}</h3>
+      <h3>Total Flashcard Sets Used: {statistics?.flashcard_sets_completed}</h3>
       <h3>Flashcard Sets Created: {statistics?.flashcard_sets_created}</h3>
-      <h3>Flashcards Used: {statistics?.flashcards_used}</h3>
+      <h3>Total Flashcards Used: {statistics?.flashcards_used}</h3>
+      <h3>Flashcards Answered Correctly: {statistics?.flashcards_correct}</h3>
     </>
   );
 }

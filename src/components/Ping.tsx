@@ -28,11 +28,11 @@ const Ping = ({ show, offset = 0, corner = "bottomRight", size = 12 }: PingProps
   return (
     <>
       <div
-        className="absolute bottom-0 right-0 bg-error-text rounded-full"
+        className="absolute bottom-0 right-0 bg-error rounded-full"
         style={offsetStyle}
       />
       <div
-        className="absolute bottom-0 right-0 bg-error-text rounded-full animate-ping"
+        className="absolute bottom-0 right-0 bg-error rounded-full animate-ping"
         style={offsetStyle}
       />
     </>

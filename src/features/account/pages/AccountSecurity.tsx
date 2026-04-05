@@ -5,7 +5,7 @@ const AccountSecurity = () => {
   return (
     <>
       <ChangePassword />
-      <DeleteAccount />
+      {/* <DeleteAccount /> */}
     </>
   );
 };

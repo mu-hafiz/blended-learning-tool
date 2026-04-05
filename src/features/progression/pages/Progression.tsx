@@ -48,6 +48,12 @@ const Progression = () => {
       }
       const unlockedIds = unlockedAchievements.map(achievement => achievement.id);
       const lockedAchievements = achievements.filter(achievement => !unlockedIds.includes(achievement.id));
+      lockedAchievements.sort((a, b) => {
+        return a.unlock_type.localeCompare(b.unlock_type) || a.xp - b.xp
+      });
+      unlockedAchievements.sort((a, b) => {
+        return a.unlock_type.localeCompare(b.unlock_type) || a.xp - b.xp
+      });
       setUnlockedAchievements(unlockedAchievements);
       setLockedAchievements(lockedAchievements);
     }

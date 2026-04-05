@@ -20,7 +20,7 @@ const PopupContainer = ({ open, onClose, children, sizeClassName = "h-120" }: Po
     >
       <div
         className={twMerge(
-          "bg-surface-primary rounded-2xl p-8 flex flex-col w-full sm:size-120",
+          "bg-surface-primary border-2 border-surface-tertiary rounded-2xl p-8 flex flex-col w-full sm:size-120",
           sizeClassName
         )}
         onClick={(e) => e.stopPropagation()}

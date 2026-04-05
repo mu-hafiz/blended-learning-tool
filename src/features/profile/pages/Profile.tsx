@@ -15,6 +15,7 @@ import { PiStarFill } from "react-icons/pi";
 import NotFound from "@pages/NotFound";
 import { FaPencil } from "react-icons/fa6";
 import { addFriend, cancelRequest } from "@lib/friends";
+import { GiSmallFire } from "react-icons/gi";
 
 const routeNames = ["statistics", "achievements", "friends"];
 
@@ -157,7 +158,7 @@ const Profile = () => {
       return (
         <Button
           onClick={() => navigate("/account/profile")}
-          className="flex flex-row items-center gap-2"
+          className="flex flex-row items-center gap-2 ml-2"
         >
           <FaPencil size={20} />
           Edit Profile
@@ -196,16 +197,28 @@ const Profile = () => {
                 }
               </div>
             </div>
-            <div className="flex flex-row items-center gap-6 mt-4 ml-3 md:ml-4">
+            <div className="flex flex-row items-center gap-2 mt-4">
               {(myProfile || privacySettings?.level) && 
                 <Tooltip
                   text={`XP: ${userInfo?.xp}`}
                   position="top"
                   offset={5}
                 >
-                  <div className="w-18 h-10 flex flex-row items-center justify-center gap-1 rounded-full bg-surface-secondary">
+                  <div className="w-18 h-10 flex flex-row items-center justify-center gap-2 rounded-full bg-surface-secondary">
                     <PiStarFill size={25} color="yellow"/>
                     <h2>{userInfo?.level}</h2>
+                  </div>
+                </Tooltip>
+              }
+              {(myProfile || privacySettings?.statistics) && 
+                <Tooltip
+                  text={`Current Streak: ${statistics?.current_streak}`}
+                  position="top"
+                  offset={5}
+                >
+                  <div className="w-18 h-10 flex flex-row items-center justify-center gap-2 rounded-full bg-surface-secondary">
+                    <GiSmallFire size={25} color="orange"/>
+                    <h2>{statistics?.current_streak}</h2>
                   </div>
                 </Tooltip>
               }
@@ -235,11 +248,14 @@ const Profile = () => {
       <PopupContainer
         open={showProfilePopup}
         onClose={() => setShowProfilePopup(false)}
+        sizeClassName="size-fit sm:size-fit"
       >
-        <Avatar
-          filePath={userInfo?.profile_picture}
-          size={300}
-        />
+        <div className="flex flex-1 items-center justify-center">
+          <Avatar
+            filePath={userInfo?.profile_picture}
+            classNameSize="size-50 sm:size-60"
+          />
+        </div>
       </PopupContainer>
     </>
   )

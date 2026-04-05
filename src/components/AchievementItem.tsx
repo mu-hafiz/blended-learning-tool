@@ -5,8 +5,10 @@ import { TbCardsFilled } from "react-icons/tb";
 import { BsPersonHearts } from "react-icons/bs";
 import { BsPersonFillAdd } from "react-icons/bs";
 import type { UnlockType } from "@models/enums";
+import { GiSmallFire } from "react-icons/gi";
+import { LuCalendarArrowUp } from "react-icons/lu";
 
-const getAchivementIcon = (type: string, className: string) => {
+const getAchivementIcon = (type: UnlockType, className: string) => {
   switch (type) {
     case "flashcard_sets_completed":
     case "flashcard_sets_created":
@@ -18,6 +20,10 @@ const getAchivementIcon = (type: string, className: string) => {
       return <BsPersonFillAdd className={className} />
     case "likes_given":
       return <BsPersonHearts className={className} />
+    case "best_streak":
+      return <GiSmallFire className={className} />
+    case "days_studied":
+      return <LuCalendarArrowUp className={className} />
   }
 }
 
@@ -48,18 +54,11 @@ const AchievementItem = (props: AchievementProps) => {
   return (
     <Tooltip
       position="top"
-      text={unlocked ? `Unlocked on: ${date}` : description}
+      text={title}
+      description={unlocked ? `Unlocked on: ${date}` : description}
     >
       <div className="flex items-center justify-between h-22 sm:h-25 p-3 px-4 bg-surface-tertiary rounded-xl raise">
         <div className="flex flex-row items-center min-w-0">
-          {/* <FaTrophy
-            className={twMerge(
-              "size-8 md:size-10 shrink-0",
-              unlocked
-              ? "text-yellow-400 animate-pulse"
-              : "text-gray-400"
-            )}
-          /> */}
           {getAchivementIcon(type, twMerge(
             "size-8 md:size-10 shrink-0",
             unlocked

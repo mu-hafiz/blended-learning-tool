@@ -256,25 +256,19 @@ const FlashcardSet = () => {
             </Tooltip>
           </div>
           <div className="flex flex-row lg:flex-col gap-2">
-            <Button>
-              <Link
-                to={`/flashcards/${flashcardSetId}/focused`}
-                className="flex gap-2 text-nowrap"
-              >
+            <Link to={`/flashcards/${flashcardSetId}/focused`}>
+              <Button className="gap-2 text-nowrap">
                 <FaBookReader className="size-4 sm:size-5" />
                 Study with this set!
-              </Link>
-            </Button>
+              </Button>
+            </Link>
             {mySet && (
-              <Button variant="secondary">
-                <Link
-                  to={`/flashcards/${flashcardSetId}/edit`}
-                  className="flex gap-2 text-nowrap"
-                >
+              <Link to={`/flashcards/${flashcardSetId}/edit`}>
+                <Button variant="secondary" className="gap-2 text-nowrap">
                   <FaPencil className="size-4 sm:size-5" />
                   Edit Set
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             )}
           </div>
         </div>

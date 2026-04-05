@@ -102,15 +102,12 @@ const Flashcards = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button variant="success">
-              <Link
-                to="/flashcards/create"
-                className="flex flex-row items-center gap-2 whitespace-nowrap"
-              >
+            <Link to="/flashcards/create">
+              <Button variant="success" className="gap-2 text-nowrap">
                 Create Set
                 <FaPlus />
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
             <h3>Filters:</h3>

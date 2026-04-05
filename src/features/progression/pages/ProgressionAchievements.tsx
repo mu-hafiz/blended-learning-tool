@@ -1,13 +1,14 @@
 import AchievementItem from "@components/AchievementItem";
 import { useOutletContext } from "react-router-dom";
 import type { ProgressionOutletContext } from "../types/stateTypes";
-import { TbTrophy, TbTrophyOff } from "react-icons/tb";
+import { TbTrophyOff } from "react-icons/tb";
 
 const ProgressionAchievements = () => {
   const { unlockedAchievements, lockedAchievements } = useOutletContext<ProgressionOutletContext>();
   const lockedFlashcardAchievements = lockedAchievements?.filter(a => a.unlock_type.includes("flashcard"));
   const lockedFriendAchievements = lockedAchievements?.filter(a => a.unlock_type.includes("friend"));
   const lockedLikeAchievements = lockedAchievements?.filter(a => a.unlock_type.includes("like"));
+  const lockedDaysAchievements = lockedAchievements?.filter(a => ["days", "streak"].some(s => a.unlock_type.includes(s)));
 
   return (
     <>
@@ -36,11 +37,27 @@ const ProgressionAchievements = () => {
             <h2>Start earning!</h2>
           </div>
       }
-      
 
       <h2 className="mt-5">Locked</h2>
       <p className="subtitle">What will you unlock next?</p>
       <hr className="divider"/>
+      {lockedDaysAchievements && lockedDaysAchievements.length > 0 && (
+        <>
+          <h2>Days Studied:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
+            {lockedDaysAchievements.map(achievement => (
+              <AchievementItem
+                key={achievement.id}
+                title={achievement.title}
+                description={achievement.description}
+                xp={achievement.xp}
+                percentage={achievement.percentage}
+                type={achievement.unlock_type}
+              />
+            ))}
+          </div>
+        </>
+      )}
       {lockedFlashcardAchievements && lockedFlashcardAchievements.length > 0 && (
         <>
           <h2>Flashcards:</h2>

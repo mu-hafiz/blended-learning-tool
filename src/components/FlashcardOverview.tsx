@@ -17,7 +17,7 @@ type FlashcardOverviewProps = {
 
 const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, bookmarkFunction }: FlashcardOverviewProps) => {
   return (
-    <div className="relative h-50 bg-surface-secondary rounded-2xl p-3">
+    <div className="relative h-50 bg-surface-secondary border border-surface-tertiary rounded-2xl p-3">
 
       <div className="flex justify-between">
         <Link

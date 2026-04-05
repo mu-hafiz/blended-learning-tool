@@ -19,7 +19,7 @@ const Avatar = ({ filePath, size = 10, classNameSize="", className = "", onClick
     return (
       <div
         style={!classNameSize ? { width: size, height: size } : undefined}
-        className={twMerge("rounded-full flex items-center justify-center", className, classNameSize)}
+        className={twMerge("rounded-full flex items-center justify-center border border-surface-tertiary", className, classNameSize)}
       >
         <h3>?</h3>
       </div>
@@ -35,7 +35,7 @@ const Avatar = ({ filePath, size = 10, classNameSize="", className = "", onClick
   return (
     <div
       style={!classNameSize ? { width: size, height: size } : undefined}
-      className={twMerge("rounded-full overflow-hidden flex-shrink-0 aspect-square", className, classNameSize)}
+      className={twMerge("rounded-full overflow-hidden flex-shrink-0 aspect-square border border-surface-tertiary", className, classNameSize)}
     >
       {avatarUrl && !imgError ? (
         <img
@@ -45,7 +45,7 @@ const Avatar = ({ filePath, size = 10, classNameSize="", className = "", onClick
           onError={() => setImgError(true)}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center bg-surface-tertiary">
+        <div className="w-full h-full flex items-center justify-center bg-surface-tertiary border border-surface-tertiary">
           <h3>?</h3>
         </div>
       )}

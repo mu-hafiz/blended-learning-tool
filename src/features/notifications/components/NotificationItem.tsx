@@ -2,7 +2,6 @@ import type { Notification } from "@models/tables";
 import { useNotif } from "@providers/NotifProvider";
 import { Button, Ping, Tooltip } from "@components";
 import { twMerge } from "tailwind-merge";
-import { MdBookmarkAdd } from "react-icons/md";
 import { FaBoxArchive, FaEnvelope, FaEnvelopeOpenText, FaRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { notifDefaultLinks, notifIcons } from "../constants/notifications";
@@ -15,6 +14,11 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
   const navigate = useNavigate();
 
   const icon = notifIcons[notif.type] ?? <div>Test</div>
+
+  const handleGo = () => {
+    updateRead({ notifId: notif.id, read: true });
+    navigate(notif.link ?? notifDefaultLinks[notif.type])
+  }
   
   return (
     <Tooltip
@@ -52,7 +56,7 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
           >
             <Button
               className="whitespace-nowrap"
-              onClick={() => navigate(notif.link ?? notifDefaultLinks[notif.type])}
+              onClick={handleGo}
             >
               <FaRightLong className="size-4" />
             </Button>

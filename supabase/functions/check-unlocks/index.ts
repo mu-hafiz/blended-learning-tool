@@ -145,6 +145,12 @@ Deno.serve(async (req) => {
           case 'likes_given':
             unlocked = likeCount >= achievement.unlock_criteria.given;
             break;
+          case 'best_streak':
+            unlocked = statistics.best_streak >= achievement.unlock_criteria.streak;
+            break;
+          case 'days_studied':
+            unlocked = statistics.days_studied >= achievement.unlock_criteria.studied;
+            break;
         }
         console.log(`Achievement: ${achievement.title}, Unlocked: ${unlocked}`)
         if (unlocked) {
@@ -181,6 +187,12 @@ Deno.serve(async (req) => {
             break;
           case 'likes_given':
             unlocked = likeCount >= theme.unlock_criteria.given;
+            break;
+          case 'best_streak':
+            unlocked = statistics.best_streak >= theme.unlock_criteria.streak;
+            break;
+          case 'days_studied':
+            unlocked = statistics.days_studied >= theme.unlock_criteria.studied;
             break;
         }
         console.log(`Theme: ${theme.title}, Unlocked: ${unlocked}`)

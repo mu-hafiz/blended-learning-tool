@@ -56,7 +56,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-surface-primary w-full h-12 flex justify-between sticky top-0 px-6 z-50 border-b-2 border-b-surface-secondary">
+    <nav className="bg-surface-primary w-full h-12 flex justify-between sticky top-0 px-6 z-50 border-b-2 border-b-surface-tertiary">
       <div className="flex items-center gap-5">
         <div className="raise rounded-lg">
           <Tooltip text="Home" position="bottom" offset={8}>
