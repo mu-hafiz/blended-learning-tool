@@ -19,6 +19,11 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
     updateRead({ notifId: notif.id, read: true });
     navigate(notif.link ?? notifDefaultLinks[notif.type])
   }
+
+  const handleArchive = () => {
+    updateRead({ notifId: notif.id, read: true });
+    updateArchived({ notifId: notif.id, archived: !notif.archived });
+  }
   
   return (
     <Tooltip
@@ -67,7 +72,7 @@ const NotificationItem = ({ notif }: { notif: Notification }) => {
           >
             <Button
               variant="danger"
-              onClick={() => updateArchived({ notifId: notif.id, archived: !notif.archived })}
+              onClick={handleArchive}
               className="whitespace-nowrap"
             >
               <FaBoxArchive className="size-4"/>
