@@ -58,10 +58,10 @@ Deno.serve(async (req) => {
 
     // The friend rows have 2 user_ids, so need to check for both users
     const user_ids = [];
-    if (updated_table === 'user_statistics') {
-      user_ids.push(new_row.user_id);
-    } else if (updated_table === 'friends') {
+    if (updated_table === 'friends') {
       user_ids.push(new_row.user_id_1, new_row.user_id_2);
+    } else {
+      user_ids.push(new_row.user_id);
     }
 
     for (const user_id of user_ids) {

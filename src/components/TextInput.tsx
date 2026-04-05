@@ -16,6 +16,7 @@ type TextInputProps = {
   containerClassName?: string;
   disabled?: boolean;
   maxLength?: number;
+  textAreaClassName?: string;
 }
 
 const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputProps>((
@@ -33,6 +34,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputPr
     containerClassName,
     disabled,
     maxLength,
+    textAreaClassName = "h-30 sm:h-25"
   },
   ref
 ) => {
@@ -79,7 +81,8 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputPr
           placeholder={placeholder}
           className={twMerge(`
             mt-1.5 p-3 bg-input border border-surface-tertiary text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder`,
-            className
+            className,
+            textAreaClassName
           )}
           onChange={onChange}
           required={required && !rhfMode}

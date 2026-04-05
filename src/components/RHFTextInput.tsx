@@ -15,6 +15,7 @@ type RHFTextInputProps<T extends FieldValues = FieldValues> = {
   containerClassName?: string;
   disabled?: boolean;
   maxLength?: number;
+  textAreaClassName?: string;
 }
 
 function RHFTextInput<T extends FieldValues = FieldValues>({
