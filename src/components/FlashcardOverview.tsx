@@ -85,7 +85,7 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
       </Link>
 
       <div className="absolute flex flex-col bottom-3 right-3">
-        <div className="flex flex-row justify-evenly">
+        <div className="flex flex-row justify-evenly mb-1">
           <div className="flex flex-row items-center gap-1">
             <TbCardsFilled className="size-5 sm:size-6" />
             <h3>{flashcardSet.num_of_flashcards}</h3>

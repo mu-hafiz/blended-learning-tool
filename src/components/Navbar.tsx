@@ -22,7 +22,7 @@ type PopupItemProps = {
 const PopupItem = ({ title, route, onClick }: PopupItemProps) => {
   const popup = (
     <p
-      className="border-b border-b-surface-secondary hover:border-b-surface-tertiary hover:-translate-y-0.5 px-0.5 pb-1 -mb-1 transition duration-300 cursor-pointer font-medium"
+      className="border-b border-b-surface-secondary hover:border-b-surface-tertiary hover:-translate-y-0.5 px-0.5 pb-1 -mb-1 transition duration-300 cursor-pointer font-medium text-sm"
       onClick={() => onClick()}
     >
       {title}
@@ -57,7 +57,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-surface-primary w-full h-12 flex justify-between sticky top-0 px-6 z-50 border-b-2 border-b-surface-tertiary">
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-3 sm:gap-5">
         <div className="raise rounded-lg">
           <Tooltip text="Home" position="bottom" offset={8}>
             <Link to="/dashboard">
@@ -79,7 +79,7 @@ const Navbar = () => {
         <div className="h-7/12 border-l-2 border-surface-tertiary" />
 
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
 
         <div className="h-7/12 border-l-2 border-surface-tertiary" />
 
