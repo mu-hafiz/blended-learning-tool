@@ -137,15 +137,18 @@ const Navbar = () => {
           {showPopup && (
             <div className="absolute right-2 w-35 mt-1 px-3 py-3 bg-surface-secondary rounded-xl shadow-xl flex flex-col gap-2 text-left">
               {popupItems.map(({ title, route, onClick }) => (
-                <PopupItem
-                  key={title}
-                  title={title}
-                  route={route}
-                  onClick={() => {
-                    onClick?.();
-                    setShowPopup(false);
-                  }}
-                />
+                <div className="relative">
+                  {title === "Account Settings" && (<Ping show={hasUnused} corner="topRight" offset={-3} />)}
+                  <PopupItem
+                    key={title}
+                    title={title}
+                    route={route}
+                    onClick={() => {
+                      onClick?.();
+                      setShowPopup(false);
+                    }}
+                  />
+                </div>
               ))}
             </div>
           )}
