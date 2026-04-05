@@ -257,7 +257,7 @@ const FlashcardSet = () => {
               </div>
             </Tooltip>
           </div>
-          <div className="flex flex-row lg:flex-col gap-2">
+          <div className="flex flex-row lg:flex-col gap-2 items-center justify-center">
             <Link to={`/flashcards/${flashcardSetId}/focused`}>
               <Button className="gap-2 text-nowrap">
                 <FaBookReader className="size-4 sm:size-5" />
