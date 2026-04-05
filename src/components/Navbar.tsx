@@ -94,7 +94,7 @@ const Navbar = () => {
           <Tooltip text="Progression" position="bottom" offset={8}>
             <Link to="/progression">
               <BsFire size={26} className="text-primary-button hover:text-primary-button-hover transition-colors duration-300" />
-              <Ping show={!userProfile?.daily_check_in} offset={-5} />
+              <Ping show={userProfile?.daily_check_in !== undefined && !userProfile?.daily_check_in} offset={-5} />
             </Link>
           </Tooltip>
         </div>
