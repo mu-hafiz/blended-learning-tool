@@ -178,7 +178,7 @@ const FlashcardSet = () => {
             </Link>
           </div>
           <div className="flex flex-row gap-2 items-center">
-            <h1>{flashcardSetInfo?.title}</h1>
+            <h1 className="leading-tight line-clamp-2">{flashcardSetInfo?.title}</h1>
             {flashcardSetInfo?.private && 
               <Tooltip
                 position="top"
