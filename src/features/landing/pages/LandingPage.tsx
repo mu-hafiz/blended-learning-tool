@@ -35,8 +35,8 @@ const LandingPage = () => {
               <h3 className="text-center mb-2">Create and share your own flashcards, add comments to support one another, and keep track of your history with each flashcard set you use!</h3>
               <FlashcardItem
                 flashcard={{
-                  front: "What is the answer to this flashcard? 🤔",
-                  back: "Got you 🤣",
+                  front: "I wonder what could be behind this flashcard? 🤔",
+                  back: "Made you look 🤪",
                   flashcard_set_id: "",
                   id: "",
                   order: 0
