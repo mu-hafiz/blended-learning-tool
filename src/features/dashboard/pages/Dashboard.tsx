@@ -17,6 +17,8 @@ const Dashboard = () => {
   const [likedFlashcards, setLikedFlashcards] = useState<string[]>([]);
   const [bookmarkedFlashcards, setBookmarkedFlashcards] = useState<string[]>([]);
 
+  console.log(latestSets);
+
   useEffect(() => {
     if (!user) return;
 

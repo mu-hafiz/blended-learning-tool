@@ -22,7 +22,9 @@ const Leaderboards = () => {
   const [statOptions, setStatOptions] = useState<string[]>([]);
   const [selectedStat, setSelectedStat] = useState<string>("Days Studied");
   const [friendIds, setFriendIds] = useState<string[]>();
-  
+
+  console.log(allStatistics);
+
   useEffect(() => {
     if (allStatistics === undefined) {
       showLoading("Fetching all statistics...");
