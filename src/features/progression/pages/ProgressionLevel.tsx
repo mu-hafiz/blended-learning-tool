@@ -15,7 +15,7 @@ const ProgressionLevel = () => {
   const nextXP = (Math.floor(xp / XP_NEEDED_FOR_LEVEL) + 1) * XP_NEEDED_FOR_LEVEL;
   const previousXP = nextXP - XP_NEEDED_FOR_LEVEL;
   const xpLeft = nextXP - xp;
-  const percentage = (xpLeft / XP_NEEDED_FOR_LEVEL) * 100;
+  const percentage = ((XP_NEEDED_FOR_LEVEL - xpLeft) / XP_NEEDED_FOR_LEVEL) * 100;
 
   const handleCheckIn = async () => {
     if (!user) return;
