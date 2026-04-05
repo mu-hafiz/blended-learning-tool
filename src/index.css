@@ -281,6 +281,44 @@
   --link-hover: #1047c6;
 }
 
+[data-theme='dark-charcoal'] {
+  --base-bg: #101010;
+  --surface-primary: #232323;
+  --surface-primary-hover: #303030;
+  --surface-secondary: #393939;
+  --surface-secondary-hover: #3e3e3e;
+  --surface-tertiary: #4e4e4e;
+  --surface-tertiary-hover: #5d5d5d;
+
+  /* TEXT - Crisp and legible */
+  --primary-text: #eeeeee;
+  --secondary-text: #c0c0c0;
+  --success-text: #4ade80;
+  --error-text: #fb7185;
+
+  --primary-button: #e7e7e7;
+  --primary-button-hover: #bfbfbf;
+  --primary-button-text: #121212;
+  
+  --secondary-button: #393a41;
+  --secondary-button-hover: #4d4e57;
+  --secondary-button-text: #eeeeee;
+
+  /* INPUTS */
+  --input: #181818;
+  --placeholder: #5c5c5c;
+
+  /* MISC */
+  --success: #0aa844;
+  --success-hover: #098536;
+  --error: #c12727;
+  --error-hover: #a42121;
+  --warning: #f59e0b;
+  --warning-hover: #ce860a;
+  --link: #4a80ff;
+  --link-hover: #1047c6;
+}
+
 @utility raise {
   @apply transition duration-300 hover:shadow-2xl hover:-translate-y-0.5;
 }
