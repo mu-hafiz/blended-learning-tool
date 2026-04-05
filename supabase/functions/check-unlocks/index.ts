@@ -206,7 +206,7 @@ Deno.serve(async (req) => {
       }
 
       // Unlock required achievements
-      const { error: achievementError } = await supabaseAdmin
+      const { data: newlyUnlockedAchievements, error: achievementError } = await supabaseAdmin
         .from('unlocked_achievements')
         .upsert(
           achievementsToBeUnlocked.map((a) => ({
@@ -217,11 +217,16 @@ Deno.serve(async (req) => {
             onConflict: 'user_id,achievement_id',
             ignoreDuplicates: true,
           }
-        );
+        )
+        .select();
       if (achievementError) throw new Error(achievementError.message || JSON.stringify(achievementError));
 
+      const actualAchievementsNotif = achievementsToBeUnlocked.filter(a => 
+        newlyUnlockedAchievements?.some(newA => newA.achievement_id === a.achievement_id)
+      );
+
       // Unlock required themes
-      const { error: themeError } = await supabaseAdmin
+      const { data: newlyUnlockedThemes, error: themeError } = await supabaseAdmin
         .from('unlocked_themes')
         .upsert(
           themesToBeUnlocked.map((a) => ({
@@ -232,19 +237,24 @@ Deno.serve(async (req) => {
             onConflict: 'user_id,theme_id',
             ignoreDuplicates: true,
           }
-        );
+        )
+        .select();
       if (themeError) throw new Error(themeError.message || JSON.stringify(themeError));
+
+      const actualThemesNotif = themesToBeUnlocked.filter(t => 
+        newlyUnlockedThemes?.some(newT => newT.theme_id === t.theme_id)
+      );
 
       // Send notifications
       const { error: notifError } = await supabaseAdmin.from('notifications')
         .insert([
-          ...achievementsToBeUnlocked.map(a => ({
+          ...actualAchievementsNotif.map(a => ({
             user_id,
             title: a.title,
             description: a.description,
             type: 'achievement_unlocked'
           })),
-          ...themesToBeUnlocked.map(t => ({
+          ...actualThemesNotif.map(t => ({
             user_id,
             title: t.title,
             description: t.description,
@@ -255,13 +265,10 @@ Deno.serve(async (req) => {
       if (notifError) throw new Error(notifError.message || JSON.stringify(notifError));
 
       // Add XP
-      const { error: xpError } = await supabaseAdmin.rpc('add_to_user_xp', {
-        p_user_id: user_id,
-        p_amount: achievementsToBeUnlocked.reduce((acc, current) => {
-          return acc + current.xp;
-        }, 0)
-      });
-      if (xpError) throw new Error(xpError.message || JSON.stringify(xpError));
+      const totalXP = actualAchievementsNotif.reduce((acc, curr) => acc + curr.xp, 0);
+      if (totalXP > 0) {
+        await supabaseAdmin.rpc('add_to_user_xp', { p_user_id: user_id, p_amount: totalXP });
+      }
     }
 
     return jsonResponse({ success: true }, 200);
