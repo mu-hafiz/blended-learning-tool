@@ -40,15 +40,16 @@
   --color-link-hover: var(--link-hover);
 }
 
+/* LIGHT THEMES */
 [data-theme='light-brand'] {
   /* SURFACES */
-  --base-bg: #ffdd9d;
-  --surface-primary: #bea575;
-  --surface-primary-hover: #bea575;
-  --surface-secondary: #a18c65;
-  --surface-secondary-hover: #8d7b5a;
-  --surface-tertiary: #8a7856;
-  --surface-tertiary-hover: #8a7856;
+  --base-bg: #efce90;
+  --surface-primary: #f5e0ba;
+  --surface-primary-hover: #d4c3a2;
+  --surface-secondary: #f6e6c9;
+  --surface-secondary-hover: #d9cbb2;
+  --surface-tertiary: #c6c0b6;
+  --surface-tertiary-hover: #d8d3c8;
 
   /* TEXT */
   --primary-text: #3d352b;
@@ -57,15 +58,15 @@
   --error-text: #a50000;
 
   /* BUTTONS */
-  --primary-button: #794501;
-  --primary-button-hover: #573201;
+  --primary-button: #d17600;
+  --primary-button-hover: #ba6900;
   --primary-button-text: #ffffff;
-  --secondary-button: #c0955d;
-  --secondary-button-hover: #917148;
+  --secondary-button: #e0bf9e;
+  --secondary-button-hover: #c7aa8e;
   --secondary-button-text: #000000;
 
   /* INPUTS */
-  --input: #99835b;
+  --input: #e2c187;
   --placeholder: #4c5053;
 
   /* MISC */
@@ -77,6 +78,45 @@
   --warning-hover: #ce860a;
   --link: #4a80ff;
   --link-hover: #1047c6;
+}
+
+[data-theme='light-lavender'] {
+  /* SURFACES */
+  --base-bg: #e5e1f0;            
+  --surface-primary: #ffffff;     
+  --surface-primary-hover: #f8f6fc;
+  --surface-secondary: #eee9f5;   
+  --surface-secondary-hover: #e2daed;
+  --surface-tertiary: #d6cae8;    
+  --surface-tertiary-hover: #c4b5db;
+
+  /* TEXT */
+  --primary-text: #1a1625;        
+  --secondary-text: #554d6b;      
+  --success-text: #166534;
+  --error-text: #991b1b;
+
+  /* BUTTONS */
+  --primary-button: #7c4dff;     
+  --primary-button-hover: #651fff;
+  --primary-button-text: #ffffff;
+  --secondary-button: #d6cae8;   
+  --secondary-button-hover: #c4b5db;
+  --secondary-button-text: #3c2475; 
+
+  /* INPUTS */
+  --input: #f4f1f9;              
+  --placeholder: #6d6482;
+
+  /* MISC */
+  --success: #16a34a;
+  --success-hover: #15803d;
+  --error: #dc2626;
+  --error-hover: #b91c1c;
+  --warning: #ea580c;
+  --warning-hover: #c2410c;
+  --link: #5a4fc9;
+  --link-hover: #4338ca;
 }
 
 [data-theme='dark-brand'] {
@@ -118,56 +158,8 @@
   --link-hover: #1047c6;
 }
 
-[data-theme='light-lavender'] {
-  /* THE STACKING ARCHITECTURE */
-  
-  /* 0. The absolute background behind everything */
-  --base-bg: #e5e1f0;            
-
-  /* 1. Large Screen Container (Sits on base) -> Pure white for maximum contrast */
-  --surface-primary: #ffffff;     
-  --surface-primary-hover: #f8f6fc;
-
-  /* 2. Flashcards / Overview items (Sits on primary) -> Distinct soft lavender */
-  --surface-secondary: #eee9f5;   
-  --surface-secondary-hover: #e2daed;
-
-  /* 3. Tags / Badges (Sits on secondary) -> Deeper, solid lavender for clear edges */
-  --surface-tertiary: #d6cae8;    
-  --surface-tertiary-hover: #c4b5db;
-
-  /* TEXT - Near black for reading, deep slate-lavender for secondary */
-  --primary-text: #1a1625;        
-  --secondary-text: #554d6b;      
-  --success-text: #166534;
-  --error-text: #991b1b;
-
-  /* BUTTONS */
-  --primary-button: #7c4dff;     
-  --primary-button-hover: #651fff;
-  --primary-button-text: #ffffff;
-  
-  /* Secondary buttons match the 'tag' layer depth for visual consistency */
-  --secondary-button: #d6cae8;   
-  --secondary-button-hover: #c4b5db;
-  --secondary-button-text: #3c2475; 
-
-  /* INPUTS - Slightly deeper than the container so they look like cutouts */
-  --input: #f4f1f9;              
-  --placeholder: #6d6482;
-
-  /* MISC */
-  --success: #16a34a;
-  --success-hover: #15803d;
-  --error: #dc2626;
-  --error-hover: #b91c1c;
-  --warning: #ea580c;
-  --warning-hover: #c2410c;
-  --link: #5a4fc9;
-  --link-hover: #4338ca;
-}
-
 [data-theme='dark-midnight-purple'] {
+  /* SURFACES */
   --base-bg: #0f0d1a;
   --surface-primary: #1c192b;
   --surface-primary-hover: #25213a;
@@ -176,16 +168,16 @@
   --surface-tertiary: #443e69;
   --surface-tertiary-hover: #514a7d;
 
-  /* TEXT - Crisp and legible */
+  /* TEXT */
   --primary-text: #f3f0ff;
   --secondary-text: #9d96bd;
   --success-text: #4ade80;
   --error-text: #fb7185;
 
+  /* BUTTONS */
   --primary-button: #9d7cff;
   --primary-button-hover: #b399ff;
   --primary-button-text: #0f0d1a;
-  
   --secondary-button: #2d2945;
   --secondary-button-hover: #373254;
   --secondary-button-text: #f3f0ff;
@@ -206,6 +198,7 @@
 }
 
 [data-theme='dark-forest-green'] {
+  /* SURFACES */
   --base-bg: #080f08;
   --surface-primary: #10200e;
   --surface-primary-hover: #142712;
@@ -214,16 +207,16 @@
   --surface-tertiary: #264c21;
   --surface-tertiary-hover: #2c5926;
 
-  /* TEXT - Crisp and legible */
+  /* TEXT */
   --primary-text: #f1fff0;
   --secondary-text: #96bd9a;
   --success-text: #4ade4a;
   --error-text: #fb7185;
 
+  /* BUTTONS */
   --primary-button: #94ff7c;
   --primary-button-hover: #6eba71;
   --primary-button-text: #0d1a0f;
-  
   --secondary-button: #263d27;
   --secondary-button-hover: #325433;
   --secondary-button-text: #f1fff0;
@@ -244,6 +237,7 @@
 }
 
 [data-theme='dark-ocean-blue'] {
+  /* SURFACES */
   --base-bg: #050617;
   --surface-primary: #0f1046;
   --surface-primary-hover: #121345;
@@ -252,16 +246,16 @@
   --surface-tertiary: #1b4a72;
   --surface-tertiary-hover: #1f5686;
 
-  /* TEXT - Crisp and legible */
+  /* TEXT */
   --primary-text: #f0f2ff;
   --secondary-text: #96a3bd;
   --success-text: #4ade80;
   --error-text: #fb7185;
 
+  /* BUTTONS */
   --primary-button: #6aa3ff;
   --primary-button-hover: #4477c8;
   --primary-button-text: #00041b;
-  
   --secondary-button: #292d45;
   --secondary-button-hover: #323454;
   --secondary-button-text: #f0f2ff;
@@ -282,6 +276,7 @@
 }
 
 [data-theme='dark-charcoal'] {
+  /* SURFACES */
   --base-bg: #101010;
   --surface-primary: #232323;
   --surface-primary-hover: #303030;
@@ -290,16 +285,16 @@
   --surface-tertiary: #4e4e4e;
   --surface-tertiary-hover: #5d5d5d;
 
-  /* TEXT - Crisp and legible */
+  /* TEXT */
   --primary-text: #eeeeee;
   --secondary-text: #c0c0c0;
   --success-text: #4ade80;
   --error-text: #fb7185;
 
+  /* BUTTONS */
   --primary-button: #e7e7e7;
   --primary-button-hover: #bfbfbf;
   --primary-button-text: #121212;
-  
   --secondary-button: #393a41;
   --secondary-button-hover: #4d4e57;
   --secondary-button-text: #eeeeee;

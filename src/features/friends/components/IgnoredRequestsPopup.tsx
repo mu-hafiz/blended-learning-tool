@@ -46,7 +46,7 @@ const IgnoredRequestsPopup = ({ onClose, userId, ignoredUsers }: IgnoredRequests
           {ignoredUsers.map(({user_id: senderId, username, profile_picture: profilePicture}) => {
             return (
               <div
-                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
+                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between shadow-lg"
                 key={senderId}
               >
                 <Link

@@ -23,7 +23,7 @@ const LeaderboardItem = (
   return (
     <div
       className={twMerge(
-        "flex items-center justify-between h-13 sm:h-15 px-4 bg-surface-tertiary rounded-2xl raise cursor-pointer",
+        "flex items-center justify-between h-13 sm:h-15 px-4 bg-surface-tertiary rounded-2xl raise cursor-pointer shadow-lg",
         myEntry ? "animate-pulse" : ""
       )}
       onClick={() => navigate(`/profile/${username}`)}
