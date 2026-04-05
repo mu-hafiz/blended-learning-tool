@@ -85,9 +85,13 @@ const Onboarding = () => {
         return;
       }
 
-      toast.success("Account created!", {
+      toast.success("Account created! Refreshing...", {
         id: toastId
       });
+
+      setTimeout(() => {
+        window.location.assign("/dashboard");
+      }, 1500);
 
     } else {
       navigate(`/account/onboarding/${routes[step]}`);

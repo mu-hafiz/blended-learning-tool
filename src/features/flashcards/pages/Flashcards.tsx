@@ -34,8 +34,6 @@ const Flashcards = () => {
 
   const debouncedSearch = useDebounce(search);
 
-  console.log(allFlashcardSets);
-
   useEffect(() => {
     if (!user) return;
 
