@@ -22,16 +22,16 @@ const FlashcardItem = ({ flashcard, className }: { flashcard: Flashcard, classNa
     >
       <div
         className={twMerge(`
-          relative w-full h-full bg-surface-primary rounded-4xl flex items-center justify-center align-middle
+          relative w-full h-full bg-surface-secondary rounded-4xl flex items-center justify-center align-middle
           transition-transform duration-500 [transform-style:preserve-3d]`,
           !showFront ? "[transform:rotateY(180deg)]" : "",
           className
         )}
       >
-        <div className={twMerge("absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [backface-visibility:hidden] whitespace-pre-wrap", className)}>
+        <div className={twMerge("absolute w-full h-full p-4 bg-surface-secondary rounded-4xl flex items-center justify-center [backface-visibility:hidden] whitespace-pre-wrap", className)}>
           <FlashcardText text={flashcard.front} />
         </div>
-        <div className={twMerge("absolute w-full h-full p-4 bg-surface-primary rounded-4xl flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden] whitespace-pre-wrap", className)}>
+        <div className={twMerge("absolute w-full h-full p-4 bg-surface-secondary rounded-4xl flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden] whitespace-pre-wrap", className)}>
           <FlashcardText text={flashcard.back} />
         </div>
       </div>

@@ -104,8 +104,9 @@ const ProfilePicture = () => {
           filePath={userProfile?.profile_picture}
           classNameSize="size-20 sm:size-25"
         />
-        <div className="flex flex-col items-center justify-center gap-3">
+        <div className="flex flex-col items-center justify-center">
           <h3>Must be JPG, JPEG, PNG, or WEBP</h3>
+          <p className="subtitle mb-3">For best results, please crop to square first</p>
           <Button
             loading={uploading}
             loadingMessage="Uploading..."

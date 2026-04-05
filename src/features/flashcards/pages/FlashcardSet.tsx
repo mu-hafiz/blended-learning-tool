@@ -189,8 +189,8 @@ const FlashcardSet = () => {
               </Tooltip>
             }
           </div>
-          <h3 className="line-clamp-3">{flashcardSetInfo?.description}</h3>
-          <div className="flex flex-row gap-3 mt-2 mb-1">
+          {flashcardSetInfo?.description && <h3 className="line-clamp-3 mb-2">{flashcardSetInfo?.description}</h3>}
+          <div className="flex flex-row gap-3 mb-1">
             <div className="flex flex-row items-center gap-1">
               <TbCardsFilled size={25} />
               <h2>{flashcardSetInfo?.num_of_flashcards}</h2>
@@ -204,16 +204,18 @@ const FlashcardSet = () => {
               <h2>{flashcardSetInfo?.likes}</h2>
             </div>
           </div>
-          <div className="flex gap-2 max-w-200 overflow-x-auto overflow-y-hidden mt-2 pb-2">
-            {flashcardSetInfo?.tags.map(tag => (
-              <p
-                key={tag}
-                className="bg-surface-tertiary px-2 py-1 rounded-full"
-              >
-                #{tag}
-              </p>
-            ))}
-          </div>
+          {flashcardSetInfo?.tags && flashcardSetInfo.tags.length > 0 && (
+            <div className="flex gap-2 max-w-200 overflow-x-auto overflow-y-hidden mt-2 pb-2">
+              {flashcardSetInfo.tags.map(tag => (
+                <p
+                  key={tag}
+                  className="bg-surface-tertiary px-2 py-1 rounded-full"
+                >
+                  #{tag}
+                </p>
+              ))}
+            </div>
+          )}
           <p className="subtitle">Last Updated: {flashcardSetInfo?.updated_at && formatDate(flashcardSetInfo.updated_at)}</p>
         </div>
         <div className="flex flex-row flex-wrap justify-center lg:flex-col gap-4 lg:gap-4 mt-5">
