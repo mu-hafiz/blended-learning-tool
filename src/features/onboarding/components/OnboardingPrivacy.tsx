@@ -39,17 +39,17 @@ const OnboardingPrivacy = () => {
     <>
       <h3>Tailor your account privacy and visibility</h3>
       <hr className="divider"/>
-      <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex flex-col justify-center gap-2">
         {privacySettings && (
           (Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
             ([key, value]) => (
             <div className="grid grid-cols-8 items-center">
-              <h3 className="capitalize col-span-3 col-start-2" key={key}>{snakeCaseToWords(key)}</h3>
+              <h3 className="capitalize col-span-4" key={key}>{snakeCaseToWords(key)}</h3>
               <Dropdown
                 options={options[key]}
                 onChange={(chosenValue) => handlePrivacyChange(key, chosenValue)}
                 value={snakeCaseToWords(value)}
-                containerClassName="col-span-3"
+                containerClassName="col-span-4"
               />
             </div>
           ))

@@ -38,7 +38,7 @@ const AccountPrivacy = () => {
         <ul className="grid lg:grid-cols-2 gap-4 lg:gap-x-20 mb-5 mx-15 md:mx-30 lg:mx-20">
           {(Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
             ([key, value]) => (
-              <li key={key} className="grid grid-cols-3 items-center gap-10 sm:gap-0">
+              <li key={key} className="grid grid-cols-3 items-center gap-30 sm:gap-20">
                 <h3 className="capitalize">{snakeCaseToWords(key)}</h3>
                 <Dropdown
                   options={options[key]}
