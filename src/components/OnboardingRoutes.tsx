@@ -9,12 +9,10 @@ const OnboardingRoutes = () => {
   if (user === undefined) return null;
 
   if (!user) {
-    toast.warning("Please login");
     return <Navigate to="/account/login" replace/>;
   }
 
   if (user.app_metadata?.onboardingCompleted) {
-    toast.warning("Already completed");
     return <Navigate to="/dashboard" replace/>
   }
 

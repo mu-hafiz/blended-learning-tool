@@ -16,8 +16,6 @@ import NotFound from "@pages/NotFound";
 import { FaPencil } from "react-icons/fa6";
 import { addFriend, cancelRequest } from "@lib/friends";
 import { GiSmallFire } from "react-icons/gi";
-import AboutMePopup from "../components/AboutMePopup";
-import { RxChevronRight } from "react-icons/rx";
 
 const routeNames = ["statistics", "achievements", "friends"];
 
@@ -28,7 +26,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const [showAboutMePopup, setShowAboutMePopup] = useState(false);
   const [friendStatus, setFriendStatus] = useState("");
   const [notFound, setNotFound] = useState(false);
   const [userInfo, setUserInfo] = useState<User | null | undefined>();
@@ -229,14 +226,15 @@ const Profile = () => {
             </div>
           </div>
           {userInfo?.about_me && (
-            <div className="relative flex flex-row lg:flex-col h-fit items-center justify-center gap-4 lg:max-w-100 mb-5 lg:mb-0 bg-surface-primary rounded-2xl p-3 pr-10">
-              <h2 className="text-center sm:text-left sm:whitespace-nowrap">About Me:</h2>
-              <p className="line-clamp-6 text-ellipsis whitespace-pre-wrap">{userInfo?.about_me}</p>
-              <RxChevronRight
-                size={50}
-                className="absolute top-1/2 -translate-y-1/2 right-0 transition-transform hover:translate-x-1 ease-out duration-200 cursor-pointer"
-                onClick={() => setShowAboutMePopup(true)}
-              />
+            <div className="flex flex-col h-40 lg:max-w-100 mb-5 lg:mb-0 bg-surface-primary rounded-2xl p-4">
+              <h2 className="text-center sm:whitespace-nowrap mb-2 shrink-0">
+                About Me
+              </h2>
+              <div className="flex-1 overflow-y-auto pr-2">
+                <p className="whitespace-pre-wrap">
+                  {userInfo?.about_me}
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -264,13 +262,6 @@ const Profile = () => {
             classNameSize="size-50 sm:size-60"
           />
         </div>
-      </PopupContainer>
-      <PopupContainer
-        open={showAboutMePopup}
-        onClose={() => setShowAboutMePopup(false)}
-        sizeClassName="h-fit sm:h-fit max-h-150"
-      >
-        <AboutMePopup aboutMe={userInfo?.about_me} />
       </PopupContainer>
     </>
   )
