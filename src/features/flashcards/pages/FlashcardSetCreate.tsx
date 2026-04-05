@@ -245,6 +245,7 @@ const FlashcardSetCreate = () => {
       <PopupContainer
         open={showTagsPopup}
         onClose={() => setShowTagsPopup(false)}
+        sizeClassName="h-fit sm:h-fit"
       >
         <TagsPopup
           setTags={(newTags: string[]) => setValue("tags", newTags)}

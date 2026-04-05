@@ -183,7 +183,7 @@ const Flashcards = () => {
       <PopupContainer
         open={showTagsPopup}
         onClose={() => setShowTagsPopup(false)}
-        sizeClassName="h-80"
+        sizeClassName="h-fit sm:h-fit"
       >
         <TagsPopup
           setTags={setSelectedTags}
