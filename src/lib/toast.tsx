@@ -4,6 +4,7 @@ import { TbBellRingingFilled } from "react-icons/tb";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 import { Button } from "@components";
 import { MdBookmarkAdd } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 
 type customToastProps = {
   title: string,
@@ -30,22 +31,30 @@ export const toast = {
         duration: 6000,
         style: {
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
+          gridTemplateColumns: "auto 1fr auto",
           gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#fdf0be",
         },
         position: "bottom-right",
         action: (
-          <Button
-            className="col-start-1 col-end-3 w-full mt-2" 
-            onClick={() => {
-              navigate();
-              sonnerToast.dismiss(id);
-            }}
-          >
-            See your achievements
-          </Button>
+          <div className="contents">
+            <Button
+              className="col-start-1 col-end-4 w-full mt-2" 
+              onClick={() => {
+                navigate();
+                sonnerToast.dismiss(id);
+              }}
+            >
+              See your achievements
+            </Button>
+            <button 
+              onClick={() => sonnerToast.dismiss(id)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black"
+            >
+              <RxCross2 size={25} />
+            </button>
+          </div>
         ),
       }
     )
@@ -58,22 +67,30 @@ export const toast = {
         duration: 6000,
         style: {
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
+          gridTemplateColumns: "auto 1fr auto",
           gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#fdf0be",
         },
         position: "bottom-right",
         action: (
-          <Button
-            className="col-start-1 col-end-3 w-full mt-2" 
-            onClick={() => {
-              navigate();
-              sonnerToast.dismiss(id);
-            }}
-          >
-            Customise your theme
-          </Button>
+          <div className="contents">
+            <Button
+              className="col-start-1 col-end-4 w-full mt-2" 
+              onClick={() => {
+                navigate();
+                sonnerToast.dismiss(id);
+              }}
+            >
+              Customise your theme
+            </Button>
+            <button 
+              onClick={() => sonnerToast.dismiss(id)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black"
+            >
+              <RxCross2 size={25} />
+            </button>
+          </div>
         ),
       }
     )
@@ -86,22 +103,30 @@ export const toast = {
         duration: 6000,
         style: {
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
+          gridTemplateColumns: "auto 1fr auto",
           gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#fdf0be",
         },
         position: "bottom-right",
         action: (
-          <Button
-            className="col-start-1 col-end-3 w-full mt-2" 
-            onClick={() => {
-              navigate();
-              sonnerToast.dismiss(id);
-            }}
-          >
-            See your progress
-          </Button>
+          <div className="contents">
+            <Button
+              className="col-start-1 col-end-4 w-full mt-2" 
+              onClick={() => {
+                navigate();
+                sonnerToast.dismiss(id);
+              }}
+            >
+              See your progress
+            </Button>
+            <button 
+              onClick={() => sonnerToast.dismiss(id)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black"
+            >
+              <RxCross2 size={25} />
+            </button>
+          </div>
         ),
       }
     )
@@ -114,22 +139,30 @@ export const toast = {
         duration: 6000,
         style: {
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
+          gridTemplateColumns: "auto 1fr auto",
           gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#efd0e8",
         },
         position: "bottom-right",
         action: (
-          <Button
-            className="col-start-1 col-end-3 w-full mt-2" 
-            onClick={() => {
-              navigate();
-              sonnerToast.dismiss(id);
-            }}
-          >
-            See your friends
-          </Button>
+          <div className="contents">
+            <Button
+              className="col-start-1 col-end-4 w-full mt-2" 
+              onClick={() => {
+                navigate();
+                sonnerToast.dismiss(id);
+              }}
+            >
+              See your friends
+            </Button>
+            <button 
+              onClick={() => sonnerToast.dismiss(id)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black"
+            >
+              <RxCross2 size={25} />
+            </button>
+          </div>
         ),
       }
     )
@@ -142,22 +175,30 @@ export const toast = {
         duration: 6000,
         style: {
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
+          gridTemplateColumns: "auto 1fr auto",
           gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#efd0e8",
         },
         position: "bottom-right",
         action: (
-          <Button
-            className="col-start-1 col-end-3 w-full mt-2" 
-            onClick={() => {
-              navigate();
-              sonnerToast.dismiss(id);
-            }}
-          >
-            Check your flashcard set
-          </Button>
+          <div className="contents">
+            <Button
+              className="col-start-1 col-end-4 w-full mt-2" 
+              onClick={() => {
+                navigate();
+                sonnerToast.dismiss(id);
+              }}
+            >
+              Check your flashcard set
+            </Button>
+            <button 
+              onClick={() => sonnerToast.dismiss(id)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black"
+            >
+              <RxCross2 size={25} />
+            </button>
+          </div>
         ),
       }
     )
@@ -170,22 +211,30 @@ export const toast = {
         duration: 6000,
         style: {
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
+          gridTemplateColumns: "auto 1fr auto",
           gap: "0.5rem 1rem",
           padding: "1rem",
           backgroundColor: "#efd0e8",
         },
         position: "bottom-right",
         action: (
-          <Button
-            className="col-start-1 col-end-3 w-full mt-2" 
-            onClick={() => {
-              navigate();
-              sonnerToast.dismiss(id);
-            }}
-          >
-            Check your flashcard set
-          </Button>
+          <div className="contents">
+            <Button
+              className="col-start-1 col-end-4 w-full mt-2" 
+              onClick={() => {
+                navigate();
+                sonnerToast.dismiss(id);
+              }}
+            >
+              Check your flashcard set
+            </Button>
+            <button 
+              onClick={() => sonnerToast.dismiss(id)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black"
+            >
+              <RxCross2 size={25} />
+            </button>
+          </div>
         ),
       }
     )
@@ -197,25 +246,33 @@ export const toast = {
       duration: 6000,
       style: {
         display: "grid",
-        gridTemplateColumns: "auto 1fr",
+        gridTemplateColumns: "auto 1fr auto", 
         gap: "0.5rem 1rem",
         padding: "1rem",
         backgroundColor: "#efd0e8",
       },
       position: "bottom-right",
       action: (
-        <Button
-          className="col-start-1 col-end-3 w-full mt-2" 
-          onClick={() => {
-            navigate();
-            sonnerToast.dismiss(id);
-          }}
-        >
-          See what they're saying
-        </Button>
+        <div className="contents">
+          <Button
+            className="col-start-1 col-end-4 w-full mt-2" 
+            onClick={() => {
+              navigate();
+              sonnerToast.dismiss(id);
+            }}
+          >
+            See what they're saying
+          </Button>
+          <button 
+            onClick={() => sonnerToast.dismiss(id)}
+            className="absolute top-2 right-2 text-gray-600 hover:text-black"
+          >
+            <RxCross2 size={25} />
+          </button>
+        </div>
       ),
     });
-  },
+},
   notification: (title: string, description: string) => {
     return sonnerToast(title,
       {
