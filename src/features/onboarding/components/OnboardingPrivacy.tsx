@@ -43,8 +43,8 @@ const OnboardingPrivacy = () => {
         {privacySettings && (
           (Object.entries(privacySettings) as [keyof UserPrivacySettings, string][]).map(
             ([key, value]) => (
-            <div className="grid grid-cols-8 items-center">
-              <h3 className="capitalize col-span-4" key={key}>{snakeCaseToWords(key)}</h3>
+            <div className="grid grid-cols-8 items-center" key={key}>
+              <h3 className="capitalize col-span-4">{snakeCaseToWords(key)}</h3>
               <Dropdown
                 options={options[key]}
                 onChange={(chosenValue) => handlePrivacyChange(key, chosenValue)}
