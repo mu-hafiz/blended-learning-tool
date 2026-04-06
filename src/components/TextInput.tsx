@@ -57,7 +57,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputPr
             placeholder={placeholder}
             className={twMerge(
               "w-full p-2 bg-input border border-surface-tertiary text-xs sm:text-sm text-primary-text rounded-lg placeholder:text-placeholder",
-              type === "password" ? "pr-12" : ""
+              type === "password" ? "pr-12 min-h-[33px]" : ""
             )}
             onChange={onChange}
             required={required && !rhfMode}
