@@ -213,7 +213,7 @@ const FlashcardSet = () => {
               {flashcardSetInfo.tags.map(tag => (
                 <p
                   key={tag}
-                  className="bg-surface-tertiary px-2 py-1 rounded-full"
+                  className="bg-surface-tertiary px-2 py-1 rounded-full shadow-sm"
                 >
                   #{tag}
                 </p>

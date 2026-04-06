@@ -205,7 +205,7 @@ const Profile = () => {
                   offset={5}
                 >
                   <div className="w-18 h-10 flex flex-row items-center justify-center gap-2 rounded-full bg-surface-secondary">
-                    <PiStarFill size={25} color="yellow"/>
+                    <PiStarFill size={25} className="text-amber-300"/>
                     <h2>{userInfo?.level}</h2>
                   </div>
                 </Tooltip>
@@ -217,7 +217,7 @@ const Profile = () => {
                   offset={5}
                 >
                   <div className="w-18 h-10 flex flex-row items-center justify-center gap-2 rounded-full bg-surface-secondary">
-                    <GiSmallFire size={25} color="orange"/>
+                    <GiSmallFire size={25} className="text-orange-500"/>
                     <h2>{statistics?.current_streak}</h2>
                   </div>
                 </Tooltip>

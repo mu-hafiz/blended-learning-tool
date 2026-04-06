@@ -68,7 +68,7 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
           {flashcardSet.tags.map(tag => (
             <p
               key={tag}
-              className="bg-surface-tertiary px-2 py-1 rounded-full"
+              className="bg-surface-primary px-2 py-1 rounded-full shadow-sm"
             >
               #{tag}
             </p>

@@ -53,7 +53,7 @@ const TagsPopup = ({ setTags, currentTags }: TagsPopupProps) => {
       <div className="flex flex-wrap gap-1 overflow-y-auto">
         {currentTags.map(tag => (
           <div
-            className="bg-surface-tertiary px-2 py-1 rounded-full flex gap-1 items-center cursor-pointer"
+            className="bg-surface-secondary px-2 py-1 rounded-full flex gap-1 items-center cursor-pointer"
             onClick={() => handleRemove(tag)}
             key={tag}
           >

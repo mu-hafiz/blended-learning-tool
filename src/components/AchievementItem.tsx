@@ -62,7 +62,7 @@ const AchievementItem = (props: AchievementProps) => {
           {getAchivementIcon(type, twMerge(
             "size-8 md:size-10 shrink-0",
             unlocked
-            ? "text-yellow-400 animate-pulse"
+            ? "text-primary-button animate-pulse"
             : "text-gray-400"
           ))}
           <div className="ml-3 flex flex-col min-w-0">

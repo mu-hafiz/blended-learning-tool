@@ -41,7 +41,7 @@ const LandingPage = () => {
                   id: "",
                   order: 0
                 }}
-                className='bg-surface-tertiary'
+                className='bg-surface-secondary'
               />
             </div>
             <div className="flex flex-col gap-3 items-center justify-center bg-surface-primary rounded-2xl p-4">

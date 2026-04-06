@@ -24,7 +24,7 @@ const ThemeItem = ({ theme, locked = false }: ThemeProps) => {
       <div
         data-theme={theme.data_theme}
         className={twMerge(`
-          rounded-2xl size-20 sm:size-25 relative group raise border-4`,
+          rounded-2xl size-20 sm:size-25 relative group raise border-4 shadow-md`,
           locked ? "bg-base-bg/50 border-base-bg/0" : "bg-base-bg border-base-bg cursor-pointer",
           currentTheme === theme.data_theme && theme.type === "dark" && "border-4 border-neutral-50",
           currentTheme === theme.data_theme && theme.type === "light" && "border-4 border-gray-600",

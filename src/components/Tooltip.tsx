@@ -48,7 +48,7 @@ const Tooltip = ({ text, children, position, offset = 5, disabled=false, descrip
           border-2 border-surface-tertiary
           rounded-lg px-2 py-1
           transition-all duration-300 z-10 pointer-events-none
-          whitespace-normal w-max max-w-80`,
+          whitespace-normal w-max max-w-80 shadow-xl`,
           show ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-1",
           className,
           align === "center" ? "left-1/2 -translate-x-1/2" : "",
