@@ -54,8 +54,8 @@
   /* TEXT */
   --primary-text: #3d352b;
   --secondary-text: #5e5549;
-  --success-text: #14ad00;
-  --error-text: #a50000;
+  --success-text: #17c100;
+  --error-text: #ec0000;
 
   /* BUTTONS */
   --primary-button: #d17600;
@@ -93,8 +93,8 @@
   /* TEXT */
   --primary-text: #1a1625;        
   --secondary-text: #554d6b;      
-  --success-text: #166534;
-  --error-text: #991b1b;
+  --success-text: #17c100;
+  --error-text: #ec0000;
 
   /* BUTTONS */
   --primary-button: #7c4dff;     
@@ -133,7 +133,7 @@
   --primary-text: #1c2516;        
   --secondary-text: #586b4d;      
   --success-text: #00a23e;
-  --error-text: #d50000;
+  --error-text: #ec0000;
 
   /* BUTTONS */
   --primary-button: #00cf0a;     
@@ -171,8 +171,8 @@
   /* TEXT */
   --primary-text: #162125;        
   --secondary-text: #4d626b;      
-  --success-text: #166534;
-  --error-text: #991b1b;
+  --success-text: #17c100;
+  --error-text: #ec0000;
 
   /* BUTTONS */
   --primary-button: #3098ff;     
@@ -210,8 +210,8 @@
   /* TEXT */
   --primary-text: #162125;        
   --secondary-text: #4d626b;      
-  --success-text: #166534;
-  --error-text: #991b1b;
+  --success-text: #17c100;
+  --error-text: #ec0000;
 
   /* BUTTONS */
   --primary-button: #171717;     
