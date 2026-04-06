@@ -12,7 +12,7 @@ const AccountPreferences = () => {
       const bUnlocked = unlockedThemeIds.includes(b.id);
       if (aUnlocked && !bUnlocked) return -1;
       if (!aUnlocked && bUnlocked) return 1;
-      return a.title.localeCompare(b.title); 
+      return a.unlock_type.localeCompare(b.unlock_type) || a.title.localeCompare(b.title);
     });
   };
 
