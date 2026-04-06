@@ -6,10 +6,10 @@ import { twMerge } from "tailwind-merge";
 const defaultProfilePicture = "defaultProfilePicture.png";
 
 const positionColours: Record<number, string> = {
-  1: "bg-yellow-500",
-  2: "bg-gray-400",
-  3: "bg-amber-800",
-  4: "bg-gray-600"
+  1: "bg-yellow-500 text-white",
+  2: "bg-gray-400 text-white",
+  3: "bg-amber-800 text-white",
+  4: "bg-gray-600 text-white"
 }
 
 const LeaderboardItem = (
