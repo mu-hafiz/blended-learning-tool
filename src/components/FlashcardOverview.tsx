@@ -1,10 +1,9 @@
 import { RxChevronRight } from "react-icons/rx";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark, FaRegBookmark, FaEyeSlash, FaComment } from "react-icons/fa6";
 import { TbCardsFilled } from "react-icons/tb";
 import { Avatar, Tooltip } from "@components";
 import { Link } from "react-router-dom";
-import { FaEyeSlash } from "react-icons/fa";
 import type { FlashcardSetWithUser } from "@models/tables";
 
 type FlashcardOverviewProps = {
@@ -91,6 +90,10 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
             <h3>{flashcardSet.num_of_flashcards}</h3>
           </div>
           <div className="flex flex-row items-center gap-1">
+            <FaComment className="size-4 sm:size-5" />
+            <h3>{flashcardSet.commentCount}</h3>
+          </div>
+          <div className="flex flex-row items-center gap-1">
             <FaBookmark className="size-4 sm:size-5" />
             <h3>{flashcardSet.bookmarks}</h3>
           </div>
@@ -99,7 +102,7 @@ const FlashcardOverview = ({ flashcardSet, liked, bookmarked, likeFunction, book
             <h3>{flashcardSet.likes}</h3>
           </div>
         </div>
-        <p className="subtitle">Last Updated: {new Date(flashcardSet.updated_at).toLocaleDateString()}</p>
+        <p className="subtitle mx-3">Last Updated: {new Date(flashcardSet.updated_at).toLocaleDateString()}</p>
       </div>
       
     </div>

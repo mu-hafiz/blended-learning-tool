@@ -6,7 +6,7 @@ export type Theme = Database['public']['Tables']['themes']['Row'];
 export type Achievement = Database['public']['Tables']['achievements']['Row'];
 export type Statistics = Database['public']['Tables']['user_statistics']['Row'];
 export type StatisticsWithUser = Statistics & {
-  user: User
+  user: User;
 };
 export type UserPrivacy = Database['public']['Tables']['user_privacy']['Row'];
 export type UserWithPrivacy = {
@@ -25,17 +25,19 @@ export type Friend = {
 }
 export type FlashcardSet = Database['public']['Tables']['flashcard_sets']['Row'];
 export type FlashcardSetWithUser = FlashcardSet & {
-  creator: User
+  creator: User;
+  commentCount: number;
 };
 export type Flashcard = Database['public']['Tables']['flashcards']['Row'];
 export type FlashcardSetWithFlashcards = FlashcardSet & {
-  creator: User,
-  flashcards: Flashcard[]
+  creator: User;
+  commentCount: number;
+  flashcards: Flashcard[];
 }
 export type FlashcardHistory = Database['public']['Tables']['flashcard_history']['Row'];
 export type FlashcardComment = Database['public']['Tables']['flashcard_comments']['Row'];
 export type FlashcardCommentWithUser = FlashcardComment & {
-  user: User,
-  reply_to_user: User | null
+  user: User;
+  reply_to_user: User | null;
 }
 export type UnlockedTheme = Database['public']['Tables']['unlocked_themes']['Row'];

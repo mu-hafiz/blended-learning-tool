@@ -1,6 +1,6 @@
 import { Avatar, Button, PageContainer, Tooltip } from "@components";
 import { useEffect, useState } from "react";
-import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart, FaBookReader, FaEyeSlash, FaShareAlt } from "react-icons/fa";
+import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart, FaBookReader, FaEyeSlash, FaShareAlt, FaComment } from "react-icons/fa";
 import { TbCardsFilled } from "react-icons/tb";
 import FlashcardItem from "../components/FlashcardItem";
 import { FaArrowLeftLong, FaArrowRightLong, FaPencil } from "react-icons/fa6";
@@ -177,7 +177,7 @@ const FlashcardSet = () => {
               <h2 className="truncate">{creator?.username}</h2>
             </Link>
           </div>
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row gap-2 items-center mb-1">
             <h1 className="leading-tight line-clamp-2">{flashcardSetInfo?.title}</h1>
             {flashcardSetInfo?.private && 
               <Tooltip
@@ -190,10 +190,14 @@ const FlashcardSet = () => {
             }
           </div>
           {flashcardSetInfo?.description && <h3 className="line-clamp-3 mb-2">{flashcardSetInfo?.description}</h3>}
-          <div className="flex flex-row gap-3 mb-1">
+          <div className="flex flex-row gap-2.5 mb-1">
             <div className="flex flex-row items-center gap-1">
               <TbCardsFilled size={25} />
               <h2>{flashcardSetInfo?.num_of_flashcards}</h2>
+            </div>
+            <div className="flex flex-row items-center gap-1">
+              <FaComment size={25} />
+              <h2>{comments ? comments.length : 0}</h2>
             </div>
             <div className="flex flex-row items-center gap-1">
               <FaBookmark size={22} />
