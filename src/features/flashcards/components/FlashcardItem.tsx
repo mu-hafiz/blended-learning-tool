@@ -1,6 +1,11 @@
 import type { Flashcard } from "@models/tables";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { twMerge } from "tailwind-merge";
+
+type FlashcardItemProps = {
+  flashcard: Flashcard;
+  className?: string;
+}
 
 const FlashcardText = ({ text }: { text: string }) => {
   if (text.length >= 200) {
@@ -12,8 +17,12 @@ const FlashcardText = ({ text }: { text: string }) => {
   }
 }
 
-const FlashcardItem = ({ flashcard, className }: { flashcard: Flashcard, className?: string }) => {
+const FlashcardItem = forwardRef(({ flashcard, className }: FlashcardItemProps, ref) => {
   const [showFront, setShowFront] = useState(true);
+
+  useImperativeHandle(ref, () => ({
+    flip: () => setShowFront(prev => !prev)
+  }))
 
   return (
     <div
@@ -37,6 +46,6 @@ const FlashcardItem = ({ flashcard, className }: { flashcard: Flashcard, classNa
       </div>
     </div>
   );
-};
+});
 
 export default FlashcardItem;
