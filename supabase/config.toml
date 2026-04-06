@@ -322,5 +322,5 @@ s3_access_key = "env(S3_ACCESS_KEY)"
 s3_secret_key = "env(S3_SECRET_KEY)"
 
 [auth.email.template.recovery]
-subject = "Reset your password for Blended Learning Tool"
+subject = "Reset your password for ReviXion"
 content_path = "./supabase/templates/recovery.html"

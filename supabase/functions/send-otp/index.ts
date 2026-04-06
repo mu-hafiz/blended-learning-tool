@@ -31,9 +31,9 @@ Deno.serve(async (req) => {
   try {
     const sendEmailStart = performance.now();
     const { error } = await resend.emails.send({
-      from: "Blended Learning Tool <otp@blendedlearningtool.app>",
+      from: "ReviXion <otp@blendedlearningtool.app>",
       to: email,
-      subject: "Your Blended Learning Tool verification code",
+      subject: "Your ReviXion verification code",
       html: `
         <!DOCTYPE html>
         <html>
@@ -65,7 +65,7 @@ Deno.serve(async (req) => {
                         <hr style="border:none; border-top:1px solid #e0e0e0; margin:24px 0;" />
 
                         <p style="font-size:12px; color:#888;">
-                          Sent by Blended Learning Tool<br />
+                          Sent by ReviXion<br />
                           blendedlearningtool.app
                         </p>
                       </td>
@@ -77,7 +77,7 @@ Deno.serve(async (req) => {
           </body>
         </html>
       `,
-      text: `Hello,\n\nYour verification code is: ${code}\nIt expires in 10 minutes. If you did not request this, feel free to ignore this message.\n\nSent by Blended Learning Tool • blendedlearningtool.app`,
+      text: `Hello,\n\nYour verification code is: ${code}\nIt expires in 10 minutes. If you did not request this, feel free to ignore this message.\n\nSent by ReviXion • blendedlearningtool.app`,
     });
     
     
