@@ -12,7 +12,7 @@ const LandingPage = () => {
       <div className="container 2xl:max-w-screen-xl">
         <div className="flex flex-col items-center justify-center">
           <h1>A Blended Learning Tool</h1>
-          <h2 className='text-center mt-2 mb-4'>A collaborative platform, buliding communities and developing study habits through gamification!</h2>
+          <h2 className='text-center mt-2 mb-4'>A collaborative platform, building communities and developing study habits through gamification!</h2>
           <div className='flex flex-row gap-2 justify-center mb-10'>
             <Button
               variant="secondary"
