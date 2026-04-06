@@ -37,7 +37,7 @@ async function getUserByUsername(username: string) {
   return data;
 }
 
-async function updateUser(userId: string, {username, firstName, middleName, lastName, aboutMe, onboardingCompleted = false}: updateProps) {
+async function updateUser(userId: string, {username, firstName, middleName, lastName, aboutMe, onboardingCompleted = true}: updateProps) {
   const { error } = await supabase.from('users')
     .update({
       username,
