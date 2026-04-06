@@ -84,7 +84,7 @@ const AddFriendPopup = ({ onClose, userId, combinedUserIds }: AddFriendProps) =>
           {users.filter(u => u.user_id !== userId).map(({user_id: receiverId, username, profile_picture: profilePicture}) => {
             return (
               <div
-                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between"
+                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between shadow-md"
                 key={receiverId}
               >
                 <Link

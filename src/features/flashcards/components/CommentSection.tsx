@@ -136,7 +136,7 @@ const CommentSection = ({ comments, flashcardSetId, setComments }: CommentSectio
             Submit
           </Button>
         </div>
-        <div className="flex flex-col gap-4 max-h-100 overflow-y-auto">
+        <div className="flex flex-col gap-4 max-h-100 overflow-y-auto pb-1 px-1">
           {sortedComments.length > 0 ? 
             sortedComments.map(comment => (
               <Comment

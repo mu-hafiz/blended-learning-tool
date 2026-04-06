@@ -37,7 +37,7 @@ const ReplyWrapper = ({ children }: { children: React.ReactNode }) => (
 const CommentBase = ({ user, replyToUser, date, comment, replyAction, ownsComment, deleteAction, deleted }: CommentProps ) => {
   const formattedDate = formatDate(date);
   return (
-    <div className="bg-surface-primary rounded-2xl w-full md:w-fit md:max-w-[100%] h-fit p-4">
+    <div className="bg-surface-primary rounded-2xl w-full md:w-fit md:max-w-[100%] h-fit p-4 shadow-md">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-3 min-w-0">
           <Link

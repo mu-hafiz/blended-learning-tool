@@ -13,7 +13,7 @@ const HistorySection = ({ flashcardHistory }: HistorySectionProps) => (
       <MdTimeline size={40} />
       <h2>Your Previous Attempts:</h2>
     </div>
-    <div className="flex flex-col gap-6 h-auto max-h-90 sm:max-h-97 lg:h-90 overflow-y-auto px-3">
+    <div className="flex flex-col gap-6 h-auto max-h-92 sm:max-h-97 lg:h-90 overflow-y-auto px-3 pb-1">
       {flashcardHistory && flashcardHistory?.length <= 0 ?
         <div className="flex flex-col flex-1 items-center justify-center">
           <GiBackwardTime size={80} />

@@ -24,7 +24,7 @@ const RemoveFriendPopup = ({ onClose, userId, friendsList }: RemoveFriendProps) 
           {friendsList.map(({ friend }) => {
             return (
               <div
-                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between shadow-lg"
+                className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between shadow-md"
                 key={friend.user_id}
               >
                 <div className="flex flex-row items-center gap-2 min-w-0">

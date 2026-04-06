@@ -97,7 +97,7 @@ const ChangePassword = () => {
             containerClassName="flex-1"
           />
         </div>
-        <div className="flex flex-col bg-surface-secondary rounded-2xl w-fit mx-auto p-4">
+        <div className="flex flex-col bg-surface-secondary rounded-2xl w-fit mx-auto p-4 shadow-md">
           <MatchingStatus />
           {passwordChecks.map(({check, message}, idx) => (
             <PasswordValidator key={idx} boolValue={check} message={message} />

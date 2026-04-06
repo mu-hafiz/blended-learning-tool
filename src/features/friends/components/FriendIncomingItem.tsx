@@ -9,7 +9,7 @@ type FriendIncomingProps = {
 }
 
 const FriendIncomingItem = ({ username, profilePicture, accept, ignore }: FriendIncomingProps) => (
-  <div className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between shadow-lg">
+  <div className="flex flex-row w-full bg-surface-secondary rounded-xl p-3 items-center justify-between shadow-md">
     <Link
       className="flex flex-row items-center min-w-0 gap-2 cursor-pointer"
       to={`/profile/${username}`}
