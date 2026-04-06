@@ -52,10 +52,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "TOKEN_REFRESHED") return;
+      const newUser = session?.user ?? null;
       setUser(prev => {
-        const newUser = session?.user ?? null;
-        if (prev?.id === newUser?.id) return prev;
-        return newUser;
+        if (prev === undefined) return newUser;
+        if (prev?.id !== newUser?.id) return newUser;
+        return prev;
       });
     });
 
