@@ -1,4 +1,4 @@
-# Blended Learning Tool
+# ReviXion
 
 ## A collaborative platform, encouraging gamification and building habits!
 
