@@ -1,0 +1,58 @@
+\contentsline {chapter}{\numberline {1}Introduction}{5}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Background}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}An Overview on Blended Learning}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Students' Struggles}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Social Anxiety}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Commuter Students}{6}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Problems with Current Learning Platforms}{6}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Lack of Engagement}{7}{subsection.2.3.1}%
+\contentsline {section}{\numberline {2.4}Proposed Solutions}{7}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Gamification}{7}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Social Features}{7}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Privacy Settings}{7}{subsection.2.4.3}%
+\contentsline {chapter}{\numberline {3}Planning}{8}{chapter.3}%
+\contentsline {section}{\numberline {3.1}ReviXion}{8}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Technologies to be Used}{8}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}React/Vite}{8}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Tailwind CSS}{8}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Supabase}{8}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Resend}{8}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}ER Diagram}{9}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Organisation Tools}{9}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Git}{9}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Trello}{9}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Development and Implementation}{11}{chapter.4}%
+\contentsline {section}{\numberline {4.1}UI Design Principles}{11}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Supabase Implementation}{11}{section.4.2}%
+\contentsline {section}{\numberline {4.3}ReviXion Features}{12}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Onboarding Experience}{12}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Levels, Statistics and Leaderboards}{15}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Customisation Options}{16}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Unlockable Achievements and Themes}{20}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Creating and Discovering Flashcard Sets}{21}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}Using Flashcard Sets}{22}{subsection.4.3.6}%
+\contentsline {subsection}{\numberline {4.3.7}Friends System}{25}{subsection.4.3.7}%
+\contentsline {subsection}{\numberline {4.3.8}Privacy Settings}{26}{subsection.4.3.8}%
+\contentsline {subsection}{\numberline {4.3.9}Notifications and Toasts}{27}{subsection.4.3.9}%
+\contentsline {subsection}{\numberline {4.3.10}Responsive Design}{29}{subsection.4.3.10}%
+\contentsline {chapter}{\numberline {5}Evaluation}{31}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Sharing ReviXion}{31}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Results}{31}{subsection.5.1.1}%
+\contentsline {section}{\numberline {5.2}Google Form}{31}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Results}{31}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.3}Current Problems}{32}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}UI Issues}{32}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}'Abusing the System'}{32}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Requested features}{32}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Flashcard Set Folders}{32}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}More Expressive Flashcards}{33}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Further Study Methods}{33}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Pomodoro Timer}{33}{subsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.4.5}App Version}{33}{subsection.5.4.5}%
+\contentsline {section}{\numberline {5.5}Experiences from Test Users}{34}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Reflections}{35}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Issues During Development}{35}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Organisation}{35}{section.6.2}%
+\contentsline {section}{\numberline {6.3}A word on Generative AI}{35}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Future Considerations}{36}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Personal Reflection}{36}{section.6.5}%
